@@ -1,213 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QR Code Generator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Personal Page</title>
   <style>
+    :root {
+      --bg: #202124;
+      --fg: #e8eaed;
+      --card-bg: #303134;
+      --border: #5f6368;
+      --accent: #8ab4f8;
+    }
+
     body {
-      font-family: sans-serif;
-      padding: 40px 100px;
-      background: #121212;
-      color: #e0e0e0;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-    #main-container {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 60px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
     }
-    .text-input {
-      flex: 1;
-      min-width: 300px;
+
+    nav {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 2rem;
     }
-    .qr-section {
-      flex: 0 0 auto;
+
+    h1, h2 {
+      font-weight: 400;
+    }
+
+    .me {
+      max-width: 600px;
       text-align: center;
+      margin-bottom: 3rem;
     }
-    #qrcode svg {
-      max-width: 300px;
-      height: auto;
-      margin-top: 10px;
+
+    .projects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
     }
-    .controls {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #333;
+
+    .project {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 280px;
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .controls label {
-      display: block;
-      margin-top: 15px;
+
+    .project:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
-    .controls button {
-      margin: 10px 5px 0 5px;
-      padding: 10px 15px;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-      background-color: #333;
-      color: #fff;
-      cursor: pointer;
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
     }
-    .controls button:hover {
-      background-color: #555;
-    }
-    textarea {
-      width: 100%;
-      height: 500px;
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: none;
-      resize: vertical;
-      background-color: #2a2a2a;
-      color: #e0e0e0;
-    }
-    input[type="range"] {
-      width: 100%;
-    }
-    #errorMsg {
-      color: red;
-      margin-top: 10px;
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>QR Code Generator</h1>
-  <div id="main-container">
-    <div class="text-input">
-      <label>Enter Text:
-        <textarea id="qrText">Hello, World!</textarea>
-      </label>
-    </div>
-    <div class="qr-section">
-      <div id="qrcode"></div>
-      <div id="errorMsg"></div>
-      <div class="controls">
-        <label>Error Correction Level:
-          <input type="range" id="errorLevel" min="0" max="3" value="1">
-          <span id="errorLabel">M</span>
-        </label>
 
-        <button id="invertBtn">Toggle Invert</button>
-       <button id="styleBtn">Toggle Eye Style</button>
-        <button id="downloadBtn">Download SVG</button>
-        <button id="downloadPngBtn">Download PNG</button>
-      </div>
+  <nav id="nav-placeholder">
+    <!-- nav.html will be loaded here later -->
+  </nav>
+
+  <div class="me">
+    <h1>Hi, I'm Nathan</h1>
+    <p>A curious developer exploring web, electronics, and clean design. I love building simple, useful tools and learning as I go.</p>
+  </div>
+
+  <div class="projects">
+    <div class="project">
+      <h2><a href="https://github.com/yourusername/project1" target="_blank">Project One</a></h2>
+      <p>A tool that simplifies image conversion with drag-and-drop support.</p>
+    </div>
+    <div class="project">
+      <h2><a href="https://github.com/yourusername/project2" target="_blank">Project Two</a></h2>
+      <p>Minimalist to-do app that syncs with local storage and dark mode.</p>
+    </div>
+    <div class="project">
+      <h2><a href="https://github.com/yourusername/project3" target="_blank">Project Three</a></h2>
+      <p>A Vue-based scanner interface optimized for speed and clarity.</p>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode-svg@1.1.0/dist/qrcode.min.js"></script>
   <script>
-    const textInput = document.getElementById('qrText');
-    const errorInput = document.getElementById('errorLevel');
-    const errorLabel = document.getElementById('errorLabel');
-    const invertBtn = document.getElementById('invertBtn');
-    const styleBtn = document.getElementById('styleBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const downloadPngBtn = document.getElementById('downloadPngBtn');
-    const qrContainer = document.getElementById('qrcode');
-    const errorMsg = document.getElementById('errorMsg');
-
-    let inverted = true;
-    let rounded = false;
-    const levels = ['L', 'M', 'Q', 'H'];
-
-    let currentSVG = '';
-
-    function generateQR() {
-      const text = textInput.value;
-      const level = levels[parseInt(errorInput.value)];
-      const fg = inverted ? '#fff' : '#000';
-      const bg = inverted ? '#000' : '#fff';
-
-      try {
-        const qr = new QRCode({
-          content: text,
-          padding: 4,
-          width: 256,
-          height: 256,
-          color: fg,
-          background: bg,
-          ecl: level,
-          join: true,
-          container: 'svg-viewbox',
-          round: rounded
-        });
-        const svgString = qr.svg();
-        currentSVG = svgString;
-        qrContainer.innerHTML = svgString;
-        errorMsg.textContent = '';
-      } catch (e) {
-        qrContainer.innerHTML = '';
-        errorMsg.textContent = 'Error: Text too long to encode in QR code.';
-        currentSVG = '';
-      }
-    }
-
-    errorInput.addEventListener('input', () => {
-      errorLabel.textContent = levels[parseInt(errorInput.value)];
-      generateQR();
-    });
-
-    textInput.addEventListener('input', generateQR);
-
-    invertBtn.addEventListener('click', () => {
-      inverted = !inverted;
-      generateQR();
-    });
-
-    styleBtn.addEventListener('click', () => {
-      rounded = !rounded;
-      generateQR();
-    });
-
-    downloadBtn.addEventListener('click', () => {
-      const blob = new Blob([currentSVG], {type: 'image/svg+xml'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'qr_code.svg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-
-    downloadPngBtn.addEventListener('click', () => {
-      const svg = new Blob([currentSVG], {type: 'image/svg+xml'});
-      const url = URL.createObjectURL(svg);
-
-      const img = new Image();
-      img.onload = function () {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        URL.revokeObjectURL(url);
-
-        canvas.toBlob((blob) => {
-          const pngUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = pngUrl;
-          a.download = 'qr_code.png';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(pngUrl);
-        }, 'image/png');
-      };
-      img.src = url;
-    });
-
-    // Initial QR render
-    generateQR();
+    // Future nav.html loader
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('nav-placeholder').innerHTML = html;
+      });
   </script>
+
 </body>
 </html>
