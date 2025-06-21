@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TIFF to PNG/JPG Converter</title>
+  <style>
+    body {
+      background: #121212;
+      color: #eee;
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, select, button {
+      padding: 10px;
+      width: 100%;
+      margin: 10px 0;
+      background: #333;
+      border: none;
+      color: white;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #444;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border: 1px solid #555;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>TIFF to PNG/JPG Converter (Offline)</h1>
+  <div class="container">
+    <input type="file" id="imageInput" accept=".tif,.tiff" multiple />
+    <select id="formatSelect">
+      <option value="image/png">Convert to PNG</option>
+      <option value="image/jpeg">Convert to JPG</option>
+    </select>
+    <button onclick="convertImage()">Convert & Download</button>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <img id="preview" />
+  </div>
+
+  <script>
+    // Minimal UTIF.js logic for simple TIFF decoding
+    var UTIF = {};
+    (function(UTIF){
+      UTIF.decode = function(buff){
+        var data = new DataView(buff);
+        var bigEnd = data.getUint16(0)==0x4D4D;
+        var offset = data.getUint32(4, !bigEnd);
+        var numFields = data.getUint16(offset, !bigEnd);
+        offset += 2;
+        var ifd = {};
+        for(var i=0; i<numFields; i++){
+          var tag = data.getUint16(offset + i*12, !bigEnd);
+          var type = data.getUint16(offset + i*12 + 2, !bigEnd);
+          var count = data.getUint32(offset + i*12 + 4, !bigEnd);
+          var valOffset = offset + i*12 + 8;
+          var val = data.getUint32(valOffset, !bigEnd);
+          ifd[tag] = val;
+        }
+        return [ifd];
+      };
+
+      UTIF.decodeImage = function(buff, ifd){
+        var offset = ifd[273]; // StripOffsets
+        var length = ifd[279]; // StripByteCounts
+        if (!offset || !length) return;
+        ifd.data = new Uint8Array(buff, offset, length);
+      };
+
+      UTIF.toRGBA8 = function(ifd){
+        var w = ifd[256];
+        var h = ifd[257];
+        var data = ifd.data;
+        var rgba = new Uint8ClampedArray(w*h*4);
+        for(var i=0, j=0; i<rgba.length; i+=4, j+=3){
+          rgba[i] = data[j] || 0;
+          rgba[i+1] = data[j+1] || 0;
+          rgba[i+2] = data[j+2] || 0;
+          rgba[i+3] = 255;
+        }
+        ifd.width = w;
+        ifd.height = h;
+        return rgba;
+      };
+    })(UTIF);
+  </script>
+
+  <script>
+    let loadedCanvases = [];
+
+    document.getElementById("imageInput").addEventListener("change", function (e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      loadedCanvases = [];
+
+      Array.from(files).forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          const buf = ev.target.result;
+          const ifds = UTIF.decode(buf);
+          if (!ifds || ifds.length === 0) {
+            alert("Unsupported or invalid TIFF format in " + file.name);
+            return;
+          }
+
+          UTIF.decodeImage(buf, ifds[0]);
+          const rgba = UTIF.toRGBA8(ifds[0]);
+          const w = ifds[0].width;
+          const h = ifds[0].height;
+
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          const imgData = ctx.createImageData(w, h);
+          imgData.data.set(rgba);
+          ctx.putImageData(imgData, 0, 0);
+
+          if (index === 0) {
+            // Show preview only for the first image
+            document.getElementById("preview").src = canvas.toDataURL();
+          }
+
+          loadedCanvases.push({ canvas, name: file.name });
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    });
+
+    function convertImage() {
+      if (loadedCanvases.length === 0) {
+        alert("Please load TIFF images first.");
+        return;
+      }
+
+      const format = document.getElementById("formatSelect").value;
+      loadedCanvases.forEach(({ canvas, name }) => {
+        const ext = format === "image/png" ? "png" : "jpg";
+        const base = name.replace(/\.[^/.]+$/, ""); // remove extension
+        const link = document.createElement("a");
+        link.download = base + "." + ext;
+        link.href = canvas.toDataURL(format);
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
