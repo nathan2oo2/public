@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Heritage Homes</title>
 
-  <!-- Google Material Symbols (Outlined style) -->
+  <!-- Google Material Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
   <style>
@@ -13,7 +13,6 @@
       --bg: #202124;
       --fg: #e8eaed;
       --border: #5f6368;
-      --accent: #8ab4f8;
     }
 
     body {
@@ -25,12 +24,6 @@
       flex-direction: column;
       align-items: center;
       padding: 2rem;
-    }
-
-    nav {
-      width: 100%;
-      max-width: 1000px;
-      margin-bottom: 2rem;
     }
 
     .grid {
@@ -47,7 +40,7 @@
       border-radius: 16px;
       overflow: hidden;
       width: 300px;
-      height: 220px;
+      height: 230px;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -90,35 +83,37 @@
 
     .icons {
       display: flex;
-      gap: 0.8rem;
-      margin: 0.8rem 0;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+      margin: 0.6rem 0;
     }
 
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       font-size: 22px;
-      color: #fff;
+      color: #e8eaed;
       opacity: 0.85;
     }
 
     .condition {
       font-size: 1rem;
       color: #fbbc04;
+      white-space: nowrap;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
 
-  <nav id="nav-placeholder"></nav>
-
   <div class="grid">
 
+    <!-- House 1 -->
     <div class="box" onclick="location.href='homes/house-001.html'">
       <div class="bg" style="background-image: url('imgs/house1.jpg');"></div>
       <div class="content">
         <div>
           <div class="title">Casa Bragança</div>
-          <div class="location">Vidyanagar, Margao</div>
+          <div class="location"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span> Vidyanagar, Margao</div>
         </div>
         <div>
           <div class="icons">
@@ -132,18 +127,17 @@
       </div>
     </div>
 
+    <!-- House 2 -->
     <div class="box" onclick="location.href='homes/house-002.html'">
       <div class="bg" style="background-image: url('imgs/house2.jpg');"></div>
       <div class="content">
         <div>
           <div class="title">Villa D'Souza</div>
-          <div class="location">Fatorda, Margao</div>
+          <div class="location"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span> Fatorda, Margao</div>
         </div>
         <div>
           <div class="icons">
             <span class="material-symbols-outlined" title="Photos">photo_library</span>
-            <span class="material-symbols-outlined" title="360 View">panorama</span>
-            <span class="material-symbols-outlined" title="Floorplan">floor_plan</span>
             <span class="material-symbols-outlined" title="3D Scan">view_in_ar</span>
           </div>
           <div class="condition">⭐⭐⭐☆☆</div>
@@ -151,19 +145,18 @@
       </div>
     </div>
 
+    <!-- House 3 -->
     <div class="box" onclick="location.href='homes/house-003.html'">
       <div class="bg" style="background-image: url('imgs/house3.jpg');"></div>
       <div class="content">
         <div>
           <div class="title">Manor Pinto</div>
-          <div class="location">Raia, Goa</div>
+          <div class="location"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span> Raia, Goa</div>
         </div>
         <div>
           <div class="icons">
             <span class="material-symbols-outlined" title="Photos">photo_library</span>
             <span class="material-symbols-outlined" title="360 View">panorama</span>
-            <span class="material-symbols-outlined" title="Floorplan">floor_plan</span>
-            <span class="material-symbols-outlined" title="3D Scan">view_in_ar</span>
           </div>
           <div class="condition">⭐⭐⭐⭐⭐</div>
         </div>
@@ -171,15 +164,6 @@
     </div>
 
   </div>
-
-  <script>
-    // Load nav.html into placeholder
-    fetch('nav.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('nav-placeholder').innerHTML = html;
-      });
-  </script>
 
 </body>
 </html>
