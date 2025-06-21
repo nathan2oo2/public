@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heritage Homes</title>
+  <style>
+    :root {
+      --bg: #202124;
+      --fg: #e8eaed;
+      --card-bg: rgba(48, 49, 52, 0.6);
+      --border: #5f6368;
+      --accent: #8ab4f8;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+    }
+
+    nav {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      width: 300px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .title {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .location {
+      font-size: 0.9rem;
+      color: #9aa0a6;
+      margin-bottom: 0.8rem;
+    }
+
+    .location::before {
+      content: '📍 ';
+    }
+
+    .icons {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 1.3rem;
+    }
+
+    .condition {
+      font-size: 0.95rem;
+      color: #fbbc04;
+    }
+
+    a.icon {
+      text-decoration: none;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav-placeholder"></nav>
+
+  <div class="grid">
+
+    <div class="box" onclick="location.href='homes/house-001.html'">
+      <div class="title">Casa Bragança</div>
+      <div class="location">Vidyanagar, Margao</div>
+      <div class="icons">
+        <span title="Photos">🖼️</span>
+        <span title="360 Tour">📷</span>
+        <span title="House Plan">📐</span>
+        <span title="3D Scan">🧊</span>
+      </div>
+      <div class="condition">⭐⭐⭐⭐☆</div>
+    </div>
+
+    <div class="box" onclick="location.href='homes/house-002.html'">
+      <div class="title">Villa D'Souza</div>
+      <div class="location">Fatorda, Margao</div>
+      <div class="icons">
+        <span title="Photos">🖼️</span>
+        <span title="360 Tour">📷</span>
+        <span title="House Plan">📐</span>
+        <span title="3D Scan">🧊</span>
+      </div>
+      <div class="condition">⭐⭐⭐☆☆</div>
+    </div>
+
+    <div class="box" onclick="location.href='homes/house-003.html'">
+      <div class="title">Manor Pinto</div>
+      <div class="location">Raia, Goa</div>
+      <div class="icons">
+        <span title="Photos">🖼️</span>
+        <span title="360 Tour">📷</span>
+        <span title="House Plan">📐</span>
+        <span title="3D Scan">🧊</span>
+      </div>
+      <div class="condition">⭐⭐⭐⭐⭐</div>
+    </div>
+
+  </div>
+
+  <script>
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('nav-placeholder').innerHTML = html;
+      });
+  </script>
+
+</body>
+</html>
