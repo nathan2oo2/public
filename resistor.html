@@ -1,275 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Resistor Color Code Calculator</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 40px 100px;
-      background: #121212;
-      color: #e0e0e0;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-    #main-container {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 60px;
-      flex-wrap: wrap;
-    }
-    .form-section {
-      flex: 1;
-      min-width: 300px;
-    }
-    .result-section {
-      flex: 0 0 auto;
-      text-align: center;
-      min-width: 260px;
-    }
-    .controls label {
-      display: block;
-      margin-top: 15px;
-    }
-    .controls select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      background-color: #2f2f2f;
-      border: none;
-      border-radius: 5px;
-      color: #e0e0e0;
-    }
-    .result {
-      margin-top: 20px;
-      font-size: 1.4em;
-    }
-    svg {
-      margin-top: 20px;
-      width: 200px;
-      height: auto;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Resistor Color Code Calculator</title>
+<style>
+  body {
+    font-family: sans-serif;
+    padding: 40px 100px;
+    background: #121212;
+    color: #e0e0e0;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  #main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  .form-section {
+    flex: 1;
+    min-width: 300px;
+  }
+  .result-section {
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 260px;
+  }
+  .controls label {
+    display: block;
+    margin-top: 15px;
+  }
+  .controls select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #2f2f2f;
+    border: none;
+    border-radius: 5px;
+    color: #e0e0e0;
+  }
+  .result {
+    margin-top: 20px;
+    font-size: 1.4em;
+  }
+  svg {
+    margin-top: 20px;
+    width: 200px;
+    height: auto;
+  }
+</style>
 </head>
 <body>
 
-  <div class="nav">
-    <!-- Your nav here -->
+<h1>Resistor Color Code Calculator</h1>
+<div id="main-container">
+  <div class="form-section controls">
+    <label>Type:
+      <select id="type">
+        <option value="3">3-Band</option>
+        <option value="4" selected>4-Band</option>
+        <option value="5">5-Band</option>
+        <option value="6">6-Band</option>
+      </select>
+    </label>
+    <label>1st Band:
+      <select id="band1"></select>
+    </label>
+    <label id="label-band2">2nd Band:
+      <select id="band2"></select>
+    </label>
+    <label id="label-band3" style="display:none;">3rd Band:
+      <select id="band3"></select>
+    </label>
+    <label>Multiplier:
+      <select id="multiplier"></select>
+    </label>
+    <label id="label-tolerance">Tolerance:
+      <select id="tolerance"></select>
+    </label>
+    <label id="label-tempco" style="display:none;">Temp Coefficient:
+      <select id="tempco">
+        <option value="250">250 ppm/K</option>
+        <option value="100">100 ppm/K</option>
+        <option value="50">50 ppm/K</option>
+        <option value="25">25 ppm/K</option>
+        <option value="15">15 ppm/K</option>
+        <option value="10">10 ppm/K</option>
+        <option value="5">5 ppm/K</option>
+      </select>
+    </label>
   </div>
 
-  <h1>Resistor Color Code Calculator</h1>
-  <div id="main-container">
-    <div class="form-section controls">
-      <label>Resistor Type:
-        <select id="type">
-          <option value="3">3-Band</option>
-          <option value="4" selected>4-Band</option>
-          <option value="5">5-Band</option>
-          <option value="6">6-Band</option>
-        </select>
-      </label>
-
-      <label>1st Band:
-        <select id="band1"></select>
-      </label>
-      <label id="label-band2">2nd Band:
-        <select id="band2"></select>
-      </label>
-      <label id="label-band3" style="display:none;">3rd Band:
-        <select id="band3"></select>
-      </label>
-
-      <label>Multiplier:
-        <select id="multiplier"></select>
-      </label>
-
-      <label id="label-tolerance">Tolerance:
-        <select id="tolerance"></select>
-      </label>
-
-      <label id="label-tempco" style="display:none;">Temp Coefficient:
-        <select id="tempco">
-          <option value="250">250 ppm/K</option>
-          <option value="100">100 ppm/K</option>
-          <option value="50">50 ppm/K</option>
-          <option value="25">25 ppm/K</option>
-          <option value="15">15 ppm/K</option>
-          <option value="10">10 ppm/K</option>
-          <option value="5">5 ppm/K</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="result-section">
-      <div class="result" id="result">Resistance: -</div>
-      <div id="resistor-svg"></div>
-    </div>
+  <div class="result-section">
+    <div class="result" id="result">Resistance: -</div>
+    <div id="resistor-svg"></div>
   </div>
+</div>
 
-  <script>
-    const bandColors = {
-      0: "#000000", // Black
-      1: "#8B4513", // Brown
-      2: "#FF0000", // Red
-      3: "#FFA500", // Orange
-      4: "#FFFF00", // Yellow
-      5: "#008000", // Green
-      6: "#0000FF", // Blue
-      7: "#EE82EE", // Violet
-      8: "#808080", // Gray
-      9: "#FFFFFF", // White
-      multiplier: {
-        "0.1": "#FFD700", // Gold
-        "0.01": "#C0C0C0" // Silver
-      },
-      tolerance: {
-        "±5%": "#FFD700", // Gold
-        "±10%": "#C0C0C0",
-        "±1%": "#8B4513",
-        "±2%": "#FF0000",
-        "±0.5%": "#008000",
-        "±0.25%": "#0000FF",
-        "±0.1%": "#EE82EE",
-        "±0.05%": "#808080"
-      }
-    };
+<script>
+const colorMap = {
+  "black": "#000000",
+  "brown": "#8B4513",
+  "red": "#FF0000",
+  "orange": "#FFA500",
+  "yellow": "#FFFF00",
+  "green": "#008000",
+  "blue": "#0000FF",
+  "violet": "#EE82EE",
+  "gray": "#808080",
+  "white": "#FFFFFF",
+  "gold": "#FFD700",
+  "silver": "#C0C0C0"
+};
 
-    const bandOptions = [
-      {value:0, text:"Black (0)"},
-      {value:1, text:"Brown (1)"},
-      {value:2, text:"Red (2)"},
-      {value:3, text:"Orange (3)"},
-      {value:4, text:"Yellow (4)"},
-      {value:5, text:"Green (5)"},
-      {value:6, text:"Blue (6)"},
-      {value:7, text:"Violet (7)"},
-      {value:8, text:"Gray (8)"},
-      {value:9, text:"White (9)"}
-    ];
-    const multiplierOptions = [
-      {value:1, text:"Black (×1)"},
-      {value:10, text:"Brown (×10)"},
-      {value:100, text:"Red (×100)"},
-      {value:1000, text:"Orange (×1K)"},
-      {value:10000, text:"Yellow (×10K)"},
-      {value:100000, text:"Green (×100K)"},
-      {value:1000000, text:"Blue (×1M)"},
-      {value:10000000, text:"Violet (×10M)"},
-      {value:0.1, text:"Gold (×0.1)"},
-      {value:0.01, text:"Silver (×0.01)"}
-    ];
-    const toleranceOptions = [
-      {value:"±1%", text:"Brown (±1%)"},
-      {value:"±2%", text:"Red (±2%)"},
-      {value:"±0.5%", text:"Green (±0.5%)"},
-      {value:"±0.25%", text:"Blue (±0.25%)"},
-      {value:"±0.1%", text:"Violet (±0.1%)"},
-      {value:"±0.05%", text:"Gray (±0.05%)"},
-      {value:"±5%", text:"Gold (±5%)"},
-      {value:"±10%", text:"Silver (±10%)"}
-    ];
+const bandOptions = [
+  {color:"black", text:"Black (0)"},
+  {color:"brown", text:"Brown (1)"},
+  {color:"red", text:"Red (2)"},
+  {color:"orange", text:"Orange (3)"},
+  {color:"yellow", text:"Yellow (4)"},
+  {color:"green", text:"Green (5)"},
+  {color:"blue", text:"Blue (6)"},
+  {color:"violet", text:"Violet (7)"},
+  {color:"gray", text:"Gray (8)"},
+  {color:"white", text:"White (9)"}
+];
+const multiplierOptions = [
+  {value:1, text:"Black (×1)", color:"black"},
+  {value:10, text:"Brown (×10)", color:"brown"},
+  {value:100, text:"Red (×100)", color:"red"},
+  {value:1000, text:"Orange (×1K)", color:"orange"},
+  {value:10000, text:"Yellow (×10K)", color:"yellow"},
+  {value:100000, text:"Green (×100K)", color:"green"},
+  {value:1000000, text:"Blue (×1M)", color:"blue"},
+  {value:10000000, text:"Violet (×10M)", color:"violet"},
+  {value:0.1, text:"Gold (×0.1)", color:"gold"},
+  {value:0.01, text:"Silver (×0.01)", color:"silver"}
+];
+const toleranceOptions = [
+  {value:"±1%", text:"Brown (±1%)", color:"brown"},
+  {value:"±2%", text:"Red (±2%)", color:"red"},
+  {value:"±0.5%", text:"Green (±0.5%)", color:"green"},
+  {value:"±0.25%", text:"Blue (±0.25%)", color:"blue"},
+  {value:"±0.1%", text:"Violet (±0.1%)", color:"violet"},
+  {value:"±0.05%", text:"Gray (±0.05%)", color:"gray"},
+  {value:"±5%", text:"Gold (±5%)", color:"gold"},
+  {value:"±10%", text:"Silver (±10%)", color:"silver"}
+];
 
-    function populateSelect(id, options) {
-      const select = document.getElementById(id);
-      select.innerHTML = '';
-      options.forEach(opt => {
-        const o = document.createElement('option');
-        o.value = opt.value;
-        o.textContent = opt.text;
-        select.appendChild(o);
-      });
-    }
+function populateSelect(id, options, useColor=false) {
+  const sel = document.getElementById(id);
+  sel.innerHTML='';
+  options.forEach(opt=>{
+    const o = document.createElement('option');
+    o.value = useColor ? opt.color : opt.value;
+    o.textContent = opt.text;
+    sel.appendChild(o);
+  });
+}
+populateSelect('band1', bandOptions,true);
+populateSelect('band2', bandOptions,true);
+populateSelect('band3', bandOptions,true);
+populateSelect('multiplier', multiplierOptions);
+populateSelect('tolerance', toleranceOptions);
 
-    populateSelect('band1', bandOptions);
-    populateSelect('band2', bandOptions);
-    populateSelect('band3', bandOptions);
-    populateSelect('multiplier', multiplierOptions);
-    populateSelect('tolerance', toleranceOptions);
+function updateUI() {
+  const type = parseInt(document.getElementById('type').value);
+  document.getElementById('label-band3').style.display = (type>=5)?"block":"none";
+  document.getElementById('label-tolerance').style.display = (type>=4)?"block":"none";
+  document.getElementById('label-tempco').style.display = (type===6)?"block":"none";
+  calculate();
+}
+['type','band1','band2','band3','multiplier','tolerance','tempco'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',updateUI);
+});
 
-    function calculate() {
-      const type = parseInt(document.getElementById('type').value);
-      const band1 = parseInt(document.getElementById('band1').value);
-      const band2 = parseInt(document.getElementById('band2').value);
-      const band3 = parseInt(document.getElementById('band3').value);
-      const multiplier = parseFloat(document.getElementById('multiplier').value);
-      const tolerance = document.getElementById('tolerance').value;
-      const tempco = document.getElementById('tempco').value;
+function calculate(){
+  const type = parseInt(document.getElementById('type').value);
+  const b1 = bandOptions.find(opt=>opt.color==document.getElementById('band1').value);
+  const b2 = bandOptions.find(opt=>opt.color==document.getElementById('band2').value);
+  const b3 = bandOptions.find(opt=>opt.color==document.getElementById('band3').value);
+  const multiplier = multiplierOptions.find(opt=>opt.value==document.getElementById('multiplier').value);
+  const tolerance = toleranceOptions.find(opt=>opt.value==document.getElementById('tolerance').value);
 
-      let value = 0;
-      if (type === 3 || type === 4) {
-        value = ((band1 * 10) + band2) * multiplier;
-      } else if (type === 5 || type === 6) {
-        value = ((band1 * 100) + (band2 * 10) + band3) * multiplier;
-      }
+  let ohms=0;
+  if(type<=4) ohms=((b1?bandOptions.indexOf(b1):0)*10+(b2?bandOptions.indexOf(b2):0))*(multiplier?.value||1);
+  else ohms=((b1?bandOptions.indexOf(b1):0)*100+(b2?bandOptions.indexOf(b2):0)*10+(b3?bandOptions.indexOf(b3):0))*(multiplier?.value||1);
 
-      let display = '';
-      if (value >= 1_000_000) {
-        display = (value/1_000_000).toFixed(2) + ' MΩ';
-      } else if (value >= 1000) {
-        display = (value/1000).toFixed(2) + ' KΩ';
-      } else {
-        display = value.toFixed(2) + ' Ω';
-      }
+  let display = ohms>=1_000_000?(ohms/1_000_000).toFixed(2)+" MΩ":
+    ohms>=1000?(ohms/1000).toFixed(2)+" KΩ":ohms.toFixed(2)+" Ω";
 
-      let result = `Resistance: ${display}`;
-      if (type >= 4) result += ` ${tolerance}`;
-      if (type === 6) result += ` ${tempco} ppm/K`;
+  let text="Resistance: "+display;
+  if(type>=4) text+=` ${tolerance?.value||""}`;
+  if(type==6) text+=` ${document.getElementById('tempco').value} ppm/K`;
 
-      document.getElementById('result').textContent = result;
-      drawResistor();
-    }
+  document.getElementById('result').textContent=text;
 
-    function drawResistor() {
-      const type = parseInt(document.getElementById('type').value);
-      const colors = [];
-      colors.push(bandColors[parseInt(document.getElementById('band1').value)]);
-      colors.push(bandColors[parseInt(document.getElementById('band2').value)]);
-      if (type >= 5) colors.push(bandColors[parseInt(document.getElementById('band3').value)]);
-      const multVal = document.getElementById('multiplier').value;
-      colors.push(bandColors[multVal] || bandColors[multiplierOptions.find(o=>o.value==multVal)?.value]);
-      if (type >= 4) {
-        const tolVal = document.getElementById('tolerance').value;
-        colors.push(bandColors.tolerance[tolVal]);
-      }
-      if (type === 6) {
-        colors.push("#C0C0C0"); // silver as placeholder for tempco
-      }
+  // build bands array for svg
+  let bands = [document.getElementById('band1').value,document.getElementById('band2').value];
+  if(type>=5) bands.push(document.getElementById('band3').value);
+  bands.push(multiplier?.color);
+  if(type>=4) bands.push(tolerance?.color);
+  if(type==6) bands.push("silver");
 
-      let stripes = '';
-      let offset = 30;
-      const space = 15;
-      colors.forEach(color => {
-        stripes += `<rect x="${offset}" y="20" width="6" height="40" fill="${color}" />`;
-        offset += space;
-      });
-
-      const svg = `<svg viewBox="0 0 200 80">
-        <rect x="10" y="30" width="180" height="20" rx="10" fill="#d4a373" />
-        ${stripes}
-        <line x1="0" y1="40" x2="10" y2="40" stroke="#999" stroke-width="4"/>
-        <line x1="190" y1="40" x2="200" y2="40" stroke="#999" stroke-width="4"/>
-      </svg>`;
-
-      document.getElementById('resistor-svg').innerHTML = svg;
-    }
-
-    function updateUI() {
-      const type = parseInt(document.getElementById('type').value);
-      document.getElementById('label-band3').style.display = (type >= 5) ? 'block' : 'none';
-      document.getElementById('label-tolerance').style.display = (type >= 4) ? 'block' : 'none';
-      document.getElementById('label-tempco').style.display = (type === 6) ? 'block' : 'none';
-      calculate();
-    }
-
-    ['type','band1','band2','band3','multiplier','tolerance','tempco'].forEach(id => {
-      document.getElementById(id).addEventListener('change', updateUI);
-    });
-
-    updateUI();
-  </script>
+  // draw svg with bands equally spaced
+  let step=160/(bands.length+1), offset=20;
+  let stripes = bands.map(c=>`<rect x="${offset+=step}" y="20" width="6" height="40" fill="${colorMap[c]||"#000"}"/>`).join("");
+  document.getElementById('resistor-svg').innerHTML=
+    `<svg viewBox="0 0 200 80">
+      <rect x="10" y="30" width="180" height="20" rx="10" fill="#d4a373"/>
+      ${stripes}
+      <line x1="0" y1="40" x2="10" y2="40" stroke="#999" stroke-width="4"/>
+      <line x1="190" y1="40" x2="200" y2="40" stroke="#999" stroke-width="4"/>
+    </svg>`;
+}
+updateUI();
+</script>
 </body>
 </html>
