@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resistor Color Code Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px 100px;
+      background: #121212;
+      color: #e0e0e0;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    #main-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .form-section {
+      flex: 1;
+      min-width: 300px;
+    }
+    .result-section {
+      flex: 0 0 auto;
+      text-align: center;
+      min-width: 200px;
+    }
+    .controls label {
+      display: block;
+      margin-top: 15px;
+    }
+    .controls select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      background-color: #2f2f2f;
+      border: none;
+      border-radius: 5px;
+      color: #e0e0e0;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <!-- Your navigation can be inserted here -->
+  </div>
+
+  <h1>Resistor Color Code Calculator</h1>
+  <div id="main-container">
+    <div class="form-section controls">
+      <label>1st Band:
+        <select id="band1">
+          <option value="0">Black (0)</option>
+          <option value="1">Brown (1)</option>
+          <option value="2">Red (2)</option>
+          <option value="3">Orange (3)</option>
+          <option value="4">Yellow (4)</option>
+          <option value="5">Green (5)</option>
+          <option value="6">Blue (6)</option>
+          <option value="7">Violet (7)</option>
+          <option value="8">Gray (8)</option>
+          <option value="9">White (9)</option>
+        </select>
+      </label>
+
+      <label>2nd Band:
+        <select id="band2">
+          <option value="0">Black (0)</option>
+          <option value="1">Brown (1)</option>
+          <option value="2">Red (2)</option>
+          <option value="3">Orange (3)</option>
+          <option value="4">Yellow (4)</option>
+          <option value="5">Green (5)</option>
+          <option value="6">Blue (6)</option>
+          <option value="7">Violet (7)</option>
+          <option value="8">Gray (8)</option>
+          <option value="9">White (9)</option>
+        </select>
+      </label>
+
+      <label>Multiplier:
+        <select id="multiplier">
+          <option value="1">Black (×1)</option>
+          <option value="10">Brown (×10)</option>
+          <option value="100">Red (×100)</option>
+          <option value="1000">Orange (×1K)</option>
+          <option value="10000">Yellow (×10K)</option>
+          <option value="100000">Green (×100K)</option>
+          <option value="1000000">Blue (×1M)</option>
+          <option value="10000000">Violet (×10M)</option>
+          <option value="0.1">Gold (×0.1)</option>
+          <option value="0.01">Silver (×0.01)</option>
+        </select>
+      </label>
+
+      <label>Tolerance:
+        <select id="tolerance">
+          <option value="±1%">Brown (±1%)</option>
+          <option value="±2%">Red (±2%)</option>
+          <option value="±0.5%">Green (±0.5%)</option>
+          <option value="±0.25%">Blue (±0.25%)</option>
+          <option value="±0.1%">Violet (±0.1%)</option>
+          <option value="±0.05%">Gray (±0.05%)</option>
+          <option value="±5%">Gold (±5%)</option>
+          <option value="±10%">Silver (±10%)</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="result-section">
+      <div class="result" id="result">Resistance: -</div>
+    </div>
+  </div>
+
+  <script>
+    function calculate() {
+      const band1 = parseInt(document.getElementById('band1').value);
+      const band2 = parseInt(document.getElementById('band2').value);
+      const multiplier = parseFloat(document.getElementById('multiplier').value);
+      const tolerance = document.getElementById('tolerance').value;
+
+      let resistance = ((band1 * 10) + band2) * multiplier;
+      let displayValue = '';
+
+      if (resistance >= 1000000) {
+        displayValue = (resistance / 1000000).toFixed(2) + ' MΩ';
+      } else if (resistance >= 1000) {
+        displayValue = (resistance / 1000).toFixed(2) + ' KΩ';
+      } else {
+        displayValue = resistance.toFixed(2) + ' Ω';
+      }
+
+      document.getElementById('result').textContent = `Resistance: ${displayValue} ${tolerance}`;
+    }
+
+    // Attach event listeners
+    ['band1', 'band2', 'multiplier', 'tolerance'].forEach(id => {
+      document.getElementById(id).addEventListener('change', calculate);
+    });
+
+    calculate();
+  </script>
+</body>
+</html>
