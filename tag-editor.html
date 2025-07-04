@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MP3 Tag Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #202124;
+      color: #e8eaed;
+      padding: 2rem;
+    }
+    h1 { font-weight: normal; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { padding: 0.5rem; border: 1px solid #5f6368; }
+    input[type="text"] { width: 100%; background: #303134; border: 1px solid #5f6368; color: #e8eaed; }
+    button { background: #8ab4f8; border: none; color: #202124; padding: 0.3rem 0.6rem; cursor: pointer; border-radius: 3px; }
+    button:hover { background: #a4c8fa; }
+  </style>
+</head>
+<body>
+
+<h1>🎵 MP3 Tag Editor</h1>
+<input type="file" id="fileInput" multiple accept=".mp3" />
+
+<table id="tagTable" style="display:none;">
+  <thead>
+    <tr><th>Filename</th><th>Title</th><th>Artist</th><th>Album</th><th>Action</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- UMD libraries from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.5/dist/jsmediatags.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@egoroof/browser-id3-writer@4.0.0/dist/browser-id3-writer.umd.min.js"></script>
+
+<script>
+const input = document.getElementById('fileInput');
+const tbody = document.querySelector('#tagTable tbody');
+const table = document.getElementById('tagTable');
+let filesData = [];
+
+input.addEventListener('change', () => {
+  filesData = [];
+  tbody.innerHTML = "";
+  if (!input.files.length) return;
+
+  Array.from(input.files).forEach((file, idx) => {
+    jsmediatags.read(file, {
+      onSuccess: (tag) => addRow(file, tag.tags || {}, idx),
+      onError: () => addRow(file, {}, idx)
+    });
+  });
+});
+
+function addRow(file, tags, idx) {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${file.name}</td>
+    <td class="title">${tags.title || ''}</td>
+    <td class="artist">${tags.artist || ''}</td>
+    <td class="album">${tags.album || ''}</td>
+    <td><button onclick="editRow(${idx})">Edit</button></td>
+  `;
+  tbody.appendChild(tr);
+  filesData.push({ file, tags, tr });
+  table.style.display = "";
+}
+
+window.editRow = (idx) => {
+  const { tr, tags } = filesData[idx];
+  tr.innerHTML = `
+    <td>${filesData[idx].file.name}</td>
+    <td><input type="text" value="${tags.title || ''}" id="title-${idx}"></td>
+    <td><input type="text" value="${tags.artist || ''}" id="artist-${idx}"></td>
+    <td><input type="text" value="${tags.album || ''}" id="album-${idx}"></td>
+    <td><button onclick="saveRow(${idx})">Save</button></td>
+  `;
+};
+
+window.saveRow = (idx) => {
+  const title = document.getElementById(`title-${idx}`).value;
+  const artist = document.getElementById(`artist-${idx}`).value;
+  const album = document.getElementById(`album-${idx}`).value;
+  const { file } = filesData[idx];
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const buffer = e.target.result;
+    const writer = new ID3Writer(buffer);
+    writer.setFrame('TIT2', title)
+          .setFrame('TPE1', [artist])
+          .setFrame('TALB', album);
+    writer.addTag();
+    const blob = writer.getBlob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'edited_' + file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    // back to normal view
+    const tr = filesData[idx].tr;
+    tr.innerHTML = `
+      <td>${file.name}</td>
+      <td class="title">${title}</td>
+      <td class="artist">${artist}</td>
+      <td class="album">${album}</td>
+      <td><button onclick="editRow(${idx})">Edit</button></td>
+    `;
+    filesData[idx].tags = { title, artist, album };
+  };
+  reader.readAsArrayBuffer(file);
+};
+</script>
+
+</body>
+</html>
