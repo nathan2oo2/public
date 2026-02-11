@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kantarancho Jhelo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<style>
+:root{
+  --bg:#121212;
+  --surface:#1f1f1f;
+  --card:#262626;
+  --text:#ffffff;
+  --muted:#aaaaaa;
+}
+.light{
+  --bg:#f4f4f4;
+  --surface:#ffffff;
+  --card:#eeeeee;
+  --text:#000;
+  --muted:#555;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* SPLASH */
+#splash{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:800;
+  background:var(--bg);
+  z-index:999;
+}
+
+/* TOP BAR */
+#topbar{
+  height:56px;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  gap:12px;
+  background:var(--surface);
+}
+#search{
+  flex:1;
+  padding:10px 14px;
+  border:none;
+  border-radius:24px;
+  background:var(--card);
+  color:var(--text);
+}
+
+/* MENU BACKDROP */
+#backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  z-index:9;
+}
+#backdrop.show{display:block}
+
+/* MENU */
+#menu{
+  position:fixed;
+  inset:0 35% 0 0;
+  background:var(--surface);
+  transform:translateX(-100%);
+  transition:.25s;
+  padding:16px;
+  z-index:10;
+}
+#menu.show{transform:translateX(0)}
+
+.menu-btn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:14px;
+  background:var(--card);
+  cursor:pointer;
+}
+.menu-left{font-size:15px}
+.menu-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:22px;
+  color:var(--muted);
+}
+
+.font-box{
+  padding:4px 10px;
+  border-radius:10px;
+  background:rgba(255,255,255,.12);
+  font-size:14px;
+  min-width:34px;
+  text-align:center;
+}
+
+/* LIST */
+#list{padding:16px}
+.song-card{
+  padding:16px;
+  background:var(--card);
+  border-radius:16px;
+  margin-bottom:14px;
+  cursor:pointer;
+}
+
+/* SONG VIEW */
+#songView{
+  display:none;
+  padding:16px;
+  max-width:800px;
+  margin:auto;
+}
+#songHeader{
+  position:relative;
+  text-align:center;
+  margin-bottom:12px;
+}
+.back{
+  position:absolute;
+  left:0;
+  top:0;
+  cursor:pointer;
+}
+#songTitle{
+  font-size:28px;
+  font-weight:800;
+  margin:0;
+}
+.meta{
+  display:inline-block;
+  padding:6px 10px;
+  margin:6px 6px 10px 0;
+  background:var(--card);
+  border-radius:12px;
+  font-size:13px;
+}
+
+.lyrics{
+  line-height:1.7;
+  font-size:18px;
+  text-align:left;
+}
+.lyrics.center{text-align:center}
+.chorus{
+  font-size:.85em;
+  font-style:italic;
+  color:var(--muted);
+}
+
+@media(min-width:900px){
+  #menu{inset:0 70% 0 0}
+}
+</style>
+</head>
+
+<body>
+
+<div id="splash">Kantarancho Jhelo</div>
+<div id="backdrop" onclick="closeMenu()"></div>
+
+<!-- MENU -->
+<div id="menu">
+
+  <div class="menu-btn" onclick="closeMenu()">
+    <span class="menu-left">Back</span>
+    <span class="material-icons menu-right">arrow_back</span>
+  </div>
+
+  <div class="menu-btn" onclick="toggleTheme()">
+    <span class="menu-left">Theme</span>
+    <span class="material-icons menu-right" id="themeIcon">dark_mode</span>
+  </div>
+
+  <div class="menu-btn" onclick="toggleAlign()">
+    <span class="menu-left" id="alignText">Lyrics Align: Left</span>
+    <span class="material-icons menu-right" id="alignIcon">format_align_left</span>
+  </div>
+
+  <div class="menu-btn">
+    <span class="menu-left">Font Size</span>
+    <span class="menu-right">
+      <span class="material-icons" onclick="changeFont(-1)">remove</span>
+      <span class="font-box" id="fontIndicator">18</span>
+      <span class="material-icons" onclick="changeFont(1)">add</span>
+    </span>
+  </div>
+
+</div>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <span class="material-icons" onclick="openMenu()">menu</span>
+  <input id="search" placeholder="Search songs" oninput="filterSongs(this.value)">
+  <span class="material-icons">person</span>
+</div>
+
+<!-- LIST -->
+<div id="list"></div>
+
+<!-- SONG VIEW -->
+<div id="songView">
+  <div id="songHeader">
+    <span class="material-icons back" onclick="back()">arrow_back</span>
+    <h1 id="songTitle"></h1>
+    <div id="metaBox"></div>
+  </div>
+  <div class="lyrics" id="lyrics"></div>
+</div>
+
+<script>
+setTimeout(()=>splash.remove(),1000);
+
+let songs=[],filtered=[];
+let alignCenter = localStorage.getItem("align")==="center";
+let fontSize = parseInt(localStorage.getItem("fontSize")||18);
+
+lyrics.style.fontSize = fontSize+"px";
+fontIndicator.textContent = fontSize;
+
+/* MENU */
+function openMenu(){
+  menu.classList.add("show");
+  backdrop.classList.add("show");
+}
+function closeMenu(){
+  menu.classList.remove("show");
+  backdrop.classList.remove("show");
+}
+
+/* THEME */
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  themeIcon.textContent =
+    document.body.classList.contains("light")
+    ? "light_mode" : "dark_mode";
+}
+
+/* ALIGN */
+function toggleAlign(){
+  alignCenter=!alignCenter;
+  localStorage.setItem("align",alignCenter?"center":"left");
+  applyAlign();
+}
+function applyAlign(){
+  lyrics.classList.toggle("center",alignCenter);
+  alignText.textContent =
+    "Lyrics Align: "+(alignCenter?"Center":"Left");
+  alignIcon.textContent =
+    alignCenter?"format_align_center":"format_align_left";
+}
+applyAlign();
+
+/* FONT */
+function changeFont(step){
+  fontSize = Math.min(30,Math.max(14,fontSize+step));
+  lyrics.style.fontSize = fontSize+"px";
+  fontIndicator.textContent = fontSize;
+  localStorage.setItem("fontSize",fontSize);
+}
+
+/* BACK */
+function back(){
+  songView.style.display="none";
+  list.style.display="block";
+  topbar.style.display="flex";
+}
+
+/* LOAD SONGS FROM GITHUB */
+fetch("songs.txt")
+  .then(res=>res.text())
+  .then(text=>loadSongs(text))
+  .catch(()=>{
+    list.innerHTML="<div style='padding:20px'>Could not load songs.txt</div>";
+  });
+
+function loadSongs(text){
+  songs=[];
+  text.split("===")
+  .forEach(b=>{
+    const lines=b.trim().split("\n");
+    if(!lines[0])return;
+    let title="",meta=[],lyricsArr=[];
+    lines.forEach(l=>{
+      if(l.startsWith("#Title:"))
+        title=l.replace("#Title:","").trim();
+      else if(l.startsWith("#"))
+        meta.push(l.replace("#",""));
+      else lyricsArr.push(l);
+    });
+    songs.push({title,meta,lyrics:lyricsArr});
+  });
+  filtered=[...songs];
+  render();
+}
+
+function render(){
+  list.innerHTML="";
+  filtered.forEach(s=>{
+    const d=document.createElement("div");
+    d.className="song-card";
+    d.textContent=s.title;
+    d.onclick=()=>openSong(s);
+    list.appendChild(d);
+  });
+}
+
+function filterSongs(q){
+  q=q.toLowerCase();
+  filtered=songs.filter(s=>s.title.toLowerCase().includes(q));
+  render();
+}
+
+function openSong(s){
+  list.style.display="none";
+  songView.style.display="block";
+  topbar.style.display="none";
+
+  songTitle.textContent=s.title;
+  metaBox.innerHTML="";
+  s.meta.forEach(m=>{
+    const d=document.createElement("div");
+    d.className="meta";
+    d.textContent=m;
+    metaBox.appendChild(d);
+  });
+
+  lyrics.innerHTML="";
+  s.lyrics.forEach(l=>{
+    if(l.trim()===""){
+      lyrics.appendChild(document.createElement("br"));
+    }else{
+      const d=document.createElement("div");
+      if(l.startsWith("--")){
+        d.className="chorus";
+        d.textContent=l.substring(2);
+      }else d.textContent=l;
+      lyrics.appendChild(d);
+    }
+  });
+  applyAlign();
+}
+</script>
+
+</body>
+</html>
