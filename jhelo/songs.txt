@@ -2,6 +2,7 @@
 #Artist: Alison Gonsalves
 #Lyrics, Arrangement & Composition: Alison Gonsalves
 #Mixed & Mastered by: Alison Gonsalves
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c2/e3/31/c2e33162-3356-ea5d-b77d-807ba46f3a15/artwork.jpg/3000x3000bb.jpg
 #LPM: 10
 #Lang: Konk
 #Fav: TRUE
@@ -103,9 +104,9 @@ Morossor hanv mog kortolom tuzo
 
 ===
 
-Title: Rosalina
-Artist: Alison
-AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
+#Title: Rosalina
+#Artist: Alison
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
 
 ===
 
@@ -499,6 +500,7 @@ He's choosin' Texas, I can tell
 Come on, baby
 Oh yeah
 Just when I thought I got him to fall in love with Tennessee
+
 
 
 
