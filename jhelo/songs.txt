@@ -50,8 +50,9 @@ Khoro mog amcho
 #Singers: Carey Fernandes & Cielda Pereira
 #Composer/Lyrics: Carey Fernandes
 #Music Director/Mixing & Mastering: Devesh Dias
+#LPM: 10
 #Lang: Konk
-#Fav: FALSE
+#Fav: TRUE
 
 Dollean mellun dollo, dogainnin niz mog ami kelo
 Tum mujem anic hanv tuzo, jurament dillo
@@ -111,6 +112,9 @@ Morossor hanv mog kortolom tuzo
 #Electric Guitar: Ashley Quiney
 #Trumpet: Kiehore Sodha (1), Bosco Monsorate (2)
 #Saxophone & Flute: Shyam Raj
+#LPM: 10
+#Lang: Konk
+#Fav: FALSE
 
 --Verse 1
 Sonvsar ho fottkiro mhunnon, oxem mhaka dislam
@@ -162,6 +166,9 @@ Cu cu ru cu, cu cu
 #Mixing: San
 #Featured In: O Maria (2010)
 #Style: Dulpod Duet
+#LPM: 10
+#Lang: Konk
+#Fav: TRUE
 
 --Verse 1
 Surganchi fantti mathear go
@@ -219,6 +226,9 @@ Surganchi rass bhetai go
 #Mixing: San
 #Featured In: O Maria (2010)
 #Style: Ballad
+#LPM: 10
+#Lang: Konk
+#Fav: TRUE
 
 --Verse 1
 Lharalharachim aik tim kantaram
@@ -262,9 +272,13 @@ Lharalharachim aik tim kantaram
 
 
 #Title: Goenkarponn
+#Artist: Goa Forgiving
 #Music Director, Arranger & Conductor: Ronnie Monsorate
 #Lyricist: Roque Lazarus
 #Mixing: Tabun Sutradhar
+#LPM: 10
+#Lang: Konk
+#Fav: TRUE
 
 --Verse 1
 Goemchi tambdi mathi amchi
@@ -311,4 +325,156 @@ Goenchem songit sodankall vaztelem
 Ekcharan sogot ami nettan vavurtele
 Ontrollar neketrank Go
 
+===
+
+#Title: Thame Dil Ko
+#Featured In: Flames, Panchayat
+#Artist: Abhijeet Bhattacharya
+#Music: Lalit Pandit
+#Lyricist: Alok Ranjan Jha
+
+thame dil ko
+kab se mai khada hoon rahon mein~
+jaane kab tu
+aake muskuraye bahon mein
+
+aaTho pahar hi
+betaabiyan hai
+kaise khumaari
+chhayi hai pyaar mein tere
+thame dil ko
+kab se mai khada hoon rahon mein
+jaane kab tu
+aake muskuraye bahon mein
+
+aaTho pahar hi betaabiyan hai
+kaise khumaari
+chhayi hai pyaar mein tere..
+thame dil ko~
+
+--Interlude
+
+jab se mere dil mein
+gunje chaahat ke nagme
+thoDe badle hai~
+mere subah shaam jaane jaana
+
+tab to din khilte hai
+ye raate bhi Dhalti hai
+in hoTho pe~
+leke tera naam meri jaana
+
+kaisa ajabsa
+ehasas hai ye
+khud pe hi mera
+koi bhi zor na chale
+
+thame dil ko
+kab se mai khaDa hoon rahon mein
+jaane kab tu
+aa ke muskuraye bahon mein
+aaTho pahar hi
+betaabiyan hai
+kaise khumaari
+chhayi hai pyaar mein tere
+thame dil ko......
+
+--Interlude
+
+tere aa jaana se
+yoon chaahat barsane se
+jaise chhayi hai~
+nayi si bahaar mere dil mein
+
+jaise ye bechaini
+din raat mujhe rehti hai
+kya aisa hi
+mera hai khumaar tere dil mein
+
+teri bhi aankhe
+soti nahi hai
+lagta mujhe hai
+tera ye haal dekh ke
+
+thame dil ko
+kab se mai khaDa hoon rahon mein
+
+jaane kab tu
+aake muskuraye bahon mein
+
+aaTho pahar hi
+betaabiyan hai
+kaise khumaari
+chhayi hai pyaar mein tere
+thame dil ko
+
+===
+
+#Title: Choosin' Texas
+#Producers: Ella Langley, Ben West
+#Released:	October 17, 2025
+#Genre: Country
+#YT Link: https://youtu.be/hLOheGDwD_0
+
+--Verse 1
+Just when I thought I got him to fall in love with Tennessee
+I should've known better than to take him back to Abilene
+I put him right back into her arms
+I wasn't a match for that kind of spark
+
+--Chorus
+She's from Texas, I can tell by the way
+He's two-stepping 'round the room
+And judging by the smile that's written on his face
+There's nothing I can do
+It doesn't take a crystal ball to see
+A cowboy always finds a way to leave
+Drinking Jack all by myself
+He's choosin' Texas, I can tell
+
+--Verse 2
+Well, I guess he forgot about the Smoky Mountain rain
+Them old Hank tunes, the Memphis blues we used to sing
+He always loved "Amarillo by Morning"
+I should've taken that as a warning
+
+--Chorus
+She's from Texas, I can tell by the way
+He's two-stepping 'round the room
+And judging by the smile that's written on his face
+There's nothing I can do
+It doesn't take a crystal ball to see
+A cowboy always finds a way to leave
+Drinking Jack all by myself
+He's choosin' Texas, I can tell
+You might also like
+Dandelion
+Ella Langley
+Ring Finger
+Lainey Wilson
+McArthur
+HARDY, Eric Church, Morgan Wallen & Tim McGraw
+
+--Bridge
+When I'm eastbound and down and I can't help but cry
+'Cause I-40 gets lonelier with every mile
+I'll know that his mind wasn't ever gonna change
+'Cause his heart still belongs to the Lone Star State
+
+--Chorus
+She's from Texas, I can tell by the way
+He's two-stepping 'round the room
+And judging by the smile that's written on his face
+There's nothing I can do, naw, yeah
+It doesn't take a crystal ball to see
+A cowboy always finds a way to leave
+Drinking Jack all by myself
+He's choosin' Texas, I can tell, no
+Drinking Jack all by myself
+He's choosin' Texas, I can tell
+
+--Outro
+Come on, baby
+Oh yeah
+Just when I thought I got him to fall in love with Tennessee
 
