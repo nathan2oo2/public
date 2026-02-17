@@ -479,12 +479,17 @@ function fallbackDownload(content){
 /* ── ONLINE SONGS ────────────────────────────────── */
 function loadOnlineSongs(){
   haptic('light');
-  fetch("https://raw.githubusercontent.com/nathan2oo2/public/jhelo/songs.txt")
-    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})
-    .then(text=>{loadSongs(text);closeSideMenu()})
-    .catch(e=>alert('Error: '+e.message));
+  fetch("./songs.txt")
+    .then(r=>{
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    })
+    .then(text=>{
+      loadSongs(text);
+      closeSideMenu();
+    })
+    .catch(e=>alert("Error: " + e.message));
 }
-
 /* ── CLEAR ───────────────────────────────────────── */
 function clearLocalSongs(){
   haptic('heavy');
