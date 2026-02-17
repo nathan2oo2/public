@@ -171,7 +171,7 @@ Oh Rosalina
 #Electric Guitar: Ashley Quiney
 #Trumpet: Kiehore Sodha (1), Bosco Monsorate (2)
 #Saxophone & Flute: Shyam Raj
-#AA Link: https://upperstall.com/wp-content/uploads/2015/03/Nachom-ia-Kumpasar.jpg
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
 #LPM: 10
 #Lang: Konk
 #Fav: FALSE
@@ -550,6 +550,7 @@ He's choosin' Texas, I can tell
 Come on, baby
 Oh yeah
 Just when I thought I got him to fall in love with Tennessee
+
 
 
 
