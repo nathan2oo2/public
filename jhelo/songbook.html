@@ -254,8 +254,6 @@ body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .sc-lead .material-icons-round{font-size:22px;color:var(--primary)}
-.sc-lead.fav{background:rgba(246,189,96,.18)}
-.sc-lead.fav .material-icons-round{color:var(--fav)}
 
 .sc-info{flex:1;min-width:0}
 .sc-title{
@@ -276,7 +274,14 @@ body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
   background:var(--surface-high);
   border:1px solid var(--outline-var);color:var(--on-surface-var);
 }
-.sc-chevron{font-size:18px;color:var(--on-surface-var);flex-shrink:0}
+/* trailing area: fav star + chevron */
+.sc-trail{
+  display:flex;align-items:center;gap:2px;flex-shrink:0;
+}
+.sc-fav-star{
+  font-size:18px;color:var(--fav);
+}
+.sc-chevron{font-size:18px;color:var(--on-surface-var)}
 
 /* ── BACKDROP ────────────────────────────── */
 #backdrop{
@@ -316,13 +321,15 @@ body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
 #songDisplayTitle{font-size:26px;font-weight:700;line-height:1.25;margin-bottom:4px}
 #songArtistDisplay{font-size:15px;color:var(--on-surface-var);margin-bottom:14px}
 #metaContainer{
-  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  display:flex;flex-wrap:wrap;gap:8px 10px;
+  justify-content:center;padding:4px 0 8px;
 }
 .meta-chip{
   display:inline-flex;align-items:center;gap:6px;
-  height:32px;padding:0 12px;border-radius:8px;
+  height:34px;padding:0 14px;border-radius:8px;
   background:var(--surface-high);border:1px solid var(--outline-var);
   font-size:12px;font-weight:500;font-family:'Roboto Mono',monospace;
+  flex-shrink:0;
 }
 .meta-chip .material-icons-round{font-size:14px;color:var(--on-surface-var)}
 .meta-chip a{color:var(--primary);text-decoration:none}
@@ -421,7 +428,7 @@ body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
 }
 #confirmDialogIcon{font-size:32px;margin-bottom:14px}
 #confirmDialogTitle{font-size:20px;font-weight:500;margin-bottom:8px}
-#confirmDialogBody{font-size:14px;color:var(--on-surface-var);margin-bottom:24px;line-height:1.55}
+#confirmDialogBody{font-size:14px;color:var(--on-surface-var);margin-bottom:24px;line-height:1.55;white-space:pre-line}
 #confirmDialogBtns{display:flex;justify-content:flex-end;gap:8px}
 .dlg-btn{
   height:40px;padding:0 20px;border-radius:20px;border:none;
@@ -925,16 +932,20 @@ function render(){
     const card=document.createElement('div');
     card.className='song-card';
 
+    // Leading icon — always music_note
     const lead=document.createElement('div');
-    lead.className='sc-lead'+(s.meta.fav?' fav':'');
+    lead.className='sc-lead';
     const ico=document.createElement('span');
     ico.className='material-icons-round';
-    ico.textContent=s.meta.fav?'star':'music_note';
+    ico.textContent='music_note';
     lead.appendChild(ico);card.appendChild(lead);
 
+    // Info column
     const info=document.createElement('div');info.className='sc-info';
     const te=document.createElement('div');te.className='sc-title';te.textContent=s.meta.title||'Untitled';info.appendChild(te);
-    if(s.meta.artist){const ae=document.createElement('div');ae.className='sc-artist';ae.textContent=s.meta.artist;info.appendChild(ae)}
+    if(s.meta.artist){
+      const ae=document.createElement('div');ae.className='sc-artist';ae.textContent=s.meta.artist;info.appendChild(ae);
+    }
     if(s.meta.lang){
       const bd=document.createElement('div');bd.className='sc-badges';
       const b=document.createElement('span');b.className='badge badge-lang';b.textContent=LANG[s.meta.lang]||s.meta.lang;
@@ -942,9 +953,18 @@ function render(){
     }
     card.appendChild(info);
 
+    // Trailing: fav star (if fav) + chevron
+    const trail=document.createElement('div');trail.className='sc-trail';
+    if(s.meta.fav){
+      const star=document.createElement('span');
+      star.className='material-icons-round sc-fav-star';
+      star.textContent='star';
+      trail.appendChild(star);
+    }
     const chev=document.createElement('span');
     chev.className='material-icons-round sc-chevron';chev.textContent='chevron_right';
-    card.appendChild(chev);
+    trail.appendChild(chev);
+    card.appendChild(trail);
 
     card.onclick=()=>{haptic('light');openSong(s)};
     list.appendChild(card);
@@ -1028,24 +1048,39 @@ document.addEventListener('click',e=>{
 function requestFavToggle(){
   haptic('light');songMenu.style.display='none';
   const isFav=currentSong.meta.fav;
+  const fileNote=fileHandle
+    ? 'Changes will be saved to your file.'
+    : 'No file linked — an updated songs.txt will be downloaded.';
   showConfirm({
     icon:isFav?'💔':'⭐',
     title:isFav?'Remove from Favourites?':'Add to Favourites?',
-    body:isFav
+    body:(isFav
       ?`"${currentSong.meta.title}" will be removed from your favourites.`
-      :`"${currentSong.meta.title}" will be marked as a favourite.`,
+      :`"${currentSong.meta.title}" will be marked as a favourite.`
+    )+'\n'+fileNote,
     okLabel:isFav?'Remove':'Add ★',
     danger:isFav,
     onOk:doFavToggle
   });
 }
-function doFavToggle(){
+async function doFavToggle(){
   currentSong.meta.fav=!currentSong.meta.fav;
   currentSong.raw=rebuildRaw(currentSong);
   const idx=songs.findIndex(s=>s===currentSong);
   if(idx!==-1) songs[idx]=currentSong;
   const allText=songs.map(s=>s.raw).join('\n===\n');
   localStorage.setItem('kantaranchoSongs',allText);
+  // Persist to file: write in-place if fileHandle, else offer download
+  if(fileHandle){
+    try{
+      const w=await fileHandle.createWritable();
+      await w.write(allText);await w.close();
+      haptic('medium');
+    }catch(e){alert('Could not write to file: '+e.message)}
+  }else{
+    // No file linked — download updated txt so user can re-import
+    fallbackDownload(allText);
+  }
   applyFilters();
   openSong(currentSong);
 }
