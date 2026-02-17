@@ -3,6 +3,7 @@
 #Mixed & Mastered by: Alison Gonsalves
 #LPM: 10
 #Lang: Konk
+#Fav: TRUE
 
 --Verse 1
 Dollean tujea dista [A]mhaka amcho ghorabo 
@@ -50,6 +51,7 @@ Khoro mog amcho
 #Composer/Lyrics: Carey Fernandes
 #Music Director/Mixing & Mastering: Devesh Dias
 #Lang: Konk
+#Fav: FALSE
 
 Dollean mellun dollo, dogainnin niz mog ami kelo
 Tum mujem anic hanv tuzo, jurament dillo
@@ -308,4 +310,5 @@ Goenkaranchem nanv sonvsarak fanktelem
 Goenchem songit sodankall vaztelem
 Ekcharan sogot ami nettan vavurtele
 Ontrollar neketrank Go
+
 
