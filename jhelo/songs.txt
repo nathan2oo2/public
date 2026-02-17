@@ -332,6 +332,9 @@ Ontrollar neketrank Go
 #Artist: Abhijeet Bhattacharya
 #Music: Lalit Pandit
 #Lyricist: Alok Ranjan Jha
+#LPM: 10
+#Lang: Hin
+#Fav: FALSE
 
 thame dil ko
 kab se mai khada hoon rahon mein~
@@ -411,10 +414,14 @@ thame dil ko
 ===
 
 #Title: Choosin' Texas
+#Album: Dandelion
 #Producers: Ella Langley, Ben West
 #Released:	October 17, 2025
 #Genre: Country
 #YT Link: https://youtu.be/hLOheGDwD_0
+#LPM: 10
+#Lang: Eng
+#Fav: FALSE
 
 --Verse 1
 Just when I thought I got him to fall in love with Tennessee
@@ -477,4 +484,5 @@ He's choosin' Texas, I can tell
 Come on, baby
 Oh yeah
 Just when I thought I got him to fall in love with Tennessee
+
 
