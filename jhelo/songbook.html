@@ -317,28 +317,44 @@ body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
 #songArtWrap.has-art{display:block}
 
 #songBody{padding:24px 20px 0}
-#songHeadline{text-align:center;margin-bottom:20px}
-#songDisplayTitle{font-size:26px;font-weight:700;line-height:1.25;margin-bottom:4px}
-#songArtistDisplay{font-size:15px;color:var(--on-surface-var);margin-bottom:14px}
+#songHeadline{text-align:center;margin-bottom:24px}
+#songDisplayTitle{
+  font-size:26px;font-weight:700;line-height:1.25;margin-bottom:6px;
+}
+#songArtistDisplay{
+  font-size:14px;font-weight:500;color:var(--on-surface-var);
+  margin-bottom:16px;letter-spacing:.1px;
+}
 #metaContainer{
-  display:flex;flex-wrap:wrap;gap:8px 10px;
-  justify-content:center;padding:4px 0 8px;
+  display:flex;flex-wrap:wrap;
+  gap:6px;                    /* uniform gap in all directions */
+  justify-content:center;
+  padding:0;                  /* no extra padding — gap handles spacing */
 }
 .meta-chip{
-  display:inline-flex;align-items:center;gap:6px;
-  height:34px;padding:0 14px;border-radius:8px;
-  background:var(--surface-high);border:1px solid var(--outline-var);
-  font-size:12px;font-weight:500;font-family:'Roboto Mono',monospace;flex-shrink:0;
+  display:inline-flex;align-items:center;gap:4px;
+  /* tighter height + padding so text sits snug in the box */
+  height:28px;padding:0 10px;
+  border-radius:20px;         /* pill shape — clearly a badge */
+  background:var(--surface-high);
+  border:1px solid var(--outline-var);
+  font-size:11px;font-weight:500;
+  font-family:'Roboto Mono',monospace;
+  white-space:nowrap;flex-shrink:0;
+  line-height:1;              /* prevent text from adding vertical space */
 }
-.meta-chip .material-icons-round{font-size:14px;color:var(--on-surface-var)}
-.meta-chip a{color:var(--primary);text-decoration:none}
+.meta-chip .material-icons-round{font-size:13px;color:var(--on-surface-var);flex-shrink:0}
+.meta-chip a{
+  color:var(--primary);text-decoration:none;
+  font-size:11px;font-weight:500;
+}
 .meta-chip a:hover{text-decoration:underline}
 .mc-fav{background:rgba(246,189,96,.12);border-color:var(--fav);color:var(--fav)}
 .mc-fav .material-icons-round{color:var(--fav)}
 .mc-lang{background:rgba(168,199,250,.1);border-color:var(--primary);color:var(--primary)}
 .mc-lang .material-icons-round{color:var(--primary)}
-.mc-yt{background:rgba(255,80,80,.1);border-color:#ff5050;color:#ff7070}
-.mc-yt .material-icons-round{color:#ff7070}
+.mc-yt{background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.6);color:#ff8080}
+.mc-yt .material-icons-round{color:#ff8080}
 
 /* lyrics */
 .lyrics{line-height:2;font-size:18px;white-space:pre-wrap;-webkit-user-select:text;user-select:text;padding-top:8px}
@@ -1018,11 +1034,8 @@ function renderLarge(){
 /* ── OPEN SONG ── */
 function openSong(song){
   currentSong=song;showSongScreen();window.scrollTo(0,0);
-
   $('songBarTitle').textContent=song.meta.title||'';
   $('songDisplayTitle').textContent=song.meta.title||'';
-  const ad=$('songArtistDisplay');
-  ad.textContent=song.meta.artist||'';ad.style.display=song.meta.artist?'block':'none';
 
   // Album art banner
   const artWrap=$('songArtWrap');
@@ -1037,16 +1050,27 @@ function openSong(song){
 
   updateFavMenuItem();
   metaContainer.innerHTML='';
+
+  // Artist shown as plain styled text — NOT a chip
+  const ad=$('songArtistDisplay');
+  if(song.meta.artist){
+    ad.textContent=song.meta.artist;
+    ad.style.display='block';
+  } else {
+    ad.textContent='';ad.style.display='none';
+  }
+
+  // Everything else → compact rounded chips
   if(song.meta.lang)
     metaContainer.innerHTML+=`<span class="meta-chip mc-lang"><span class="material-icons-round">translate</span>${LANG[song.meta.lang]||song.meta.lang}</span>`;
   if(song.meta.fav)
     metaContainer.innerHTML+=`<span class="meta-chip mc-fav"><span class="material-icons-round">star</span>Favourite</span>`;
   if(song.meta.key)
-    metaContainer.innerHTML+=`<span class="meta-chip"><span class="material-icons-round">music_note</span>Key: ${song.meta.key}</span>`;
+    metaContainer.innerHTML+=`<span class="meta-chip"><span class="material-icons-round">music_note</span>Key: ${escHtml(song.meta.key)}</span>`;
   if(song.meta.year)
-    metaContainer.innerHTML+=`<span class="meta-chip"><span class="material-icons-round">calendar_today</span>${song.meta.year}</span>`;
+    metaContainer.innerHTML+=`<span class="meta-chip"><span class="material-icons-round">calendar_today</span>${escHtml(song.meta.year)}</span>`;
   if(song.meta.yt)
-    metaContainer.innerHTML+=`<span class="meta-chip mc-yt"><span class="material-icons-round">play_circle</span><a href="${escHtml(song.meta.yt)}" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></span>`;
+    metaContainer.innerHTML+=`<span class="meta-chip mc-yt"><span class="material-icons-round">play_circle</span><a href="${escHtml(song.meta.yt)}" target="_blank" rel="noopener noreferrer">YouTube ↗</a></span>`;
 
   const lpm=song.meta.lpm||song.meta.speed||60;
   setLPM(lpm);
