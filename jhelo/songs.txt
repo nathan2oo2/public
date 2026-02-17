@@ -419,6 +419,7 @@ thame dil ko
 #Producers: Ella Langley, Ben West
 #Released:	October 17, 2025
 #Genre: Country
+#AA Link: https://upload.wikimedia.org/wikipedia/en/thumb/2/23/Ella_Langley_-_Choosin%27_Texas.jpg/250px-Ella_Langley_-_Choosin%27_Texas.jpg
 #YT Link: https://youtu.be/hLOheGDwD_0
 #LPM: 10
 #Lang: Eng
@@ -485,6 +486,7 @@ He's choosin' Texas, I can tell
 Come on, baby
 Oh yeah
 Just when I thought I got him to fall in love with Tennessee
+
 
 
 
