@@ -51,6 +51,7 @@ Khoro mog amcho
 #Singers: Carey Fernandes & Cielda Pereira
 #Composer/Lyrics: Carey Fernandes
 #Music Director/Mixing & Mastering: Devesh Dias
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/54/27/81/5427810d-c7b4-8e22-c8ce-82730bdf251e/artwork.jpg/3000x3000bb.jpg
 #LPM: 10
 #Lang: Konk
 #Fav: TRUE
@@ -102,6 +103,12 @@ Morossor hanv mog kortolom tuzo
 
 ===
 
+Title: Rosalina
+Artist: Alison
+AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
+
+===
+
 
 #Title: Cu-Cu-Ru-Cu
 #Music & Lyrics: Chris Perry
@@ -113,6 +120,7 @@ Morossor hanv mog kortolom tuzo
 #Electric Guitar: Ashley Quiney
 #Trumpet: Kiehore Sodha (1), Bosco Monsorate (2)
 #Saxophone & Flute: Shyam Raj
+AA Link: https://hindi2.djpunjab.app/cover/YLPGicLL4oERWQsRB7vpWw==/chris-perry-s-golden-hits-compilation-cover-image.webp
 #LPM: 10
 #Lang: Konk
 #Fav: FALSE
@@ -167,6 +175,7 @@ Cu cu ru cu, cu cu
 #Mixing: San
 #Featured In: O Maria (2010)
 #Style: Dulpod Duet
+#AA Link: https://www.remofernandes.com/wp-content/uploads/2012/06/O-MARIA-72dpii.jpg
 #LPM: 10
 #Lang: Konk
 #Fav: TRUE
@@ -227,6 +236,7 @@ Surganchi rass bhetai go
 #Mixing: San
 #Featured In: O Maria (2010)
 #Style: Ballad
+#AA Link: https://www.remofernandes.com/wp-content/uploads/2012/06/O-MARIA-72dpii.jpg
 #LPM: 10
 #Lang: Konk
 #Fav: TRUE
@@ -277,6 +287,7 @@ Lharalharachim aik tim kantaram
 #Music Director, Arranger & Conductor: Ronnie Monsorate
 #Lyricist: Roque Lazarus
 #Mixing: Tabun Sutradhar
+#AA Link: https://i1.sndcdn.com/artworks-000203164889-yn3u9o-t500x500.jpg
 #LPM: 10
 #Lang: Konk
 #Fav: TRUE
@@ -333,6 +344,7 @@ Ontrollar neketrank Go
 #Artist: Abhijeet Bhattacharya
 #Music: Lalit Pandit
 #Lyricist: Alok Ranjan Jha
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/93/7c/96/937c9636-57a9-210a-476c-ba9509eea3e0/194491496562.jpg/600x600cc.webp
 #LPM: 10
 #Lang: Hin
 #Fav: FALSE
@@ -487,6 +499,7 @@ He's choosin' Texas, I can tell
 Come on, baby
 Oh yeah
 Just when I thought I got him to fall in love with Tennessee
+
 
 
 
