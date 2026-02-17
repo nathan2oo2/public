@@ -1,16 +1,17 @@
 #Title: Aiz Thaun
-#Lyrics, Arrangement & Composition: Alison Gonsalves  
+#Lyrics, Arrangement & Composition: Alison Gonsalves
 #Mixed & Mastered by: Alison Gonsalves
+#LPM: 10
 
 --Verse 1
-Dollean tujea dista mhaka amcho ghorabo 
-Vengen tujea mevta mhaka mog ani asro
+Dollean tujea dista [A]mhaka amcho ghorabo 
+Vengen tujea mevta mhaka [F#]mog ani asro
 Kallzam amchi oshim khoshim guspovlim
 Don aslim punn mogachea taaranim ekthaim zoddlim
 
 --Chorus
 Aiz thaun hanv zatam tuzo
-Tum mhojem, mhozo mog tuzo
+Tum mhojem, mhozo [F#]mog tuzo
 Mevcho na tau konnak
 Amchea mogacho
 Khoro mog amcho
@@ -39,7 +40,9 @@ Tum mhojem, mhozo mog tuzo
 Mevcho na tau konnak
 Amchea mogacho
 Khoro mog amcho
+
 ===
+
 
 #Title: Omor Mog
 #Singers: Carey Fernandes & Cielda Pereira
@@ -90,7 +93,9 @@ Mog amcho dogainncho
 Sodankall omor urom
 Morossor hanv mog kortolom tuzo
 
+
 ===
+
 
 #Title: Cu-Cu-Ru-Cu
 #Music & Lyrics: Chris Perry
@@ -142,7 +147,9 @@ Magir tem kantar korta
 Cu cu ru cu, cu cu
 Cu cu ru cu, cu cu
 
+
 ===
+
 
 #Title: Surganchi Fati
 #Music & Instruments: Remo Fernandes
@@ -199,7 +206,9 @@ Molbachi vatt dhakoi go
 Mogachi bass zagai go
 Surganchi rass bhetai go
 
+
 ===
+
 
 #Title: Laranchim Cantaram
 #Music, Vocals & Instruments: Remo Fernandes
@@ -244,7 +253,9 @@ Goa goa, oxem sodanch urot kai
 --Outro
 Lharalharachim aik tim kantaram
 
+
 ===
+
 
 #Title: Goenkarponn
 #Music Director, Arranger & Conductor: Ronnie Monsorate
@@ -294,5 +305,4 @@ Goemchi osmitai samballia fuddarak
 Goenkaranchem nanv sonvsarak fanktelem
 Goenchem songit sodankall vaztelem
 Ekcharan sogot ami nettan vavurtele
-Ontrollar neketrank Goem tenktelem
-
+Ontrollar neketrank Go
