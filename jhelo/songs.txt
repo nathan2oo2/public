@@ -2,6 +2,7 @@
 #Lyrics, Arrangement & Composition: Alison Gonsalves
 #Mixed & Mastered by: Alison Gonsalves
 #LPM: 10
+#Lang: Konk
 
 --Verse 1
 Dollean tujea dista [A]mhaka amcho ghorabo 
@@ -48,6 +49,7 @@ Khoro mog amcho
 #Singers: Carey Fernandes & Cielda Pereira
 #Composer/Lyrics: Carey Fernandes
 #Music Director/Mixing & Mastering: Devesh Dias
+#Lang: Konk
 
 Dollean mellun dollo, dogainnin niz mog ami kelo
 Tum mujem anic hanv tuzo, jurament dillo
@@ -306,3 +308,4 @@ Goenkaranchem nanv sonvsarak fanktelem
 Goenchem songit sodankall vaztelem
 Ekcharan sogot ami nettan vavurtele
 Ontrollar neketrank Go
+
