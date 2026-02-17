@@ -5,300 +5,529 @@
 <title>Kantarancho Jhelo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#121212;
-  --surface:#1f1f1f;
-  --card:#262626;
-  --text:#ffffff;
-  --muted:#aaaaaa;
+  --surface:#1e1e1e;
+  --card:#2a2a2a;
+  --card-hover:#323232;
+  --border:#333;
+  --text:#f0f0f0;
+  --muted:#888;
   --chord:#4fc3f7;
+  --accent:#4fc3f7;
+  --fav:#ffd54f;
+  --sidebar-width:280px;
 }
 .light{
-  --bg:#f4f4f4;
+  --bg:#f0f0f0;
   --surface:#ffffff;
-  --card:#eeeeee;
-  --text:#000;
-  --muted:#555;
+  --card:#e4e4e4;
+  --card-hover:#d8d8d8;
+  --border:#ccc;
+  --text:#111;
+  --muted:#666;
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Syne',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;
+}
 
-/* NO TEXT SELECTION on UI chrome */
 body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
-  -webkit-user-select:none;
-  user-select:none;
+  -webkit-user-select:none;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
 
-/* TOPBAR */
-#topbar{
-  height:56px;display:flex;align-items:center;
-  padding:0 12px;gap:12px;background:var(--surface);
-}
-#search{
-  flex:1;padding:10px 14px;border:none;
-  border-radius:24px;background:var(--card);
-  color:var(--text);
-  -webkit-user-select:text;user-select:text;
-}
-
-/* SPLASH */
+/* ── SPLASH ── */
 #splash{
   position:fixed;inset:0;background:var(--bg);
   display:flex;flex-direction:column;
   justify-content:center;align-items:center;
-  z-index:9999;transition:opacity 0.5s ease;
+  z-index:9999;transition:opacity 0.6s ease;
 }
 #splash.fade{opacity:0;pointer-events:none}
-#splashTitle{font-size:36px;font-weight:900;letter-spacing:1px;color:var(--text)}
-#splashTitle span{color:#4fc3f7}
+#splashTitle{
+  font-size:40px;font-weight:900;letter-spacing:2px;
+  color:var(--text);font-family:'Syne',sans-serif;
+}
+#splashTitle span{color:var(--accent)}
 #splashBy{
   position:absolute;bottom:40px;
-  font-size:14px;color:var(--muted);
-  letter-spacing:2px;text-transform:uppercase;
+  font-size:12px;color:var(--muted);
+  letter-spacing:3px;text-transform:uppercase;
+  font-family:'DM Mono',monospace;
 }
 
-/* BACKDROP */
+/* ── LAYOUT ── */
+#appShell{
+  display:flex;min-height:100vh;
+}
+
+/* ── SIDEBAR (desktop always visible, mobile drawer) ── */
+#sidebar{
+  width:var(--sidebar-width);
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;height:100vh;
+  z-index:100;
+  transition:transform .25s ease;
+}
+#sidebarHeader{
+  padding:20px 20px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+#sidebarLogo{
+  font-size:15px;font-weight:900;letter-spacing:1px;
+  font-family:'Syne',sans-serif;
+}
+#sidebarLogo span{color:var(--accent)}
+#sidebarCloseBtn{
+  display:none;cursor:pointer;
+  background:var(--card);border-radius:8px;padding:4px;
+  line-height:1;
+}
+#sidebarNav{
+  flex:1;overflow-y:auto;padding:12px;
+}
+
+.sidebar-section-label{
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);
+  padding:10px 6px 6px;font-family:'DM Mono',monospace;
+}
+
+.menu-btn{
+  display:flex;justify-content:space-between;
+  align-items:center;padding:11px 14px;
+  margin-bottom:6px;
+  border-radius:10px;background:var(--card);
+  cursor:pointer;font-size:14px;font-weight:600;
+  transition:background .15s,opacity .1s;
+  border:1px solid transparent;
+}
+.menu-btn:hover{background:var(--card-hover)}
+.menu-btn:active{opacity:0.7}
+.menu-btn .material-icons{font-size:18px;color:var(--muted)}
+
+/* Font size row */
+.size-row{
+  display:flex;align-items:center;gap:8px;
+}
+.size-row .material-icons{
+  cursor:pointer;padding:4px;
+  border-radius:6px;
+  font-size:18px;
+}
+.size-row .material-icons:hover{background:var(--bg)}
+
+/* ── MAIN CONTENT AREA ── */
+#mainContent{
+  margin-left:var(--sidebar-width);
+  flex:1;
+  display:flex;flex-direction:column;
+  min-height:100vh;
+}
+
+/* ── TOPBAR ── */
+#topbar{
+  position:sticky;top:0;
+  height:56px;display:flex;align-items:center;
+  padding:0 16px;gap:12px;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  z-index:50;
+}
+#hamburgerBtn{
+  display:none;cursor:pointer;
+}
+#search{
+  flex:1;padding:9px 16px;border:none;
+  border-radius:24px;background:var(--card);
+  color:var(--text);font-family:'Syne',sans-serif;
+  font-size:14px;font-weight:600;
+  border:1px solid var(--border);
+  outline:none;
+  -webkit-user-select:text;user-select:text;
+  transition:border-color .2s;
+}
+#search:focus{border-color:var(--accent)}
+#search::placeholder{color:var(--muted)}
+
+/* ── FILTER BAR ── */
+#filterBar{
+  padding:10px 16px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+.filter-chip{
+  padding:5px 14px;border-radius:20px;
+  background:var(--card);border:1px solid var(--border);
+  font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .15s;
+  font-family:'DM Mono',monospace;
+  letter-spacing:.5px;
+}
+.filter-chip:hover{border-color:var(--accent)}
+.filter-chip.active{
+  background:var(--accent);color:#000;border-color:var(--accent);
+}
+.filter-chip.fav-chip.active{
+  background:var(--fav);border-color:var(--fav);color:#000;
+}
+.filter-divider{
+  width:1px;height:20px;background:var(--border);
+  margin:0 2px;flex-shrink:0;
+}
+
+/* ── SONG LIST ── */
+#listWrap{padding:16px}
+#list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.song-card{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;
+  border-radius:12px;background:var(--card);
+  cursor:pointer;font-size:14px;font-weight:700;
+  border:1px solid var(--border);
+  transition:background .15s,border-color .15s,transform .1s;
+  line-height:1.3;
+}
+.song-card:hover{background:var(--card-hover);border-color:var(--accent)}
+.song-card:active{transform:scale(0.98);opacity:0.8}
+.song-card-info{flex:1;min-width:0}
+.song-card-title{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.song-card-badges{
+  display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;
+}
+.badge{
+  font-size:10px;font-weight:700;padding:2px 7px;
+  border-radius:6px;font-family:'DM Mono',monospace;
+  letter-spacing:.5px;
+}
+.badge-lang{background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+.badge-fav{background:rgba(255,213,79,.15);border:1px solid var(--fav);color:var(--fav)}
+.song-card .material-icons{font-size:16px;color:var(--muted);flex-shrink:0}
+
+/* ── BACKDROP (mobile) ── */
 #backdrop{
-  position:fixed;inset:0;background:rgba(0,0,0,.4);
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
   display:none;z-index:9;
   touch-action:none;
 }
 #backdrop.show{display:block}
 
-/* SIDE MENU */
-#menu{
-  position:fixed;inset:0 35% 0 0;
-  background:var(--surface);
-  transform:translateX(-100%);
-  transition:.25s;padding:16px;z-index:10;
-  overflow-y:auto;
-}
-#menu.show{transform:translateX(0)}
-
-.menu-btn{
-  display:flex;justify-content:space-between;
-  align-items:center;padding:14px;margin-bottom:12px;
-  border-radius:14px;background:var(--card);
-  cursor:pointer;
-}
-.menu-btn:active{opacity:0.7}
-
-/* LIST */
-#list{padding:12px}
-
-/* SONG VIEW */
+/* ── SONG VIEW ── */
 #songView{
-  display:none;padding:16px;max-width:800px;margin:auto;
+  display:none;padding:16px;max-width:820px;margin:auto;
+  width:100%;
 }
-#songHeader{position:relative;text-align:center;margin-bottom:12px}
-.back{position:absolute;left:0;top:0;cursor:pointer}
-.more{position:absolute;right:0;top:0;cursor:pointer}
+#songHeader{
+  position:relative;text-align:center;
+  margin-bottom:16px;padding:0 40px;
+}
+.back{
+  position:absolute;left:0;top:2px;cursor:pointer;
+  background:var(--card);border-radius:8px;padding:4px;
+  border:1px solid var(--border);
+}
+.more{
+  position:absolute;right:0;top:2px;cursor:pointer;
+  background:var(--card);border-radius:8px;padding:4px;
+  border:1px solid var(--border);
+}
+.back:hover,.more:hover{background:var(--card-hover)}
 
-#songTitle{font-size:26px;font-weight:800;margin:0}
+#songTitle{
+  font-size:28px;font-weight:900;margin-bottom:10px;
+  font-family:'Syne',sans-serif;
+}
+.song-fav-star{
+  color:var(--fav);font-size:20px;vertical-align:middle;margin-left:6px;
+}
 
+/* META BOXES */
+#metaContainer{
+  display:flex;flex-wrap:wrap;gap:8px;
+  justify-content:center;margin-bottom:14px;
+}
 .meta{
-  display:inline-block;padding:4px 8px;margin:4px;
-  background:var(--card);border-radius:8px;font-size:11px;
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;
+  background:var(--card);border-radius:10px;
+  font-size:12px;font-weight:700;
+  border:1px solid var(--border);
+  font-family:'DM Mono',monospace;
 }
+.meta a{color:var(--accent);text-decoration:none}
+.meta .material-icons{font-size:14px;color:var(--muted)}
+.meta-fav{border-color:var(--fav);color:var(--fav);background:rgba(255,213,79,.08)}
+.meta-lang{border-color:var(--accent);color:var(--accent);background:rgba(79,195,247,.08)}
 
 .lyrics{
-  line-height:1.8;font-size:18px;white-space:pre-wrap;
+  line-height:1.9;font-size:18px;white-space:pre-wrap;
   -webkit-user-select:text;user-select:text;
 }
-
 .section{
-  font-size:.9em;font-style:italic;
-  color:var(--muted);margin-top:12px;
+  font-size:.85em;font-style:italic;font-weight:700;
+  color:var(--muted);margin:14px 0 4px;
+  font-family:'DM Mono',monospace;letter-spacing:1px;
+  text-transform:uppercase;
 }
-
-.word{display:inline-block;text-align:center;margin-right:4px}
-
+.word{display:inline-block;text-align:center;margin-right:5px}
 .chord{
-  display:block;font-size:.75em;
-  font-weight:bold;color:var(--chord);
+  display:block;font-size:.72em;
+  font-weight:700;color:var(--chord);
+  font-family:'DM Mono',monospace;
 }
-
-/* HASHTAG BOXES */
 .hashtag{
-  display:inline-block;padding:6px 12px;
-  margin:8px 0;background:var(--card);
-  border-radius:12px;font-size:0.9em;color:var(--muted);
+  display:inline-flex;align-items:center;
+  padding:5px 12px;margin:6px 0;
+  background:var(--card);border-radius:10px;
+  font-size:0.85em;color:var(--muted);
+  border:1px solid var(--border);
+  font-family:'DM Mono',monospace;
 }
 
-/* SONG MENU */
+/* ── SONG MENU POPUP ── */
 #songMenu{
-  position:absolute;right:0;top:40px;
+  position:absolute;right:0;top:44px;
   background:var(--surface);
-  border-radius:12px;padding:8px;
-  width:220px;display:none;
-  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  border-radius:14px;padding:8px;
+  width:230px;display:none;
+  box-shadow:0 12px 32px rgba(0,0,0,.45);
+  border:1px solid var(--border);
   z-index:20;
 }
 .songMenu-item{
   display:flex;justify-content:space-between;align-items:center;
-  padding:12px;margin-bottom:8px;
-  border-radius:12px;background:var(--card);
-  font-size:14px;cursor:pointer;
+  padding:11px 12px;margin-bottom:6px;
+  border-radius:10px;background:var(--card);
+  font-size:13px;font-weight:700;cursor:pointer;
+  border:1px solid transparent;
+  transition:background .15s;
 }
+.songMenu-item:hover{background:var(--card-hover)}
 .songMenu-item:active{opacity:0.7}
+.songMenu-item:last-child{margin-bottom:0}
 .speed-input{
-  width:60px;padding:4px 8px;
+  width:64px;padding:5px 8px;
   background:var(--bg);color:var(--text);
-  border:1px solid var(--card);
+  border:1px solid var(--border);
   border-radius:8px;text-align:center;
+  font-family:'DM Mono',monospace;
   -webkit-user-select:text;user-select:text;
 }
 
-/* EDITOR */
+/* ── EDITOR ── */
 #editor{
   position:fixed;inset:0;background:var(--bg);
   display:none;flex-direction:column;
-  padding:16px;z-index:1000;
+  padding:20px;z-index:1000;
 }
 #editorHeader{
   display:flex;justify-content:space-between;
   align-items:center;margin-bottom:8px;
 }
-#editorTitle{font-size:24px;font-weight:700;margin:0}
+#editorTitle{font-size:22px;font-weight:900;font-family:'Syne',sans-serif}
 #fileStatus{
   font-size:11px;color:var(--muted);
-  margin-bottom:10px;
+  margin-bottom:10px;font-family:'DM Mono',monospace;
 }
 #editor textarea{
   flex:1;background:var(--surface);color:var(--text);
-  border:1px solid var(--card);border-radius:12px;
-  padding:16px;font-family:monospace;font-size:14px;
-  line-height:1.6;resize:none;
+  border:1px solid var(--border);border-radius:12px;
+  padding:16px;font-family:'DM Mono',monospace;font-size:13px;
+  line-height:1.7;resize:none;
   -webkit-user-select:text;user-select:text;
 }
 #editorButtons{display:flex;gap:12px;margin-top:16px}
 .editor-btn{
-  flex:1;padding:14px;border:none;
-  border-radius:12px;font-size:16px;font-weight:600;
-  cursor:pointer;
+  flex:1;padding:13px;border:none;
+  border-radius:12px;font-size:15px;font-weight:700;
+  cursor:pointer;font-family:'Syne',sans-serif;
+  transition:opacity .15s;
 }
 .editor-btn:active{opacity:0.7}
-.editor-btn-save{background:#4fc3f7;color:#000}
+.editor-btn-save{background:var(--accent);color:#000}
 .editor-btn-cancel{background:var(--card);color:var(--text)}
+
+/* ── RESPONSIVE: tablet / mobile ── */
+@media (max-width:900px){
+  #sidebar{
+    transform:translateX(-100%);
+  }
+  #sidebar.show{transform:translateX(0)}
+  #sidebarCloseBtn{display:flex}
+  #mainContent{margin-left:0}
+  #hamburgerBtn{display:flex}
+}
+
+@media (max-width:600px){
+  #list{grid-template-columns:1fr}
+  #songTitle{font-size:22px}
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 </style>
 </head>
 
 <body>
 
+<!-- SPLASH -->
 <div id="splash">
   <div id="splashTitle">Kantarancho <span>Jhelo</span></div>
   <div id="splashBy">by Nathan</div>
 </div>
 
-<div id="backdrop" onclick="closeAllMenus();event.stopPropagation()" ontouchstart="closeAllMenus();event.stopPropagation();event.preventDefault()"></div>
+<!-- BACKDROP (mobile menu overlay) -->
+<div id="backdrop" onclick="closeSideMenu();event.stopPropagation()"
+     ontouchstart="closeSideMenu();event.stopPropagation();event.preventDefault()"></div>
 
-<!-- SIDE MENU -->
-<div id="menu">
-
-  <div class="menu-btn" onclick="closeSideMenu()">
-    Back
-    <span class="material-icons">arrow_back</span>
+<!-- ════════════════════════════════════════════════ -->
+<!-- SIDEBAR -->
+<!-- ════════════════════════════════════════════════ -->
+<div id="sidebar">
+  <div id="sidebarHeader">
+    <div id="sidebarLogo">Kantarancho <span>Jhelo</span></div>
+    <span id="sidebarCloseBtn" class="material-icons" onclick="closeSideMenu()">close</span>
   </div>
 
-  <div class="menu-btn" onclick="event.stopPropagation()" style="cursor:default">
-    <span>Font Size</span>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="material-icons" onclick="changeFontSize(-1)" style="cursor:pointer">remove</span>
-      <input type="number" min="12" max="32" value="18" id="fontSizeInput"
-             class="speed-input" style="width:50px"
-             oninput="setFontSize(this.value)"
-             onclick="event.stopPropagation()">
-      <span class="material-icons" onclick="changeFontSize(1)" style="cursor:pointer">add</span>
+  <div id="sidebarNav">
+
+    <div class="sidebar-section-label">Display</div>
+
+    <div class="menu-btn" onclick="event.stopPropagation()" style="cursor:default">
+      <span>Font Size</span>
+      <div class="size-row">
+        <span class="material-icons" onclick="changeFontSize(-1)">remove</span>
+        <input type="number" min="12" max="32" value="18" id="fontSizeInput"
+               class="speed-input" style="width:52px"
+               oninput="setFontSize(this.value)"
+               onclick="event.stopPropagation()">
+        <span class="material-icons" onclick="changeFontSize(1)">add</span>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-btn" onclick="toggleAlignment()">
-    <span>Text Alignment</span>
-    <span class="material-icons" id="alignIcon">format_align_left</span>
-  </div>
+    <div class="menu-btn" onclick="toggleAlignment()">
+      <span>Text Alignment</span>
+      <span class="material-icons" id="alignIcon">format_align_left</span>
+    </div>
 
-  <div class="menu-btn" onclick="toggleTheme()">
-    <span id="themeLabel">Light Mode</span>
-    <span class="material-icons" id="themeIcon">light_mode</span>
-  </div>
+    <div class="menu-btn" onclick="toggleTheme()">
+      <span id="themeLabel">Light Mode</span>
+      <span class="material-icons" id="themeIcon">light_mode</span>
+    </div>
 
-  <div class="menu-btn" onclick="loadOnlineSongs()">
-    Load Online Songs
-    <span class="material-icons">cloud</span>
-  </div>
+    <div class="sidebar-section-label">Library</div>
 
-  <div class="menu-btn" onclick="pickLocalFile()">
-    Load Local Songs
-    <span class="material-icons">upload</span>
-  </div>
+    <div class="menu-btn" onclick="loadOnlineSongs()">
+      <span>Load Online Songs</span>
+      <span class="material-icons">cloud_download</span>
+    </div>
 
-  <div class="menu-btn" onclick="clearLocalSongs()">
-    Clear Local Songs
-    <span class="material-icons">delete</span>
-  </div>
+    <div class="menu-btn" onclick="pickLocalFile()">
+      <span>Load Local Songs</span>
+      <span class="material-icons">upload_file</span>
+    </div>
 
-  <div class="menu-btn" onclick="goHome()">
-    Back to Git Homepage
-    <span class="material-icons">public</span>
-  </div>
+    <div class="menu-btn" onclick="clearLocalSongs()">
+      <span>Clear Local Songs</span>
+      <span class="material-icons">delete_outline</span>
+    </div>
 
+    <div class="sidebar-section-label">Info</div>
+
+    <div class="menu-btn" onclick="goHome()">
+      <span>Git Homepage</span>
+      <span class="material-icons">public</span>
+    </div>
+
+  </div>
 </div>
+<!-- END SIDEBAR -->
 
-<!-- TOP BAR -->
-<div id="topbar">
-  <span class="material-icons" onclick="openSideMenu()">menu</span>
-  <input id="search" placeholder="Search songs" oninput="filterSongs(this.value)">
-  <span class="material-icons">person</span>
-</div>
+<!-- ════════════════════════════════════════════════ -->
+<!-- MAIN CONTENT -->
+<!-- ════════════════════════════════════════════════ -->
+<div id="mainContent">
 
-<div id="list"></div>
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <span class="material-icons" id="hamburgerBtn" onclick="openSideMenu()" style="cursor:pointer">menu</span>
+    <input id="search" placeholder="Search songs…" oninput="filterSongs(this.value)">
+  </div>
 
-<!-- SONG VIEW -->
-<div id="songView">
-  <div id="songHeader">
-    <span class="material-icons back" onclick="back()">arrow_back</span>
-    <h1 id="songTitle"></h1>
-    <span class="material-icons more" onclick="toggleSongMenu()">more_vert</span>
+  <!-- FILTER BAR -->
+  <div id="filterBar">
+    <div class="filter-chip active" id="chip-all" onclick="setLangFilter('all')">All</div>
+    <div class="filter-chip" id="chip-Konk" onclick="setLangFilter('Konk')">Konkani</div>
+    <div class="filter-chip" id="chip-Eng"  onclick="setLangFilter('Eng')">English</div>
+    <div class="filter-chip" id="chip-Hin"  onclick="setLangFilter('Hin')">Hindi</div>
+    <div class="filter-divider"></div>
+    <div class="filter-chip fav-chip" id="chip-fav" onclick="toggleFavFilter()">★ Favourites</div>
+  </div>
 
-    <div id="songMenu">
-      <div class="songMenu-item" onclick="toggleChords()">
-        <span>Toggle Chords</span>
-        <span id="chordState">ON</span>
-      </div>
+  <!-- SONG LIST -->
+  <div id="listWrap">
+    <div id="list"></div>
+  </div>
 
-      <div class="songMenu-item" onclick="toggleAutoScroll()">
-        <span>Auto Scroll</span>
-        <span id="autoState">OFF</span>
-      </div>
+  <!-- SONG VIEW -->
+  <div id="songView">
+    <div id="songHeader">
+      <span class="material-icons back" onclick="back()">arrow_back</span>
+      <h1 id="songTitle"></h1>
+      <span class="material-icons more" onclick="toggleSongMenu()">more_vert</span>
 
-      <div class="songMenu-item" onclick="event.stopPropagation()" style="display:block;cursor:default">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <span>Lines / Min</span>
-          <input type="number" min="10" max="200"
-                 value="60" class="speed-input"
-                 id="lpmInput"
-                 oninput="changeLPM(this.value)"
-                 onclick="event.stopPropagation()">
+      <div id="songMenu">
+        <div class="songMenu-item" onclick="toggleChords()">
+          <span>Toggle Chords</span>
+          <span id="chordState">ON</span>
+        </div>
+        <div class="songMenu-item" onclick="toggleAutoScroll()">
+          <span>Auto Scroll</span>
+          <span id="autoState">OFF</span>
+        </div>
+        <div class="songMenu-item" onclick="event.stopPropagation()" style="cursor:default">
+          <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
+            <span>Lines / Min</span>
+            <input type="number" min="5" max="300" value="60" class="speed-input"
+                   id="lpmInput" oninput="changeLPM(this.value)"
+                   onclick="event.stopPropagation()">
+          </div>
+        </div>
+        <div class="songMenu-item" onclick="openEditor()">
+          <span>Edit Song</span>
+          <span class="material-icons" style="font-size:18px">edit</span>
         </div>
       </div>
-
-      <div class="songMenu-item" onclick="openEditor()">
-        <span>Edit Song</span>
-        <span class="material-icons" style="font-size:18px">edit</span>
-      </div>
     </div>
+
+    <div id="metaContainer"></div>
+    <div class="lyrics" id="lyrics"></div>
   </div>
 
-  <div id="metaContainer"></div>
-  <div class="lyrics" id="lyrics"></div>
-</div>
+</div><!-- end mainContent -->
 
-<!-- Fallback hidden file input -->
+<!-- HIDDEN FILE INPUT -->
 <input type="file" id="fileInput" accept=".txt" hidden>
 
+<!-- EDITOR OVERLAY -->
 <div id="editor">
   <div id="editorHeader">
     <h2 id="editorTitle">Edit Song</h2>
@@ -312,42 +541,59 @@ body *:not(textarea):not(input):not(.lyrics):not(.lyrics *){
   </div>
 </div>
 
+<!-- ════════════════════════════════════════════════ -->
+<!-- SCRIPT -->
+<!-- ════════════════════════════════════════════════ -->
 <script>
 let songs=[],filtered=[];
 let currentSong=null;
 let showChords=true;
 let autoScrolling=false;
 let scrollInterval;
-let scrollSpeed=5;
-let linesPerMinute=60;
+let scrollAccum=0;
 let fontSize=18;
 let alignLeft=true;
 let fileHandle=null;
+let langFilter='all';
+let favOnly=false;
 
-/* ── HAPTICS ─────────────────────────────────────── */
+/* ── REFS ─────────────────────────────────────── */
+const sidebar    = document.getElementById('sidebar');
+const backdrop   = document.getElementById('backdrop');
+const topbar     = document.getElementById('topbar');
+const listWrap   = document.getElementById('listWrap');
+const filterBar  = document.getElementById('filterBar');
+const list       = document.getElementById('list');
+const songView   = document.getElementById('songView');
+const songMenu   = document.getElementById('songMenu');
+const lyrics     = document.getElementById('lyrics');
+const metaContainer = document.getElementById('metaContainer');
+const songTitle  = document.getElementById('songTitle');
+const autoState  = document.getElementById('autoState');
+const chordState = document.getElementById('chordState');
+const editor     = document.getElementById('editor');
+const editorText = document.getElementById('editorText');
+const search     = document.getElementById('search');
+const fileInput  = document.getElementById('fileInput');
+
+/* ── HAPTICS ─────────────────────────────────── */
 function haptic(style='light'){
-  if(navigator.vibrate){
-    navigator.vibrate({light:10,medium:20,heavy:40}[style]||10);
-  }
+  if(navigator.vibrate) navigator.vibrate({light:10,medium:20,heavy:40}[style]||10);
 }
-
 document.addEventListener('touchstart',e=>{
-  const tgt=e.target;
-  if(tgt.closest('.menu-btn')||tgt.closest('.songMenu-item')||
-     tgt.closest('.back')||tgt.closest('.more')||tgt.closest('.editor-btn')){
+  if(e.target.closest('.menu-btn,.songMenu-item,.back,.more,.editor-btn,.song-card,.filter-chip')){
     haptic('light');
   }
 },{passive:true});
 
-/* ── PAGE LOAD ───────────────────────────────────── */
+/* ── PAGE LOAD ──────────────────────────────── */
 window.onload=function(){
   const splash=document.getElementById('splash');
   setTimeout(()=>{
     splash.classList.add('fade');
-    setTimeout(()=>splash.style.display='none',500);
-  },2000);
+    setTimeout(()=>splash.style.display='none',600);
+  },1800);
 
-  // Restore theme
   const savedTheme=localStorage.getItem('kantaranchoTheme');
   if(savedTheme==='light'){
     isDark=false;
@@ -360,33 +606,41 @@ window.onload=function(){
   if(saved) loadSongs(saved);
 };
 
-/* ── SIDE MENU ───────────────────────────────────── */
-function openSideMenu(){haptic('light');menu.classList.add("show");backdrop.classList.add("show")}
-function closeSideMenu(){menu.classList.remove("show");backdrop.classList.remove("show")}
-function closeAllMenus(){closeSideMenu();songMenu.style.display="none"}
+/* ── SIDEBAR ────────────────────────────────── */
+function openSideMenu(){
+  haptic('light');
+  sidebar.classList.add('show');
+  backdrop.classList.add('show');
+}
+function closeSideMenu(){
+  sidebar.classList.remove('show');
+  backdrop.classList.remove('show');
+  songMenu.style.display='none';
+}
+function closeAllMenus(){closeSideMenu()}
 
-/* ── FONT SIZE ───────────────────────────────────── */
+/* ── FONT SIZE ──────────────────────────────── */
 function changeFontSize(val){
   haptic('light');
   fontSize=Math.max(12,Math.min(32,fontSize+val));
   document.getElementById('fontSizeInput').value=fontSize;
-  lyrics.style.fontSize=fontSize+"px";
+  lyrics.style.fontSize=fontSize+'px';
 }
 function setFontSize(val){
   fontSize=Math.max(12,Math.min(32,parseInt(val)||18));
-  lyrics.style.fontSize=fontSize+"px";
+  lyrics.style.fontSize=fontSize+'px';
 }
 
-/* ── ALIGNMENT ───────────────────────────────────── */
+/* ── ALIGNMENT ──────────────────────────────── */
 function toggleAlignment(){
   haptic('light');
   alignLeft=!alignLeft;
-  lyrics.style.textAlign=alignLeft?"left":"center";
+  lyrics.style.textAlign=alignLeft?'left':'center';
   document.getElementById('alignIcon').textContent=
-    alignLeft?"format_align_left":"format_align_center";
+    alignLeft?'format_align_left':'format_align_center';
 }
 
-/* ── THEME ───────────────────────────────────────── */
+/* ── THEME ──────────────────────────────────── */
 let isDark=true;
 function toggleTheme(){
   haptic('light');
@@ -397,21 +651,25 @@ function toggleTheme(){
   localStorage.setItem('kantaranchoTheme',isDark?'dark':'light');
 }
 
-/* ── NAVIGATION ──────────────────────────────────── */
-function goHome(){window.location.href="https://nathan2oo2.github.io/public"}
+/* ── NAVIGATION ─────────────────────────────── */
+function goHome(){
+  window.location.href='https://nathan2oo2.github.io/public';
+}
 
-/* ── TOPBAR TOGGLE ───────────────────────────────── */
+/* ── SCREENS ────────────────────────────────── */
 function showHomeScreen(){
-  topbar.style.display="flex";
-  list.style.display="block";
-  songView.style.display="none";
+  topbar.style.display='flex';
+  listWrap.style.display='block';
+  filterBar.style.display='flex';
+  songView.style.display='none';
 }
 function showSongScreen(){
-  topbar.style.display="none";
-  list.style.display="none";
-  songView.style.display="block";
+  listWrap.style.display='none';
+  filterBar.style.display='none';
+  songView.style.display='block';
 }
-/* ── FILE SYSTEM ACCESS API ──────────────────────── */
+
+/* ── FILE API ───────────────────────────────── */
 async function pickLocalFile(){
   haptic('medium');
   if(window.showOpenFilePicker){
@@ -435,7 +693,6 @@ fileInput.onchange=e=>{
   const reader=new FileReader();
   reader.onload=()=>{loadSongs(reader.result);closeSideMenu()};
   reader.readAsText(e.target.files[0]);
-  // Reset so same file can be re-picked after clear
   e.target.value='';
 };
 
@@ -458,9 +715,7 @@ async function saveToFileHandle(content){
       await writable.close();
       document.getElementById('fileStatus').textContent='✓ Saved to '+fileHandle.name;
       haptic('medium');
-    }catch(e){
-      alert('Save failed: '+e.message);
-    }
+    }catch(e){alert('Save failed: '+e.message)}
   }else{
     fallbackDownload(content);
   }
@@ -472,47 +727,42 @@ function fallbackDownload(content){
   const a=document.createElement('a');
   a.href=url;a.download='songs.txt';
   document.body.appendChild(a);a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-/* ── ONLINE SONGS ────────────────────────────────── */
+/* ── ONLINE SONGS ───────────────────────────── */
 function loadOnlineSongs(){
   haptic('light');
-  fetch("songs.txt")
-    .then(r=>{
-      if(!r.ok) throw new Error("HTTP " + r.status);
-      return r.text();
-    })
-    .then(text=>{
-      loadSongs(text);
-      closeSideMenu();
-    })
-    .catch(e=>alert("Error: " + e.message));
+  fetch('songs.txt')
+    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})
+    .then(text=>{loadSongs(text);closeSideMenu()})
+    .catch(e=>alert('Error: '+e.message));
 }
-/* ── CLEAR ───────────────────────────────────────── */
+
+/* ── CLEAR ──────────────────────────────────── */
 function clearLocalSongs(){
   haptic('heavy');
   songs=[];filtered=[];fileHandle=null;
   localStorage.removeItem('kantaranchoSongs');
-  // Reset file input so it fires next time
   fileInput.value='';
   render();
 }
 
-/* ── PARSE SONGS ─────────────────────────────────── */
+/* ── PARSE SONGS ────────────────────────────── */
 function loadSongs(text){
   songs=[];
-  text.split("===").forEach(block=>{
+  text.split('===').forEach(block=>{
     if(!block.trim())return;
     let meta={},lyr=[];
-    block.trim().split("\n").forEach(line=>{
-      if(line.startsWith("#Title:"))          meta.title=line.replace("#Title:","").trim();
-      else if(line.startsWith("#LPM:"))       meta.lpm=parseInt(line.replace("#LPM:","").trim());
-      else if(line.startsWith("Key:"))        meta.key=line.replace("Key:","").trim();
-      else if(line.startsWith("Scroll speed:"))meta.speed=parseInt(line.replace("Scroll speed:","").trim());
-      else if(line.startsWith("Release year:"))meta.year=line.replace("Release year:","").trim();
-      else if(line.startsWith("YTlink:"))     meta.yt=line.replace("YTlink:","").trim();
+    block.trim().split('\n').forEach(line=>{
+      if(line.startsWith('#Title:'))            meta.title =line.replace('#Title:','').trim();
+      else if(line.startsWith('#LPM:'))         meta.lpm   =parseInt(line.replace('#LPM:','').trim());
+      else if(line.startsWith('#Fav:'))         meta.fav   =line.replace('#Fav:','').trim().toUpperCase()==='TRUE';
+      else if(line.startsWith('#Lang:'))        meta.lang  =line.replace('#Lang:','').trim();
+      else if(line.startsWith('Key:'))          meta.key   =line.replace('Key:','').trim();
+      else if(line.startsWith('Scroll speed:')) meta.speed =parseInt(line.replace('Scroll speed:','').trim());
+      else if(line.startsWith('Release year:')) meta.year  =line.replace('Release year:','').trim();
+      else if(line.startsWith('YTlink:'))       meta.yt    =line.replace('YTlink:','').trim();
       else lyr.push(line);
     });
     songs.push({meta,lyrics:lyr,raw:block});
@@ -522,39 +772,115 @@ function loadSongs(text){
   render();
 }
 
+/* ── FILTERS ────────────────────────────────── */
+function setLangFilter(lang){
+  langFilter=lang;
+  // update chips
+  ['all','Konk','Eng','Hin'].forEach(id=>{
+    const el=document.getElementById('chip-'+id);
+    if(el) el.classList.toggle('active',id===lang);
+  });
+  applyFilters();
+}
+
+function toggleFavFilter(){
+  favOnly=!favOnly;
+  document.getElementById('chip-fav').classList.toggle('active',favOnly);
+  applyFilters();
+}
+
+function applyFilters(){
+  const q=search.value.toLowerCase();
+  filtered=songs.filter(s=>{
+    const titleMatch=s.meta.title?.toLowerCase().includes(q);
+    const langMatch=langFilter==='all'||s.meta.lang===langFilter;
+    const favMatch=!favOnly||s.meta.fav===true;
+    return titleMatch&&langMatch&&favMatch;
+  });
+  render();
+}
+
+function filterSongs(q){applyFilters()}
+
+/* ── RENDER LIST ────────────────────────────── */
+const LANG_LABELS={'Konk':'Konkani','Eng':'English','Hin':'Hindi'};
+
 function render(){
-  list.innerHTML="";
+  list.innerHTML='';
+  if(!filtered.length){
+    list.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;font-size:14px;">No songs found</div>';
+    return;
+  }
   filtered.forEach(s=>{
-    const d=document.createElement("div");
-    d.className="menu-btn";
-    d.textContent=s.meta.title||"Untitled";
+    const d=document.createElement('div');
+    d.className='song-card';
+
+    const info=document.createElement('div');
+    info.className='song-card-info';
+
+    const titleEl=document.createElement('div');
+    titleEl.className='song-card-title';
+    titleEl.textContent=s.meta.title||'Untitled';
+    info.appendChild(titleEl);
+
+    const badges=document.createElement('div');
+    badges.className='song-card-badges';
+    if(s.meta.lang){
+      const b=document.createElement('span');
+      b.className='badge badge-lang';
+      b.textContent=LANG_LABELS[s.meta.lang]||s.meta.lang;
+      badges.appendChild(b);
+    }
+    if(s.meta.fav){
+      const b=document.createElement('span');
+      b.className='badge badge-fav';
+      b.textContent='★ Fav';
+      badges.appendChild(b);
+    }
+    if(badges.children.length) info.appendChild(badges);
+
+    d.appendChild(info);
+
+    const arrow=document.createElement('span');
+    arrow.className='material-icons';
+    arrow.textContent='chevron_right';
+    d.appendChild(arrow);
+
     d.onclick=()=>{haptic('light');openSong(s)};
     list.appendChild(d);
   });
 }
 
-function filterSongs(q){
-  filtered=songs.filter(s=>s.meta.title?.toLowerCase().includes(q.toLowerCase()));
-  render();
-}
-
-/* ── OPEN SONG ───────────────────────────────────── */
+/* ── OPEN SONG ──────────────────────────────── */
 function openSong(song){
   currentSong=song;
   showSongScreen();
   window.scrollTo(0,0);
 
-  songTitle.textContent=song.meta.title||"";
-  metaContainer.innerHTML="";
-  if(song.meta.key)  metaContainer.innerHTML+=`<span class="meta">Key: ${song.meta.key}</span>`;
-  if(song.meta.year) metaContainer.innerHTML+=`<span class="meta">Year: ${song.meta.year}</span>`;
-  if(song.meta.yt)   metaContainer.innerHTML+=`<span class="meta"><a href="${song.meta.yt}" target="_blank">YouTube</a></span>`;
+  const isFav=song.meta.fav;
+  songTitle.innerHTML=(song.meta.title||'')+(isFav?'<span class="song-fav-star material-icons">star</span>':'');
+
+  metaContainer.innerHTML='';
+  if(song.meta.lang){
+    metaContainer.innerHTML+=`<span class="meta meta-lang"><span class="material-icons">translate</span>${LANG_LABELS[song.meta.lang]||song.meta.lang}</span>`;
+  }
+  if(isFav){
+    metaContainer.innerHTML+=`<span class="meta meta-fav"><span class="material-icons">star</span>Favourite</span>`;
+  }
+  if(song.meta.key){
+    metaContainer.innerHTML+=`<span class="meta"><span class="material-icons">music_note</span>Key: ${song.meta.key}</span>`;
+  }
+  if(song.meta.year){
+    metaContainer.innerHTML+=`<span class="meta"><span class="material-icons">calendar_today</span>${song.meta.year}</span>`;
+  }
+  if(song.meta.yt){
+    metaContainer.innerHTML+=`<span class="meta"><span class="material-icons">play_circle</span><a href="${song.meta.yt}" target="_self" rel="noopener">YouTube</a></span>`;
+  }
 
   const lpm=song.meta.lpm||song.meta.speed;
   if(lpm){
-    linesPerMinute=lpm;
     document.getElementById('lpmInput').value=lpm;
-    calculateScrollSpeed();
+    changeLPM(lpm);
   }
   renderLyrics(song.lyrics);
 }
@@ -563,37 +889,37 @@ function back(){
   haptic('light');
   clearInterval(scrollInterval);
   autoScrolling=false;
-  autoState.textContent="OFF";
+  autoState.textContent='OFF';
   showHomeScreen();
 }
 
-/* ── RENDER LYRICS ───────────────────────────────── */
+/* ── RENDER LYRICS ──────────────────────────── */
 function renderLyrics(lines){
-  lyrics.innerHTML="";
+  lyrics.innerHTML='';
   lines.forEach(line=>{
-    if(line.startsWith("--")){
-      const sec=document.createElement("div");
-      sec.className="section";
+    if(line.startsWith('--')){
+      const sec=document.createElement('div');
+      sec.className='section';
       sec.textContent=line.substring(2);
       lyrics.appendChild(sec);
       return;
     }
-    if(line.trim().startsWith("#")){
-      const box=document.createElement("div");
-      box.className="hashtag";
+    if(line.trim().startsWith('#')){
+      const box=document.createElement('div');
+      box.className='hashtag';
       box.textContent=line.trim().substring(1).trim();
       lyrics.appendChild(box);
       return;
     }
-    const row=document.createElement("div");
-    line.split(" ").forEach(w=>{
-      const span=document.createElement("span");
-      span.className="word";
+    const row=document.createElement('div');
+    line.split(' ').forEach(w=>{
+      const span=document.createElement('span');
+      span.className='word';
       const match=w.match(/\[(.*?)\](.*)/);
       if(match){
         if(showChords){
-          const c=document.createElement("span");
-          c.className="chord";c.textContent=match[1];
+          const c=document.createElement('span');
+          c.className='chord';c.textContent=match[1];
           span.appendChild(c);
         }
         span.appendChild(document.createTextNode(match[2]));
@@ -606,72 +932,84 @@ function renderLyrics(lines){
   });
 }
 
-/* ── SONG MENU ───────────────────────────────────── */
+/* ── SONG MENU ──────────────────────────────── */
 function toggleSongMenu(){
   haptic('light');
-  songMenu.style.display=songMenu.style.display==="block"?"none":"block";
+  songMenu.style.display=songMenu.style.display==='block'?'none':'block';
 }
-
 document.addEventListener('click',e=>{
-  const sm=document.getElementById('songMenu');
-  const more=document.querySelector('.more');
-  if(sm&&sm.style.display==="block"){
-    if(!sm.contains(e.target)&&e.target!==more) sm.style.display="none";
+  if(songMenu.style.display==='block'){
+    const more=document.querySelector('.more');
+    if(!songMenu.contains(e.target)&&e.target!==more) songMenu.style.display='none';
   }
 });
 
 function toggleChords(){
   haptic('light');
   showChords=!showChords;
-  chordState.textContent=showChords?"ON":"OFF";
+  chordState.textContent=showChords?'ON':'OFF';
   renderLyrics(currentSong.lyrics);
 }
 
-/* ── AUTO SCROLL ─────────────────────────────────── */
+/* ── AUTO SCROLL (smooth, sub-pixel accumulation) ── */
 function toggleAutoScroll(){
   haptic('medium');
   autoScrolling=!autoScrolling;
-  autoState.textContent=autoScrolling?"ON":"OFF";
+  autoState.textContent=autoScrolling?'ON':'OFF';
   if(autoScrolling){
-    scrollInterval=setInterval(()=>window.scrollBy(0,scrollSpeed),40);
-  }else clearInterval(scrollInterval);
+    scrollAccum=0;
+    let last=performance.now();
+    function tick(now){
+      if(!autoScrolling) return;
+      const dt=now-last; last=now;
+      // scrollSpeed is px/second
+      scrollAccum+=scrollSpeed*(dt/1000);
+      const whole=Math.floor(scrollAccum);
+      if(whole>=1){
+        window.scrollBy(0,whole);
+        scrollAccum-=whole;
+      }
+      scrollInterval=requestAnimationFrame(tick);
+    }
+    scrollInterval=requestAnimationFrame(tick);
+  }else{
+    cancelAnimationFrame(scrollInterval);
+  }
 }
 
 function changeLPM(value){
-  linesPerMinute=parseInt(value)||60;
-  calculateScrollSpeed();
+  const lpm=parseFloat(value)||60;
+  // 1 line ≈ 30px; lpm lines/min → px/sec
+  scrollSpeed=(lpm*30)/60;
 }
 
-function calculateScrollSpeed(){
-  scrollSpeed=(linesPerMinute/60*30)/25;
-}
-
-/* ── EDITOR ──────────────────────────────────────── */
+/* ── EDITOR ─────────────────────────────────── */
 function openEditor(){
   haptic('light');
-  editor.style.display="flex";
+  editor.style.display='flex';
   editorText.value=currentSong.raw;
   document.getElementById('fileStatus').textContent=
     fileHandle?'Linked: '+fileHandle.name:'No file linked — will prompt on save';
-  songMenu.style.display="none";
+  songMenu.style.display='none';
 }
-
 function closeEditor(){
   haptic('light');
-  editor.style.display="none";
+  editor.style.display='none';
 }
 
 async function saveEdit(){
   haptic('medium');
   const editedText=editorText.value;
   let meta={},lyr=[];
-  editedText.trim().split("\n").forEach(line=>{
-    if(line.startsWith("#Title:"))          meta.title=line.replace("#Title:","").trim();
-    else if(line.startsWith("#LPM:"))       meta.lpm=parseInt(line.replace("#LPM:","").trim());
-    else if(line.startsWith("Key:"))        meta.key=line.replace("Key:","").trim();
-    else if(line.startsWith("Scroll speed:"))meta.speed=parseInt(line.replace("Scroll speed:","").trim());
-    else if(line.startsWith("Release year:"))meta.year=line.replace("Release year:","").trim();
-    else if(line.startsWith("YTlink:"))     meta.yt=line.replace("YTlink:","").trim();
+  editedText.trim().split('\n').forEach(line=>{
+    if(line.startsWith('#Title:'))            meta.title =line.replace('#Title:','').trim();
+    else if(line.startsWith('#LPM:'))         meta.lpm   =parseInt(line.replace('#LPM:','').trim());
+    else if(line.startsWith('#Fav:'))         meta.fav   =line.replace('#Fav:','').trim().toUpperCase()==='TRUE';
+    else if(line.startsWith('#Lang:'))        meta.lang  =line.replace('#Lang:','').trim();
+    else if(line.startsWith('Key:'))          meta.key   =line.replace('Key:','').trim();
+    else if(line.startsWith('Scroll speed:')) meta.speed =parseInt(line.replace('Scroll speed:','').trim());
+    else if(line.startsWith('Release year:')) meta.year  =line.replace('Release year:','').trim();
+    else if(line.startsWith('YTlink:'))       meta.yt    =line.replace('YTlink:','').trim();
     else lyr.push(line);
   });
 
@@ -682,10 +1020,16 @@ async function saveEdit(){
   const idx=songs.findIndex(s=>s===currentSong);
   if(idx!==-1){
     songs[idx]=currentSong;
-    filtered=songs.filter(s=>s.meta.title?.toLowerCase().includes(search.value.toLowerCase()));
+    filtered=songs.filter(s=>{
+      const q=search.value.toLowerCase();
+      const titleMatch=s.meta.title?.toLowerCase().includes(q);
+      const langMatch=langFilter==='all'||s.meta.lang===langFilter;
+      const favMatch=!favOnly||s.meta.fav===true;
+      return titleMatch&&langMatch&&favMatch;
+    });
   }
 
-  const allText=songs.map(s=>s.raw).join("\n===\n");
+  const allText=songs.map(s=>s.raw).join('\n===\n');
   localStorage.setItem('kantaranchoSongs',allText);
   await saveToFileHandle(allText);
 
