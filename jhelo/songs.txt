@@ -400,80 +400,56 @@ Ontrollar neketrank Go
 #Lang: Hin
 #Fav: FALSE
 
-thame dil ko
-kab se mai khada hoon rahon mein~
-jaane kab tu
-aake muskuraye bahon mein
+thaame dil ko kab se main khadaa hoon raahoon mein
+jaane kab too aa ke muskuraae bahon mein
 
-aaTho pahar hi
-betaabiyan hai
-kaise khumaari
-chhayi hai pyaar mein tere
-thame dil ko
-kab se mai khada hoon rahon mein
-jaane kab tu
-aake muskuraye bahon mein
+thaame dil ko kab se main khadaa hoon raahoon mein
+jaane kab too aa ke muskuraae bahon mein
 
-aaTho pahar hi betaabiyan hai
-kaise khumaari
-chhayi hai pyaar mein tere..
-thame dil ko~
+aathon pahar hee betaabiyaan hain
+kaisee khumaari chai hai pyaar mein tere
+thaame dil ko kab se main khadaa hoon raahoon mein
+jaane kab too aa ke muskuraae bahon mein
+
+aathon pahar hee betaabiyaan hain
+kaisee khumaari chai hai pyaar mein tere
+thaame dil ko
 
 --Interlude
 
-jab se mere dil mein
-gunje chaahat ke nagme
-thoDe badle hai~
-mere subah shaam jaane jaana
+jab se mere dil mein goonje chahat ke nagmein
+thode badale hain mere subah-shaam jaan-e-janaa
 
-tab to din khilte hai
-ye raate bhi Dhalti hai
-in hoTho pe~
-leke tera naam meri jaana
+tab to din khilte hain ye raaten bhee dhalati hain
+in honton pe leki tera naam meri janaa
 
-kaisa ajabsa
-ehasas hai ye
-khud pe hi mera
-koi bhi zor na chale
+kaisaa ajab sa ehsaas hai ye
+khud pe hee mera koyi bhee zor naa chale
 
-thame dil ko
-kab se mai khaDa hoon rahon mein
-jaane kab tu
-aa ke muskuraye bahon mein
-aaTho pahar hi
-betaabiyan hai
-kaise khumaari
-chhayi hai pyaar mein tere
-thame dil ko......
+thaame dil ko kab se main khadaa hoon raahoon mein
+jaane kab too aa ke muskuraae bahon mein
+aathon pahar hee betaabiyaan hain
+kaisee khumaari chai hai pyaar mein tere
+thaame dil ko
 
 --Interlude
 
-tere aa jaana se
-yoon chaahat barsane se
-jaise chhayi hai~
-nayi si bahaar mere dil mein
+tere aa jaane se yoon chahat barasaane se
+jaise chai hai nayi see bahaar mere dil mein
 
-jaise ye bechaini
-din raat mujhe rehti hai
-kya aisa hi
-mera hai khumaar tere dil mein
+jaise ye bechaini din-raat muje rahati hai
+kya aisa hee mera hai khumaar tere dil mein
 
-teri bhi aankhe
-soti nahi hai
-lagta mujhe hai
-tera ye haal dekh ke
+teri bhee ankhen soti nahin hain
+lagata muje hai tera ye haal dekh ke
 
-thame dil ko
-kab se mai khaDa hoon rahon mein
+thaame dil ko kab se main khadaa hoon raahoon mein
 
-jaane kab tu
-aake muskuraye bahon mein
+jaane kab too aa ke muskuraae bahon mein
 
-aaTho pahar hi
-betaabiyan hai
-kaise khumaari
-chhayi hai pyaar mein tere
-thame dil ko
+aathon pahar hee betaabiyaan hain
+kaisee khumaari chai hai pyaar mein tere
+thaame dil ko
 
 ===
 
@@ -550,6 +526,7 @@ He's choosin' Texas, I can tell
 Come on, baby
 Oh yeah
 Just when I thought I got him to fall in love with Tennessee
+
 
 
 
