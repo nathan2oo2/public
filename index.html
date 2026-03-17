@@ -3,111 +3,318 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Personal Page</title>
+  <title>Nathan Baptista</title>
+
   <style>
     :root {
-      --bg: #202124;
-      --fg: #e8eaed;
-      --card-bg: #303134;
-      --border: #5f6368;
-      --accent: #8ab4f8;
+      --bg: #181818;
+      --fg: #e6e6e6;
+      --card-bg: #1f1f1f;
+      --border: #2a2a2a;
+      --accent: #4da3ff;
+      --active-bg: #2b2b2b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
     }
 
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       background-color: var(--bg);
       color: var(--fg);
+    }
+
+    /* NAVBAR */
+    nav {
+      width: 100%;
+      background-color: #000000;
+      border-bottom: 1px solid #111;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 2rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      height: 60px;
+      max-width: 150px;
+      border-radius: 8px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* NAV LINKS */
+    .nav-links {
+      display: flex;
+      gap: 0.6rem;
+      list-style: none;
+      margin-left: auto;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      transition: all 0.2s ease;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-links a.active {
+      background: var(--active-bg);
+      color: #ffffff;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    /* MOBILE BUTTON */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* MOBILE NAV */
+    .mobile-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #000;
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      padding: 1rem 2rem;
+      z-index: 999;
+    }
+
+    .mobile-nav:not([hidden]) {
+      display: flex;
+    }
+
+    .mobile-nav a {
+      padding: 0.75rem 0.9rem;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .mobile-nav a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-nav a.active {
+      background: var(--active-bg);
+      color: #ffffff;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
     }
 
-    nav {
+    .hero {
+      max-width: 700px;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #9aa0a6;
+      line-height: 1.6;
+    }
+
+    /* PROJECTS */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
       width: 100%;
       max-width: 1000px;
-      margin-bottom: 2rem;
-    }
-
-    h1, h2 {
-      font-weight: 400;
-    }
-
-    .me {
-      max-width: 600px;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .projects {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
     }
 
     .project {
       background-color: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1.5rem;
-      width: 280px;
-      text-align: left;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 2rem;
+      transition: all 0.2s;
+      cursor: pointer;
     }
 
     .project:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 
-    a {
+    .project h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project h2 a {
       color: var(--accent);
       text-decoration: none;
     }
 
-    a:hover {
+    .project h2 a:hover {
       text-decoration: underline;
+    }
+
+    .project p {
+      color: #9aa0a6;
+      font-size: 0.95rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+        margin-left: auto;
+      }
+
+      main {
+        padding: 2rem 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <nav id="nav-placeholder">
-    <!-- nav.html will be loaded here later -->
+  <!-- NAV -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="logo">
+          <img src="https://i.ibb.co/bMcm34Lz/Picsart-26-03-17-15-05-45-303.png" class="logo-icon" alt="Nathan Baptista logo">
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#mogache-goa">Mogache Goa</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <button class="mobile-menu-btn" id="mobile-menu-btn" type="button" aria-label="Open menu">☰</button>
+    </div>
+
+    <div class="mobile-nav" id="mobile-nav" hidden>
+      <a href="#home" class="active">Home</a>
+      <a href="#mogache-goa">Mogache Goa</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
   </nav>
 
-  <div class="me">
-    <h1>Hi, I'm Nathan</h1>
-    <p>A curious developer exploring web, electronics, and clean design. I love building simple, useful tools and learning as I go.</p>
-  </div>
-
-  <div class="projects">
-    <div class="project">
-      <h2><a href="jhelo/songbook.html" target="_blank">Kantarancho Jhelo</a></h2>
-      <p>My own rendition of a digital konkani songbook.</p>
+  <!-- MAIN -->
+  <main>
+    <div class="hero">
+      <h1>Hi, I'm Nathan</h1>
+      <p>
+        A curious developer exploring web, electronics and clean design.
+        I love building simple, useful tools and learning as I go.
+      </p>
     </div>
 
-    <div class="project">
-      <h2><a onclick="location.href='heritage-houses/heritage-houses.html'" target="_blank">Heritage Structures Catalog</a></h2>
-      <p>My in-depth catalog of Indo Portuguese Houses in Goa.</p>
-    </div>
+    <div class="projects">
+      <div class="project">
+        <h2><a href="#">Kantarancho Jhelo</a></h2>
+        <p>My own rendition of a digital konkani songbook.</p>
+      </div>
 
-    <div class="project">
-      <h2><a href="tools/tools.html">Offline Tool Box</a></h2>
-      <p>A small hub for simple tools — fast-loading, distraction-free, and offline-capable, Feel free to download!.</p>
+      <div class="project">
+        <h2><a href="#">Mogache Goa</a></h2>
+        <p>My personal curated calatog of all the know all and know how's of Goa.</p>
+      </div>
+
+      <div class="project">
+        <h2><a href="#">Tool Box</a></h2>
+        <p>A place for simple tools — fast-loading and offline.</p>
+      </div>
     </div>
-  </div>
+  </main>
 
   <script>
-    // Future nav.html loader
-    fetch('nav.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('nav-placeholder').innerHTML = html;
-      });
+    const btn = document.getElementById('mobile-menu-btn');
+    const nav = document.getElementById('mobile-nav');
+
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      nav.hidden = !nav.hidden;
+    };
+
+    document.onclick = (e) => {
+      if (!e.target.closest('nav')) nav.hidden = true;
+    };
   </script>
 
 </body>
