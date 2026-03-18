@@ -25,12 +25,8 @@
       display: none !important;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       background-color: var(--bg);
       color: var(--fg);
       min-height: 100vh;
@@ -38,7 +34,7 @@
       flex-direction: column;
     }
 
-    /* HEADER / NAV */
+    /* NAVBAR / HEADER */
     .site-nav {
       width: 100%;
       background-color: #000;
@@ -97,16 +93,17 @@
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
     }
 
     .nav-links a.active,
     .mobile-nav a.active {
       background: var(--active-bg);
       color: #fff;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
     }
 
+    /* MOBILE NAV */
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -130,7 +127,7 @@
       gap: 6px;
       z-index: 999;
       overflow: clip;
-      max-height: 0;
+      max-height: 0px;
       opacity: 0;
       transform: translateY(-8px);
       transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
@@ -143,13 +140,6 @@
       transform: translateY(0);
     }
 
-    .mobile-nav a {
-      padding: 0.75rem 0.9rem;
-      color: var(--fg);
-      text-decoration: none;
-      border-radius: 10px;
-    }
-
     @media (prefers-reduced-motion: reduce) {
       .mobile-nav {
         transition: none;
@@ -157,16 +147,23 @@
       }
     }
 
+    .mobile-nav a {
+      padding: 0.75rem 0.9rem;
+      color: var(--fg);
+      text-decoration: none;
+      border-radius: 10px;
+    }
+
     /* MAIN */
     main {
-      flex: 1;
       max-width: 1200px;
-      width: 100%;
       margin: 0 auto;
       padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex: 1;
+      width: 100%;
     }
 
     .hero {
@@ -190,7 +187,7 @@
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
+      gap: 2rem;
       width: 100%;
       max-width: 1000px;
     }
@@ -212,14 +209,14 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      min-height: 210px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     .project::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.80);
       transition: background 200ms ease;
     }
 
@@ -231,7 +228,7 @@
     .project:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
 
     .project:hover::before {
@@ -244,9 +241,8 @@
     }
 
     .project p {
-      color: #b2b6bb;
+      color: #9aa0a6;
       font-size: 0.95rem;
-      line-height: 1.5;
     }
 
     /* FOOTER */
@@ -319,29 +315,17 @@
     </div>
 
     <div class="projects">
-      <a
-        class="project"
-        href="jhelo/songbook.html"
-        style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdl/cy5jb20vaWQvOTIy/ODI0MDAvcGhvdG8v/aHltbi1wYWdlLTEu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PV9PcEx0Rk8tRVJm/VXl2RXdZaUZDczRu/TnJFV0pZQ1NZaHRV/ZjA0ZWVEMGM9');"
-      >
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdl/cy5jb20vaWQvOTIy/ODI0MDAvcGhvdG8v/aHltbi1wYWdlLTEu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PV9PcEx0Rk8tRVJm/VXl2RXdZaUZDczRu/TnJFV0pZQ1NZaHRV/ZjA0ZWVEMGM9');">
         <h2>Kantarancho Jhelo</h2>
-        <p>My own rendition of a digital Konkani songbook.</p>
+        <p>My own rendition of a digital konkani songbook.</p>
       </a>
 
-      <a
-        class="project"
-        href="mogache-goa/mogache-goa.html"
-        style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjg3/MTI3Nzk0L3Bob3Rv/L3RyYWRpdGlvbmFs/LW9ybmF0ZS1wb3J0/dWd1ZXNlLWRlY29y/YXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNGeHhxTXI0UHFsQjdXeldFeVlfR0I1Ymd1OW41NHhXTlVtTm16T1E3LUE9');"
-      >
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjg3/MTI3Nzk0L3Bob3Rv/L3RyYWRpdGlvbmFs/LW9ybmF0ZS1wb3J0/dWd1ZXNlLWRlY29y/YXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNG/eHhxTXI0UHFsQjdX/eldFeVlfR0I1Ymd1/OW41NHhXTlVtTm16/T1E3LUE9');">
         <h2>Mogache Goa</h2>
         <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a
-        class="project"
-        href="tools/tools.html"
-        style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC81NC8yMi9hYnN0cmFjdC1jeWJlcnNwYWNlLWJnLWRpZ2l0YWwtYmluYXJ5LWNvZGUtc2NyZWVuLXZlY3Rvci0yMzk2NTQyMi5qcGc');"
-      >
+      <a class="project" href="tools/tools.html" style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC81NC8yMi9h/YnN0cmFjdC1jeWJl/cnNwYWNlLWJnLWRp/Z2l0YWwtYmluYXJ5/LWNvZGUtc2NyZWVu/LXZlY3Rvci0yMzk2/NTQyMi5qcGc');">
         <h2>Offline Tool Box</h2>
         <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
@@ -459,7 +443,7 @@
 
       window.addEventListener("resize", () => {
         setNavHeightVar();
-        if (window.innerWidth > 768) closeNav(true);
+        if (nav.hidden) closeNav(true);
       });
     }
 
