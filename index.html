@@ -34,7 +34,7 @@
     /* NAVBAR */
     nav {
       width: 100%;
-      background-color: #000000;
+      background-color: #000;
       border-bottom: 1px solid #111;
       position: sticky;
       top: 0;
@@ -68,10 +68,8 @@
       max-width: 150px;
       border-radius: 8px;
       object-fit: contain;
-      display: block;
     }
 
-    /* NAV LINKS */
     .nav-links {
       display: flex;
       gap: 0.6rem;
@@ -84,25 +82,23 @@
       color: #ccc;
       text-decoration: none;
       font-size: 0.95rem;
-      letter-spacing: 0.3px;
-      transition: all 0.2s ease;
       padding: 0.45rem 0.9rem;
       border-radius: 999px;
-      display: inline-block;
+      transition: all 0.2s ease;
     }
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
     }
 
     .nav-links a.active {
       background: var(--active-bg);
-      color: #ffffff;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+      color: #fff;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
     }
 
-    /* MOBILE BUTTON */
+    /* MOBILE */
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -111,42 +107,51 @@
       font-size: 1.5rem;
       cursor: pointer;
       padding: 0.5rem;
+      margin-left: auto;
     }
 
-    /* MOBILE NAV */
     .mobile-nav {
-      display: none;
       position: absolute;
       top: 100%;
       left: 0;
       right: 0;
       background-color: #000;
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
       padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px; /* spacing instead of divider lines */
       z-index: 999;
+      overflow: clip;
+      max-height: 0px;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
+      will-change: max-height, opacity, transform;
     }
 
-    .mobile-nav:not([hidden]) {
-      display: flex;
+    .mobile-nav[data-open="true"] {
+      max-height: var(--mobile-nav-h, 320px);
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav {
+        transition: none;
+        transform: none;
+      }
     }
 
     .mobile-nav a {
       padding: 0.75rem 0.9rem;
       color: var(--fg);
       text-decoration: none;
-      border-bottom: 1px solid var(--border);
       border-radius: 10px;
-      transition: all 0.2s ease;
-    }
-
-    .mobile-nav a:last-child {
-      border-bottom: none;
     }
 
     .mobile-nav a.active {
       background: var(--active-bg);
-      color: #ffffff;
+      color: #fff;
     }
 
     /* MAIN */
@@ -177,7 +182,6 @@
       line-height: 1.6;
     }
 
-    /* PROJECTS */
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -189,30 +193,49 @@
     .project {
       background-color: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 2rem;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
       cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+      background-image: var(--project-bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .project::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.80);
+      transition: background 200ms ease;
+    }
+
+    .project > * {
+      position: relative;
+      z-index: 1;
     }
 
     .project:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+
+    .project:hover::before {
+      background: rgba(0, 0, 0, 0.65);
     }
 
     .project h2 {
       font-size: 1.3rem;
       margin-bottom: 0.75rem;
-    }
-
-    .project h2 a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .project h2 a:hover {
-      text-decoration: underline;
     }
 
     .project p {
@@ -222,17 +245,20 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
+      .nav-container {
+        padding: 0.5rem 1rem;
+      }
+
       .nav-links {
         display: none;
       }
 
       .mobile-menu-btn {
         display: block;
-        margin-left: auto;
       }
 
       main {
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.25rem;
       }
 
       .hero h1 {
@@ -242,64 +268,67 @@
       .projects {
         grid-template-columns: 1fr;
       }
+
+      .logo-icon {
+        height: 52px;
+        max-width: 130px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NAV -->
   <nav>
     <div class="nav-container">
       <div class="nav-left">
         <a href="index.html" class="logo">
-          <img src="https://i.ibb.co/bMcm34Lz/Picsart-26-03-17-15-05-45-303.png" class="logo-icon" alt="Nathan Baptista logo">
+          <img src="https://i.ibb.co/bMcm34Lz/Picsart-26-03-17-15-05-45-303.png" class="logo-icon">
         </a>
 
         <ul class="nav-links">
-          <li><a href="#home" class="active">Home</a></li>
-          <li><a href="#mogache-goa">Mogache Goa</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="mogache-goa/mogache-goa.html">Mogache Goa</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
 
-      <button class="mobile-menu-btn" id="mobile-menu-btn" type="button" aria-label="Open menu">☰</button>
+      <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
     </div>
 
     <div class="mobile-nav" id="mobile-nav" hidden>
-      <a href="#home" class="active">Home</a>
-      <a href="#mogache-goa">Mogache Goa</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="mogache-goa/mogache-goa.html">Mogache Goa</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <main>
     <div class="hero">
       <h1>Hi, I'm Nathan</h1>
       <p>
-        A curious developer exploring web, electronics and clean design.
+        A curious developer exploring web, electronics, and clean design.
         I love building simple, useful tools and learning as I go.
       </p>
     </div>
 
     <div class="projects">
-      <div class="project">
-        <h2><a href="jhelo/songbook.html">Kantarancho Jhelo</a></h2>
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTIy/ODI0MDAvcGhvdG8v/aHltbi1wYWdlLTEu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PV9PcEx0Rk8tRVJm/VXl2RXdZaUZDczRu/TnJFV0pZQ1NZaHRV/ZjA0ZWVEMGM9');">
+        <h2>Kantarancho Jhelo</h2>
         <p>My own rendition of a digital konkani songbook.</p>
-      </div>
+      </a>
 
-      <div class="project">
-        <h2><a href="#">Mogache Goa</a></h2>
-        <p>My personal curated calatog of all the know all and know how's of Goa.</p>
-      </div>
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjg3/MTI3Nzk0L3Bob3Rv/L3RyYWRpdGlvbmFs/LW9ybmF0ZS1wb3J0/dWd1ZXNlLWRlY29y/YXRpdmUtdGlsZXMt/YXp1bGVqb3MuanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPVNG/eHhxTXI0UHFsQjdX/eldFeVlfR0I1Ymd1/OW41NHhXTlVtTm16/T1E3LUE9');">
+        <h2>Mogache Goa</h2>
+        <p>My personal catalog of things just Goa.</p>
+      </a>
 
-      <div class="project">
-        <h2><a href="tools/tools.html">Tool Box</a></h2>
-        <p>A place for simple tools — fast-loading and offline.</p>
-      </div>
+      <a class="project" href="tools/tools.html" style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC81NC8yMi9h/YnN0cmFjdC1jeWJl/cnNwYWNlLWJnLWRp/Z2l0YWwtYmluYXJ5/LWNvZGUtc2NyZWVu/LXZlY3Rvci0yMzk2/NTQyMi5qcGc');">
+        <h2>Offline Tool Box</h2>
+        <p>A small hub for simple tools — fast-loading and offline-capable.</p>
+      </a>
     </div>
   </main>
 
@@ -307,14 +336,74 @@
     const btn = document.getElementById('mobile-menu-btn');
     const nav = document.getElementById('mobile-nav');
 
+    btn.setAttribute('aria-controls', 'mobile-nav');
+    btn.setAttribute('aria-expanded', 'false');
+
+    function setNavHeightVar() {
+      const wasHidden = nav.hidden;
+      if (wasHidden) nav.hidden = false;
+      nav.style.setProperty('--mobile-nav-h', `${nav.scrollHeight}px`);
+      if (wasHidden) nav.hidden = true;
+    }
+
+    function openNav() {
+      setNavHeightVar();
+      nav.hidden = false;
+      // Ensure the browser applies the initial "closed" styles first.
+      nav.dataset.open = 'false';
+      requestAnimationFrame(() => {
+        nav.dataset.open = 'true';
+        btn.setAttribute('aria-expanded', 'true');
+      });
+    }
+
+    function closeNav({ immediate = false } = {}) {
+      if (immediate) {
+        nav.dataset.open = 'false';
+        nav.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        return;
+      }
+
+      if (nav.hidden) {
+        nav.dataset.open = 'false';
+        btn.setAttribute('aria-expanded', 'false');
+        return;
+      }
+
+      nav.dataset.open = 'false';
+      btn.setAttribute('aria-expanded', 'false');
+
+      nav.addEventListener(
+        'transitionend',
+        (e) => {
+          if (e.target !== nav) return;
+          nav.hidden = true;
+        },
+        { once: true }
+      );
+    }
+
     btn.onclick = (e) => {
       e.stopPropagation();
-      nav.hidden = !nav.hidden;
+      const isOpen = nav.dataset.open === 'true' && !nav.hidden;
+      if (isOpen) closeNav();
+      else openNav();
     };
 
     document.onclick = (e) => {
-      if (!e.target.closest('nav')) nav.hidden = true;
+      if (!e.target.closest('nav')) closeNav();
     };
+
+    nav.addEventListener('click', (e) => {
+      if (e.target.closest('a')) closeNav();
+    });
+
+    window.addEventListener('resize', () => {
+      // Avoid a stuck partially-open state on resize.
+      setNavHeightVar();
+      if (nav.hidden) closeNav({ immediate: true });
+    });
   </script>
 
 </body>
