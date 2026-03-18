@@ -21,26 +21,32 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background-color: var(--bg);
-      color: var(--fg);
+    [hidden] {
+      display: none !important;
     }
 
-    /* NAVBAR */
-    nav {
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAV (comes from header but keep styles here) */
+    .site-nav {
       width: 100%;
-      background-color: #000;
+      background: #000;
       border-bottom: 1px solid #111;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     }
 
     .nav-container {
       max-width: 1200px;
-      margin: 0 auto;
+      margin: auto;
       display: flex;
       align-items: center;
       padding: 0.5rem 2rem;
@@ -54,10 +60,7 @@
 
     .logo-icon {
       height: 60px;
-      max-width: 150px;
       border-radius: 8px;
-      object-fit: contain;
-      display: block;
     }
 
     .nav-links {
@@ -77,22 +80,20 @@
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.05);
     }
 
     .nav-links a.active {
-      background: var(--active-bg);
-      color: #fff;
+      color: var(--accent);
+      background: rgba(77,163,255,0.15);
     }
 
-    /* MOBILE */
     .mobile-menu-btn {
       display: none;
       background: none;
       border: none;
-      color: var(--fg);
+      color: white;
       font-size: 1.5rem;
-      cursor: pointer;
       margin-left: auto;
     }
 
@@ -102,26 +103,26 @@
       left: 0;
       right: 0;
       background: #000;
-      padding: 1rem 2rem;
+      padding: 1rem;
+      display: flex;
       flex-direction: column;
       gap: 6px;
+      max-height: 0;
       opacity: 0;
-      transform: translateY(-10px);
-      pointer-events: none;
-      transition: all 0.25s ease;
+      transform: translateY(-8px);
+      transition: 0.25s;
     }
 
-    .mobile-nav.show {
-      display: flex;
+    .mobile-nav[data-open="true"] {
+      max-height: 300px;
       opacity: 1;
       transform: translateY(0);
-      pointer-events: auto;
     }
 
     .mobile-nav a {
-      padding: 0.75rem;
-      border-radius: 10px;
-      color: var(--fg);
+      padding: 0.7rem;
+      border-radius: 8px;
+      color: white;
       text-decoration: none;
     }
 
@@ -131,7 +132,8 @@
 
     /* MAIN */
     main {
-      max-width: 1200px;
+      flex: 1;
+      max-width: 1100px;
       margin: auto;
       padding: 3rem 2rem;
       text-align: center;
@@ -144,7 +146,7 @@
     }
 
     .hero h1 {
-      font-size: 2.4rem;
+      font-size: 2.5rem;
       font-weight: 300;
       margin-bottom: 1rem;
     }
@@ -153,151 +155,128 @@
       color: #9aa0a6;
     }
 
-    /* PROJECTS */
+    /* PROJECT CARDS */
     .projects {
       display: grid;
-      gap: 1.2rem;
-      max-width: 700px;
-      margin: auto;
+      gap: 1.3rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 
     .project {
       position: relative;
       overflow: hidden;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 1.1rem 1.2rem;
-      text-align: left;
-      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-      background-image: var(--card-image);
+      padding: 2rem;
+      text-decoration: none;
+      color: white;
+      border: 1px solid var(--border);
+      transition: 0.25s ease;
+
+      background-image: var(--project-bg);
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
-      min-height: 92px;
-      display: flex;
-      align-items: center;
+      min-height: 210px;
     }
 
+    /* 🔥 DARK TRANSPARENCY LAYER */
     .project::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.78);
-      transition: background 0.22s ease;
+      background: rgba(0, 0, 0, 0.82);
+      transition: background 0.25s ease;
     }
 
+    /* content above overlay */
     .project > * {
       position: relative;
       z-index: 1;
     }
 
+    /* hover */
     .project:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
     }
 
+    /* 🔥 LIGHTEN IMAGE */
     .project:hover::before {
-      background: rgba(0, 0, 0, 0.52);
+      background: rgba(0, 0, 0, 0.58);
     }
 
-    .project a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 500;
-      display: inline-block;
+    .project h2 {
+      margin-bottom: 0.6rem;
+      font-size: 1.3rem;
     }
 
-    .project a:hover {
-      color: #fff;
+    .project p {
+      color: #b8bcc1;
+      font-size: 0.95rem;
     }
 
-    /* RESPONSIVE */
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid #111;
+      background: #111;
+      padding: 1rem;
+      text-align: center;
+      color: #888;
+    }
+
+    /* MOBILE */
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .mobile-menu-btn { display: block; }
-      .nav-container { padding: 0.5rem 1rem; }
-      .mobile-nav { padding: 1rem; }
       main { padding: 2rem 1.25rem; }
       .hero h1 { font-size: 2rem; }
-      .logo-icon { height: 52px; max-width: 130px; }
+      .logo-icon { height: 52px; }
     }
   </style>
 </head>
 
-<body>
+<body data-root=".">
 
-  <nav>
-    <div class="nav-container">
-      <div class="nav-left">
-        <a href="index.html">
-          <img src="https://i.ibb.co/bMcm34Lz/Picsart-26-03-17-15-05-45-303.png" class="logo-icon" alt="Nathan Baptista logo">
-        </a>
-
-        <ul class="nav-links">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="mogache-goa.html">Mogache Goa</a></li>
-          <li><a href="projects.html">Projects</a></li>
-        </ul>
-      </div>
-
-      <button class="mobile-menu-btn" id="btn">☰</button>
-    </div>
-
-    <div class="mobile-nav" id="mobileNav">
-      <a href="index.html" class="active">Home</a>
-      <a href="mogache-goa.html">Mogache Goa</a>
-      <a href="projects.html">Projects</a>
-    </div>
-  </nav>
+  <div id="site-header"></div>
 
   <main>
     <div class="hero">
       <h1>Hi, I'm Nathan</h1>
-      <p>Simple tools, clean design, useful ideas.</p>
+      <p>
+        A curious developer exploring web, electronics, and clean design.
+        I love building simple, useful tools and learning as I go.
+      </p>
     </div>
 
     <div class="projects">
-      <div class="project" style="--card-image: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdlcy5jb20vaWQvOTIyODI0MDAvcGhvdG8vaHltbi1wYWdlLTEuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPV9PcEx0Rk8tRVJmVWx2RXdZaUZDczRuTnJFV0pZQ1NZaHRVZjA0ZWVEMGM9');">
-        <a href="projects.html">Kantarancho Jhelo</a>
-      </div>
 
-      <div class="project" style="--card-image: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRpYS5pc3RvY2twaG90by5jb20vaWQvNjg3MTI3Nzk0L3Bob3RvL3RyYWRpdGlvbmFsLW9ybmF0ZS1wb3J0dWd1ZXNlLWRlY29yYXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNGeHhxTXI0UHFsQjdXeldFeVlfR0I1Ymd1OW41NHhXTlVtTm16T1E3LUE9');">
-        <a href="projects.html">Heritage Structures</a>
-      </div>
+      <a class="project"
+         href="jhelo/songbook.html"
+         style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0');">
+        <h2>Kantarancho Jhelo</h2>
+        <p>Digital Konkani songbook.</p>
+      </a>
 
-      <div class="project" style="--card-image: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4udmVjdG9yc3RvY2suY29tL2kvcHJldmlldy0xeC81NC8yMi9hYnN0cmFjdC1jeWJlcnNwYWNlLWJnLWRpZ2l0YWwtYmluYXJ5LWNvZGUtc2NyZWVuLXZlY3Rvci0yMzk2NTQyMi5qcGc');">
-        <a href="tools.html">Offline Toolbox</a>
-      </div>
+      <a class="project"
+         href="mogache-goa/mogache-goa.html"
+         style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0');">
+        <h2>Mogache Goa</h2>
+        <p>Catalog of Goa culture.</p>
+      </a>
+
+      <a class="project"
+         href="tools/tools.html"
+         style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0');">
+        <h2>Offline Toolbox</h2>
+        <p>Fast offline tools.</p>
+      </a>
+
     </div>
   </main>
 
-  <script>
-    const btn = document.getElementById('btn');
-    const nav = document.getElementById('mobileNav');
+  <div id="site-footer"></div>
 
-    let open = false;
-
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      open = !open;
-
-      if (open) {
-        nav.classList.add('show');
-      } else {
-        nav.classList.remove('show');
-      }
-    };
-
-    document.onclick = (e) => {
-      if (!e.target.closest('nav')) {
-        nav.classList.remove('show');
-        open = false;
-      }
-    };
-  </script>
+  <script src="js/layout.js"></script>
 
 </body>
 </html>
