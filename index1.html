@@ -21,32 +21,26 @@
       box-sizing: border-box;
     }
 
-    [hidden] {
-      display: none !important;
-    }
-
     body {
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: var(--bg);
       color: var(--fg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
-    /* NAV */
-    .site-nav {
+    /* NAVBAR */
+    nav {
       width: 100%;
-      background: #000;
+      background-color: #000;
       border-bottom: 1px solid #111;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     }
 
     .nav-container {
       max-width: 1200px;
-      margin: auto;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       padding: 0.5rem 2rem;
@@ -60,39 +54,45 @@
 
     .logo-icon {
       height: 60px;
+      max-width: 150px;
+      border-radius: 8px;
+      object-fit: contain;
+      display: block;
     }
 
     .nav-links {
       display: flex;
       gap: 0.6rem;
-      margin-left: auto;
       list-style: none;
+      margin-left: auto;
     }
 
     .nav-links a {
       color: #ccc;
       text-decoration: none;
-      padding: 0.4rem 0.9rem;
+      padding: 0.45rem 0.9rem;
       border-radius: 999px;
       transition: 0.2s;
     }
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.04);
     }
 
     .nav-links a.active {
-      color: var(--accent);
-      background: rgba(77,163,255,0.15);
+      background: var(--active-bg);
+      color: #fff;
     }
 
+    /* MOBILE */
     .mobile-menu-btn {
       display: none;
       background: none;
       border: none;
-      color: white;
+      color: var(--fg);
       font-size: 1.5rem;
+      cursor: pointer;
       margin-left: auto;
     }
 
@@ -102,26 +102,26 @@
       left: 0;
       right: 0;
       background: #000;
-      display: flex;
+      padding: 1rem 2rem;
       flex-direction: column;
-      padding: 1rem;
       gap: 6px;
-      max-height: 0;
       opacity: 0;
-      transform: translateY(-8px);
+      transform: translateY(-10px);
+      pointer-events: none;
       transition: all 0.25s ease;
     }
 
-    .mobile-nav[data-open="true"] {
-      max-height: 300px;
+    .mobile-nav.show {
+      display: flex;
       opacity: 1;
       transform: translateY(0);
+      pointer-events: auto;
     }
 
     .mobile-nav a {
-      padding: 0.7rem;
-      border-radius: 8px;
-      color: white;
+      padding: 0.75rem;
+      border-radius: 10px;
+      color: var(--fg);
       text-decoration: none;
     }
 
@@ -131,193 +131,173 @@
 
     /* MAIN */
     main {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
       padding: 3rem 2rem;
-      flex: 1;
       text-align: center;
     }
 
+    .hero {
+      max-width: 700px;
+      margin: auto;
+      margin-bottom: 3rem;
+    }
+
     .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      font-size: 2.4rem;
       font-weight: 300;
+      margin-bottom: 1rem;
     }
 
     .hero p {
       color: #9aa0a6;
-      max-width: 600px;
-      margin: auto;
-      line-height: 1.6;
     }
 
-    /* PROJECT CARDS */
+    /* PROJECTS */
     .projects {
-      margin-top: 3rem;
       display: grid;
-      gap: 1.5rem;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      max-width: 700px;
+      margin: auto;
     }
 
     .project {
       position: relative;
-      padding: 2rem;
-      border-radius: 12px;
       overflow: hidden;
+      background-color: var(--card-bg);
       border: 1px solid var(--border);
-      text-decoration: none;
-      color: white;
-      transition: 0.25s ease;
-
-      background-image: var(--project-bg);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      text-align: left;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+      background-image: var(--card-image);
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
+      min-height: 92px;
+      display: flex;
+      align-items: center;
     }
 
-    /* DARK OVERLAY */
     .project::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.8);
-      transition: 0.25s ease;
+      background: rgba(0, 0, 0, 0.78);
+      transition: background 0.22s ease;
     }
 
-    /* CONTENT ABOVE */
-    .project * {
+    .project > * {
       position: relative;
       z-index: 1;
     }
 
-    /* HOVER EFFECT */
     .project:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: var(--accent);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
     }
 
-    /* 🔥 LIGHTEN IMAGE */
     .project:hover::before {
-      background: rgba(0,0,0,0.55);
+      background: rgba(0, 0, 0, 0.52);
     }
 
-    .project h2 {
-      margin-bottom: 0.5rem;
+    .project a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      display: inline-block;
     }
 
-    .project p {
-      color: #bbb;
-      font-size: 0.95rem;
+    .project a:hover {
+      color: #fff;
     }
 
-    /* FOOTER */
-    .site-footer {
-      border-top: 1px solid #111;
-      padding: 1rem;
-      text-align: center;
-      background: #111;
-      color: #888;
-    }
-
-    /* MOBILE */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .mobile-menu-btn { display: block; }
+      .nav-container { padding: 0.5rem 1rem; }
+      .mobile-nav { padding: 1rem; }
+      main { padding: 2rem 1.25rem; }
+      .hero h1 { font-size: 2rem; }
+      .logo-icon { height: 52px; max-width: 130px; }
     }
   </style>
 </head>
 
-<body data-root=".">
-  <div id="site-header"></div>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html">
+          <img src="https://i.ibb.co/bMcm34Lz/Picsart-26-03-17-15-05-45-303.png" class="logo-icon" alt="Nathan Baptista logo">
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="mogache-goa.html">Mogache Goa</a></li>
+          <li><a href="projects.html">Projects</a></li>
+        </ul>
+      </div>
+
+      <button class="mobile-menu-btn" id="btn">☰</button>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html" class="active">Home</a>
+      <a href="mogache-goa.html">Mogache Goa</a>
+      <a href="projects.html">Projects</a>
+    </div>
+  </nav>
 
   <main>
     <div class="hero">
       <h1>Hi, I'm Nathan</h1>
-      <p>
-        A curious developer exploring web, electronics, and clean design.
-      </p>
+      <p>Simple tools, clean design, useful ideas.</p>
     </div>
 
     <div class="projects">
+      <div class="project" style="--card-image: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdlcy5jb20vaWQvOTIyODI0MDAvcGhvdG8vaHltbi1wYWdlLTEuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPV9PcEx0Rk8tRVJmVWx2RXdZaUZDczRuTnJFV0pZQ1NZaHRVZjA0ZWVEMGM9');">
+        <a href="projects.html">Kantarancho Jhelo</a>
+      </div>
 
-      <a class="project" href="jhelo/songbook.html"
-         style="--project-bg:url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0');">
-        <h2>Kantarancho Jhelo</h2>
-        <p>Digital konkani songbook.</p>
-      </a>
+      <div class="project" style="--card-image: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRpYS5pc3RvY2twaG90by5jb20vaWQvNjg3MTI3Nzk0L3Bob3RvL3RyYWRpdGlvbmFsLW9ybmF0ZS1wb3J0dWd1ZXNlLWRlY29yYXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNGeHhxTXI0UHFsQjdXeldFeVlfR0I1Ymd1OW41NHhXTlVtTm16T1E3LUE9');">
+        <a href="projects.html">Heritage Structures</a>
+      </div>
 
-      <a class="project" href="mogache-goa/mogache-goa.html"
-         style="--project-bg:url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0');">
-        <h2>Mogache Goa</h2>
-        <p>Catalog of Goa culture.</p>
-      </a>
-
-      <a class="project" href="tools/tools.html"
-         style="--project-bg:url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0');">
-        <h2>Offline Toolbox</h2>
-        <p>Fast offline tools.</p>
-      </a>
-
+      <div class="project" style="--card-image: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4udmVjdG9yc3RvY2suY29tL2kvcHJldmlldy0xeC81NC8yMi9hYnN0cmFjdC1jeWJlcnNwYWNlLWJnLWRpZ2l0YWwtYmluYXJ5LWNvZGUtc2NyZWVuLXZlY3Rvci0yMzk2NTQyMi5qcGc');">
+        <a href="tools.html">Offline Toolbox</a>
+      </div>
     </div>
   </main>
 
-  <div id="site-footer"></div>
-
   <script>
-    async function loadComponent(id, path) {
-      const res = await fetch(path);
-      document.getElementById(id).innerHTML = await res.text();
-    }
+    const btn = document.getElementById('btn');
+    const nav = document.getElementById('mobileNav');
 
-    function buildMobileNav() {
-      const desktop = document.getElementById("main-nav-links");
-      const mobile = document.getElementById("mobile-nav");
-      mobile.innerHTML = "";
-      desktop.querySelectorAll("a").forEach(a => {
-        const m = document.createElement("a");
-        m.setAttribute("data-link", a.getAttribute("data-link"));
-        m.textContent = a.textContent;
-        mobile.appendChild(m);
-      });
-    }
+    let open = false;
 
-    function setLinks() {
-      const root = document.body.dataset.root;
-      document.querySelectorAll("[data-link]").forEach(el => {
-        el.href = root + "/" + el.getAttribute("data-link");
-      });
-    }
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      open = !open;
 
-    function setActiveNav() {
-      const path = window.location.pathname;
-      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach(link => {
-        if (path.includes(link.getAttribute("href"))) {
-          link.classList.add("active");
-        }
-      });
-    }
+      if (open) {
+        nav.classList.add('show');
+      } else {
+        nav.classList.remove('show');
+      }
+    };
 
-    function setupMobileNav() {
-      const btn = document.getElementById("mobile-menu-btn");
-      const nav = document.getElementById("mobile-nav");
-
-      btn.onclick = () => {
-        nav.dataset.open = nav.dataset.open === "true" ? "false" : "true";
-      };
-    }
-
-    async function init() {
-      const root = document.body.dataset.root;
-      await loadComponent("site-header", root + "/components/header.html");
-      await loadComponent("site-footer", root + "/components/footer.html");
-
-      buildMobileNav();
-      setLinks();
-      setActiveNav();
-      setupMobileNav();
-    }
-
-    init();
+    document.onclick = (e) => {
+      if (!e.target.closest('nav')) {
+        nav.classList.remove('show');
+        open = false;
+      }
+    };
   </script>
+
 </body>
 </html>
