@@ -26,30 +26,32 @@
     }
 
     body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background-color: var(--bg);
       color: var(--fg);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
-    /* NAV (comes from header but keep styles here) */
+    /* HEADER / NAV */
     .site-nav {
       width: 100%;
-      background: #000;
+      background-color: #000;
       border-bottom: 1px solid #111;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     }
 
     .nav-container {
       max-width: 1200px;
-      margin: auto;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       padding: 0.5rem 2rem;
+      position: relative;
     }
 
     .nav-left {
@@ -58,9 +60,19 @@
       width: 100%;
     }
 
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
     .logo-icon {
       height: 60px;
+      max-width: 150px;
       border-radius: 8px;
+      object-fit: contain;
+      display: block;
     }
 
     .nav-links {
@@ -68,32 +80,38 @@
       gap: 0.6rem;
       list-style: none;
       margin-left: auto;
+      align-items: center;
     }
 
     .nav-links a {
       color: #ccc;
       text-decoration: none;
+      font-size: 0.95rem;
       padding: 0.45rem 0.9rem;
       border-radius: 999px;
-      transition: 0.2s;
+      transition: all 0.2s ease;
     }
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .nav-links a.active {
       color: var(--accent);
-      background: rgba(77,163,255,0.15);
+      background: rgba(77, 163, 255, 0.14);
+      font-weight: 500;
+      box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
     }
 
     .mobile-menu-btn {
       display: none;
       background: none;
       border: none;
-      color: white;
+      color: var(--fg);
       font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
       margin-left: auto;
     }
 
@@ -102,47 +120,66 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: #000;
-      padding: 1rem;
+      background-color: #000;
+      padding: 1rem 2rem;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      z-index: 999;
+      overflow: clip;
       max-height: 0;
       opacity: 0;
       transform: translateY(-8px);
-      transition: 0.25s;
+      transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
+      will-change: max-height, opacity, transform;
     }
 
     .mobile-nav[data-open="true"] {
-      max-height: 300px;
+      max-height: var(--mobile-nav-h, 320px);
       opacity: 1;
       transform: translateY(0);
     }
 
     .mobile-nav a {
-      padding: 0.7rem;
-      border-radius: 8px;
-      color: white;
+      padding: 0.75rem 0.9rem;
+      color: var(--fg);
       text-decoration: none;
+      border-radius: 10px;
+      transition: 0.2s ease;
+    }
+
+    .mobile-nav a:hover {
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .mobile-nav a.active {
       background: var(--active-bg);
+      color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav {
+        transition: none;
+        transform: none;
+      }
     }
 
     /* MAIN */
     main {
       flex: 1;
-      max-width: 1100px;
-      margin: auto;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
       padding: 3rem 2rem;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .hero {
       max-width: 700px;
-      margin: auto;
-      margin-bottom: 3rem;
+      text-align: center;
+      margin-bottom: 4rem;
     }
 
     .hero h1 {
@@ -152,91 +189,144 @@
     }
 
     .hero p {
+      font-size: 1.1rem;
       color: #9aa0a6;
+      line-height: 1.6;
     }
 
-    /* PROJECT CARDS */
     .projects {
       display: grid;
-      gap: 1.3rem;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 1000px;
     }
 
     .project {
-      position: relative;
-      overflow: hidden;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 2rem;
+      transition: all 0.25s ease;
+      cursor: pointer;
       text-decoration: none;
-      color: white;
-      border: 1px solid var(--border);
-      transition: 0.25s ease;
-
+      color: inherit;
+      display: block;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
       background-image: var(--project-bg);
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
       min-height: 210px;
     }
 
-    /* 🔥 DARK TRANSPARENCY LAYER */
     .project::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      transition: background 0.25s ease;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.76),
+        rgba(0, 0, 0, 0.86)
+      );
+      transition: background 240ms ease;
     }
 
-    /* content above overlay */
     .project > * {
       position: relative;
       z-index: 1;
     }
 
-    /* hover */
     .project:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65);
     }
 
-    /* 🔥 LIGHTEN IMAGE */
     .project:hover::before {
-      background: rgba(0, 0, 0, 0.58);
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.54),
+        rgba(0, 0, 0, 0.66)
+      );
     }
 
     .project h2 {
-      margin-bottom: 0.6rem;
       font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: #fff;
     }
 
     .project p {
-      color: #b8bcc1;
+      color: #c0c4c9;
       font-size: 0.95rem;
+      line-height: 1.5;
     }
 
     /* FOOTER */
     .site-footer {
       border-top: 1px solid #111;
       background: #111;
-      padding: 1rem;
-      text-align: center;
-      color: #888;
+      margin-top: 3rem;
     }
 
-    /* MOBILE */
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      text-align: center;
+    }
+
+    .site-footer p {
+      color: #8e9399;
+      font-size: 0.92rem;
+    }
+
+    /* RESPONSIVE */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .mobile-menu-btn { display: block; }
-      main { padding: 2rem 1.25rem; }
-      .hero h1 { font-size: 2rem; }
-      .logo-icon { height: 52px; }
+      .nav-container {
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .mobile-nav {
+        padding: 1rem;
+      }
+
+      main {
+        padding: 2rem 1.25rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .logo-icon {
+        height: 52px;
+        max-width: 130px;
+      }
+
+      .footer-container {
+        padding: 1rem 1.25rem;
+      }
     }
   </style>
 </head>
 
 <body data-root=".">
-
   <div id="site-header"></div>
 
   <main>
@@ -249,34 +339,202 @@
     </div>
 
     <div class="projects">
-
-      <a class="project"
-         href="jhelo/songbook.html"
-         style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0');">
+      <a
+        class="project"
+        href="jhelo/songbook.html"
+        style="--project-bg: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80');"
+      >
         <h2>Kantarancho Jhelo</h2>
-        <p>Digital Konkani songbook.</p>
+        <p>My own rendition of a digital Konkani songbook.</p>
       </a>
 
-      <a class="project"
-         href="mogache-goa/mogache-goa.html"
-         style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0');">
+      <a
+        class="project"
+        href="mogache-goa/mogache-goa.html"
+        style="--project-bg: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80');"
+      >
         <h2>Mogache Goa</h2>
-        <p>Catalog of Goa culture.</p>
+        <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a class="project"
-         href="tools/tools.html"
-         style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0');">
-        <h2>Offline Toolbox</h2>
-        <p>Fast offline tools.</p>
+      <a
+        class="project"
+        href="tools/tools.html"
+        style="--project-bg: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');"
+      >
+        <h2>Offline Tool Box</h2>
+        <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
-
     </div>
   </main>
 
   <div id="site-footer"></div>
 
-  <script src="js/layout.js"></script>
+  <script>
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
 
+      const response = await fetch(filePath);
+      if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+      target.innerHTML = await response.text();
+    }
+
+    function getRootPath() {
+      return document.body.dataset.root || ".";
+    }
+
+    function normalizePath(path) {
+      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
+    }
+
+    function buildMobileNav() {
+      const desktopList = document.getElementById("main-nav-links");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (!desktopList || !mobileNav) return;
+
+      mobileNav.innerHTML = "";
+
+      desktopList.querySelectorAll("a").forEach((link) => {
+        const mobileLink = document.createElement("a");
+        mobileLink.setAttribute("data-link", link.getAttribute("data-link") || "");
+        mobileLink.textContent = link.textContent;
+        mobileNav.appendChild(mobileLink);
+      });
+    }
+
+    function setLinks() {
+      const root = getRootPath();
+
+      document.querySelectorAll("[data-link]").forEach((el) => {
+        const raw = el.getAttribute("data-link");
+        if (!raw) return;
+        el.setAttribute("href", normalizePath(`${root}/${raw}`));
+      });
+    }
+
+    function setActiveNav() {
+      let currentPath = window.location.pathname.replace(/\/+$/, "");
+
+      if (!currentPath || currentPath === "/") {
+        currentPath = "/index.html";
+      }
+
+      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        const linkUrl = new URL(href, window.location.origin);
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "");
+
+        const isHome =
+          (currentPath === "/" || currentPath.endsWith("/index.html")) &&
+          linkPath.endsWith("/index.html");
+
+        const isExactMatch = linkPath === currentPath;
+
+        const isContactSection =
+          currentPath.includes("/contact/") &&
+          linkPath.includes("/contact/contact.html");
+
+        const isProjectsSection =
+          currentPath.includes("/projects/") &&
+          linkPath.includes("/projects/projects.html");
+
+        const isMogacheSection =
+          currentPath.includes("/mogache-goa/") &&
+          linkPath.includes("/mogache-goa/mogache-goa.html");
+
+        if (isHome || isExactMatch || isContactSection || isProjectsSection || isMogacheSection) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
+
+    function setupMobileNav() {
+      const btn = document.getElementById("mobile-menu-btn");
+      const nav = document.getElementById("mobile-nav");
+      if (!btn || !nav) return;
+
+      btn.setAttribute("aria-controls", "mobile-nav");
+      btn.setAttribute("aria-expanded", "false");
+
+      function setNavHeightVar() {
+        const wasHidden = nav.hidden;
+        if (wasHidden) nav.hidden = false;
+        nav.style.setProperty("--mobile-nav-h", `${nav.scrollHeight}px`);
+        if (wasHidden) nav.hidden = true;
+      }
+
+      function openNav() {
+        setNavHeightVar();
+        nav.hidden = false;
+        nav.dataset.open = "false";
+        requestAnimationFrame(() => {
+          nav.dataset.open = "true";
+          btn.setAttribute("aria-expanded", "true");
+        });
+      }
+
+      function closeNav(immediate = false) {
+        if (immediate) {
+          nav.dataset.open = "false";
+          nav.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        if (nav.hidden) {
+          nav.dataset.open = "false";
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        nav.dataset.open = "false";
+        btn.setAttribute("aria-expanded", "false");
+
+        nav.addEventListener("transitionend", function handler(e) {
+          if (e.target !== nav) return;
+          nav.hidden = true;
+        }, { once: true });
+      }
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = nav.dataset.open === "true" && !nav.hidden;
+        if (isOpen) closeNav();
+        else openNav();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".site-nav")) closeNav();
+      });
+
+      nav.addEventListener("click", (e) => {
+        if (e.target.closest("a")) closeNav();
+      });
+
+      window.addEventListener("resize", () => {
+        setNavHeightVar();
+        if (window.innerWidth > 768) closeNav(true);
+      });
+    }
+
+    async function initLayout() {
+      const root = getRootPath();
+
+      await loadComponent("site-header", `${root}/components/header.html`);
+      await loadComponent("site-footer", `${root}/components/footer.html`);
+
+      buildMobileNav();
+      setLinks();
+      setActiveNav();
+      setupMobileNav();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initLayout().catch((err) => console.error(err));
+    });
+  </script>
 </body>
 </html>
