@@ -521,15 +521,36 @@
     }
 
     function setActiveNav() {
-      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
-      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
+      let currentPath = window.location.pathname.replace(/\/+$/, "");
+
+      if (!currentPath || currentPath === "/") {
+        currentPath = "/index.html";
+      }
 
       document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
         const href = link.getAttribute("href") || "";
         const linkUrl = new URL(href, window.location.origin);
-        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "");
 
-        if (linkPath === currentNormalized) {
+        const isHome =
+          (currentPath === "/" || currentPath.endsWith("/index.html")) &&
+          linkPath.endsWith("/index.html");
+
+        const isExactMatch = linkPath === currentPath;
+
+        const isContactSection =
+          currentPath.includes("/contact/") &&
+          linkPath.includes("/contact/contact.html");
+
+        const isProjectsSection =
+          currentPath.includes("/projects/") &&
+          linkPath.includes("/projects/projects.html");
+
+        const isMogacheSection =
+          currentPath.includes("/mogache-goa/") &&
+          linkPath.includes("/mogache-goa/mogache-goa.html");
+
+        if (isHome || isExactMatch || isContactSection || isProjectsSection || isMogacheSection) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
