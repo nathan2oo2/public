@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact | Nathan Baptista</title>
+
+  <style>
+    :root {
+      --bg: #181818;
+      --fg: #e6e6e6;
+      --card-bg: #1f1f1f;
+      --border: #2a2a2a;
+      --accent: #4da3ff;
+      --active-bg: #2b2b2b;
+      --muted: #9aa0a6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* SHARED NAV STYLES */
+    .site-nav {
+      width: 100%;
+      background-color: #000;
+      border-bottom: 1px solid #111;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 2rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      height: 60px;
+      max-width: 150px;
+      border-radius: 8px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.6rem;
+      list-style: none;
+      margin-left: auto;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+      background: rgba(77, 163, 255, 0.12);
+      font-weight: 500;
+    }
+
+    .mobile-nav a.active {
+      background: var(--active-bg);
+      color: #fff;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      margin-left: auto;
+    }
+
+    .mobile-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #000;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 999;
+      overflow: clip;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
+      will-change: max-height, opacity, transform;
+    }
+
+    .mobile-nav[data-open="true"] {
+      max-height: var(--mobile-nav-h, 320px);
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-nav a {
+      padding: 0.75rem 0.9rem;
+      color: var(--fg);
+      text-decoration: none;
+      border-radius: 10px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav {
+        transition: none;
+        transform: none;
+      }
+    }
+
+    /* PAGE */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .page-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 3rem;
+    }
+
+    .page-head h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .page-head p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .social-list {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--fg);
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      transition: 0.2s ease;
+    }
+
+    .social-link:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      background: rgba(77, 163, 255, 0.07);
+    }
+
+    .social-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .social-name {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .social-handle {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .social-arrow {
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    label {
+      font-size: 0.94rem;
+      color: #d8d8d8;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #151515;
+      color: var(--fg);
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+      font: inherit;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 0.25rem;
+    }
+
+    .submit-btn {
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      padding: 0.95rem 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid #111;
+      background: #111;
+      margin-top: 3rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      text-align: center;
+    }
+
+    .site-footer p {
+      color: #8e9399;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 860px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      main {
+        padding: 2rem 1.25rem;
+      }
+
+      .page-head h1 {
+        font-size: 2rem;
+      }
+
+      .logo-icon {
+        height: 52px;
+        max-width: 130px;
+      }
+
+      .footer-container {
+        padding: 1rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body data-root=".">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <h1>Contact</h1>
+      <p>
+        Want to collaborate, ask something, or just say hi? Reach out through any of the links below
+        or use the message form.
+      </p>
+    </section>
+
+    <section class="contact-grid">
+      <div class="card">
+        <h2>Social Links</h2>
+        <p>Replace these with your actual profiles and preferred contact details.</p>
+
+        <div class="social-list">
+          <a class="social-link" href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer">
+            <div class="social-main">
+              <span class="social-name">Instagram</span>
+              <span class="social-handle">@yourusername</span>
+            </div>
+            <span class="social-arrow">↗</span>
+          </a>
+
+          <a class="social-link" href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+            <div class="social-main">
+              <span class="social-name">GitHub</span>
+              <span class="social-handle">github.com/yourusername</span>
+            </div>
+            <span class="social-arrow">↗</span>
+          </a>
+
+          <a class="social-link" href="mailto:you@example.com">
+            <div class="social-main">
+              <span class="social-name">Email</span>
+              <span class="social-handle">you@example.com</span>
+            </div>
+            <span class="social-arrow">↗</span>
+          </a>
+
+          <a class="social-link" href="https://wa.me/911234567890" target="_blank" rel="noopener noreferrer">
+            <div class="social-main">
+              <span class="social-name">WhatsApp</span>
+              <span class="social-handle">+91 12345 67890</span>
+            </div>
+            <span class="social-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Send a Message</h2>
+
+        <form id="contact-form">
+          <div class="field-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+
+          <div class="field-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="field-group">
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" type="text" placeholder="What’s this about?" required />
+          </div>
+
+          <div class="field-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button class="submit-btn" type="submit">Send Message</button>
+          <p class="form-note">This opens your mail app using a pre-filled email draft.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      const response = await fetch(filePath);
+      if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+      target.innerHTML = await response.text();
+    }
+
+    function getRootPath() {
+      return document.body.dataset.root || ".";
+    }
+
+    function normalizePath(path) {
+      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
+    }
+
+    function setLinks() {
+      const root = getRootPath();
+
+      document.querySelectorAll("[data-link]").forEach((el) => {
+        const raw = el.getAttribute("data-link");
+        if (!raw) return;
+        el.setAttribute("href", normalizePath(`${root}/${raw}`));
+      });
+    }
+
+    function setActiveNav() {
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/index.html";
+
+      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        const linkUrl = new URL(href, window.location.origin);
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
+
+        if (linkPath === currentPath) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
+
+    function setupMobileNav() {
+      const btn = document.getElementById("mobile-menu-btn");
+      const nav = document.getElementById("mobile-nav");
+      if (!btn || !nav) return;
+
+      btn.setAttribute("aria-controls", "mobile-nav");
+      btn.setAttribute("aria-expanded", "false");
+
+      function setNavHeightVar() {
+        const wasHidden = nav.hidden;
+        if (wasHidden) nav.hidden = false;
+        nav.style.setProperty("--mobile-nav-h", `${nav.scrollHeight}px`);
+        if (wasHidden) nav.hidden = true;
+      }
+
+      function openNav() {
+        setNavHeightVar();
+        nav.hidden = false;
+        nav.dataset.open = "false";
+        requestAnimationFrame(() => {
+          nav.dataset.open = "true";
+          btn.setAttribute("aria-expanded", "true");
+        });
+      }
+
+      function closeNav(immediate = false) {
+        if (immediate) {
+          nav.dataset.open = "false";
+          nav.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        if (nav.hidden) {
+          nav.dataset.open = "false";
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        nav.dataset.open = "false";
+        btn.setAttribute("aria-expanded", "false");
+
+        nav.addEventListener("transitionend", function handler(e) {
+          if (e.target !== nav) return;
+          nav.hidden = true;
+        }, { once: true });
+      }
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = nav.dataset.open === "true" && !nav.hidden;
+        if (isOpen) closeNav();
+        else openNav();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".site-nav")) closeNav();
+      });
+
+      nav.addEventListener("click", (e) => {
+        if (e.target.closest("a")) closeNav();
+      });
+
+      window.addEventListener("resize", () => {
+        setNavHeightVar();
+        if (window.innerWidth > 768) closeNav(true);
+      });
+    }
+
+    function setupContactForm() {
+      const form = document.getElementById("contact-form");
+      if (!form) return;
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const subject = document.getElementById("subject").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        const recipient = "you@example.com";
+        const mailSubject = encodeURIComponent(subject);
+        const mailBody = encodeURIComponent(
+          `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+        );
+
+        window.location.href = `mailto:${recipient}?subject=${mailSubject}&body=${mailBody}`;
+      });
+    }
+
+    async function initLayout() {
+      const root = getRootPath();
+
+      await loadComponent("site-header", `${root}/components/header.html`);
+      await loadComponent("site-footer", `${root}/components/footer.html`);
+
+      setLinks();
+      setActiveNav();
+      setupMobileNav();
+      setupContactForm();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initLayout().catch((err) => console.error(err));
+    });
+  </script>
+</body>
+</html>
