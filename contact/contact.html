@@ -35,7 +35,7 @@
       flex-direction: column;
     }
 
-    /* SHARED NAV STYLES */
+    /* HEADER / NAV */
     .site-nav {
       width: 100%;
       background-color: #000;
@@ -52,6 +52,7 @@
       display: flex;
       align-items: center;
       padding: 0.5rem 2rem;
+      position: relative;
     }
 
     .nav-left {
@@ -95,18 +96,14 @@
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .nav-links a.active {
       color: var(--accent);
-      background: rgba(77, 163, 255, 0.12);
+      background: rgba(77, 163, 255, 0.14);
       font-weight: 500;
-    }
-
-    .mobile-nav a.active {
-      background: var(--active-bg);
-      color: #fff;
+      box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
     }
 
     .mobile-menu-btn {
@@ -150,6 +147,16 @@
       color: var(--fg);
       text-decoration: none;
       border-radius: 10px;
+      transition: 0.2s ease;
+    }
+
+    .mobile-nav a:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .mobile-nav a.active {
+      background: var(--active-bg);
+      color: #fff;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -159,7 +166,7 @@
       }
     }
 
-    /* PAGE */
+    /* MAIN */
     main {
       flex: 1;
       width: 100%;
@@ -228,7 +235,7 @@
       padding: 0.95rem 1rem;
       border-radius: 14px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
+      background: rgba(255, 255, 255, 0.02);
       transition: 0.2s ease;
     }
 
@@ -252,11 +259,13 @@
     .social-handle {
       color: var(--muted);
       font-size: 0.92rem;
+      word-break: break-word;
     }
 
     .social-arrow {
       color: var(--accent);
       font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
     form {
@@ -358,6 +367,10 @@
 
       .mobile-menu-btn {
         display: block;
+      }
+
+      .mobile-nav {
+        padding: 1rem;
       }
 
       main {
@@ -482,6 +495,21 @@
       return path.replace(/\\/g, "/").replace(/\/+/g, "/");
     }
 
+    function buildMobileNav() {
+      const desktopList = document.getElementById("main-nav-links");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (!desktopList || !mobileNav) return;
+
+      mobileNav.innerHTML = "";
+
+      desktopList.querySelectorAll("a").forEach((link) => {
+        const mobileLink = document.createElement("a");
+        mobileLink.setAttribute("data-link", link.getAttribute("data-link") || "");
+        mobileLink.textContent = link.textContent;
+        mobileNav.appendChild(mobileLink);
+      });
+    }
+
     function setLinks() {
       const root = getRootPath();
 
@@ -493,14 +521,15 @@
     }
 
     function setActiveNav() {
-      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/index.html";
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
 
       document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
         const href = link.getAttribute("href") || "";
         const linkUrl = new URL(href, window.location.origin);
         const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
 
-        if (linkPath === currentPath) {
+        if (linkPath === currentNormalized) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
@@ -605,6 +634,7 @@
       await loadComponent("site-header", `${root}/components/header.html`);
       await loadComponent("site-footer", `${root}/components/footer.html`);
 
+      buildMobileNav();
       setLinks();
       setActiveNav();
       setupMobileNav();
