@@ -29,10 +29,13 @@
       font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       background-color: var(--bg);
       color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* NAVBAR */
-    nav {
+    /* HEADER / NAV */
+    .site-nav {
       width: 100%;
       background-color: #000;
       border-bottom: 1px solid #111;
@@ -48,6 +51,7 @@
       display: flex;
       align-items: center;
       padding: 0.5rem 2rem;
+      position: relative;
     }
 
     .nav-left {
@@ -68,6 +72,7 @@
       max-width: 150px;
       border-radius: 8px;
       object-fit: contain;
+      display: block;
     }
 
     .nav-links {
@@ -85,6 +90,7 @@
       padding: 0.45rem 0.9rem;
       border-radius: 999px;
       transition: all 0.2s ease;
+      position: relative;
     }
 
     .nav-links a:hover {
@@ -93,12 +99,12 @@
     }
 
     .nav-links a.active {
-      background: var(--active-bg);
-      color: #fff;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+      color: var(--accent);
+      background: rgba(77, 163, 255, 0.14);
+      font-weight: 500;
+      box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
     }
 
-    /* MOBILE */
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -119,7 +125,7 @@
       padding: 1rem 2rem;
       display: flex;
       flex-direction: column;
-      gap: 6px; /* spacing instead of divider lines */
+      gap: 6px;
       z-index: 999;
       overflow: clip;
       max-height: 0px;
@@ -147,6 +153,11 @@
       color: var(--fg);
       text-decoration: none;
       border-radius: 10px;
+      transition: 0.2s ease;
+    }
+
+    .mobile-nav a:hover {
+      background: rgba(255,255,255,0.04);
     }
 
     .mobile-nav a.active {
@@ -162,6 +173,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex: 1;
+      width: 100%;
     }
 
     .hero {
@@ -241,6 +254,26 @@
     .project p {
       color: #9aa0a6;
       font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid #111;
+      background: #111;
+      margin-top: 3rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      text-align: center;
+    }
+
+    .site-footer p {
+      color: #8e9399;
+      font-size: 0.92rem;
     }
 
     /* RESPONSIVE */
@@ -273,37 +306,20 @@
         height: 52px;
         max-width: 130px;
       }
+
+      .footer-container {
+        padding: 1rem 1.25rem;
+      }
+
+      .mobile-nav {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 
-<body>
-
-  <nav>
-    <div class="nav-container">
-      <div class="nav-left">
-        <a href="index.html" class="logo">
-          <img src="https://i.ibb.co/bMcm34Lz/Picsart-26-03-17-15-05-45-303.png" class="logo-icon">
-        </a>
-
-        <ul class="nav-links">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="mogache-goa/mogache-goa.html">Mogache Goa</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-
-      <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
-    </div>
-
-    <div class="mobile-nav" id="mobile-nav" hidden>
-      <a href="index.html" class="active">Home</a>
-      <a href="mogache-goa/mogache-goa.html">Mogache Goa</a>
-      <a href="projects.html">Projects</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  </nav>
+<body data-root=".">
+  <div id="site-header"></div>
 
   <main>
     <div class="hero">
@@ -315,96 +331,169 @@
     </div>
 
     <div class="projects">
-      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTIy/ODI0MDAvcGhvdG8v/aHltbi1wYWdlLTEu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PV9PcEx0Rk8tRVJm/VXl2RXdZaUZDczRu/TnJFV0pZQ1NZaHRV/ZjA0ZWVEMGM9');">
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdl/cy5jb20vaWQvOTIyODI0MDAvcGhvdG8vaHltbi1wYWdlLTEuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPV9PcEx0Rk8tRVJmVWx2RXdZaUZDczRuTnJFV0pZQ1NZaHRVZjA0ZWVEMGM9');">
         <h2>Kantarancho Jhelo</h2>
         <p>My own rendition of a digital konkani songbook.</p>
       </a>
 
-      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjg3/MTI3Nzk0L3Bob3Rv/L3RyYWRpdGlvbmFs/LW9ybmF0ZS1wb3J0/dWd1ZXNlLWRlY29y/YXRpdmUtdGlsZXMt/YXp1bGVqb3MuanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPVNG/eHhxTXI0UHFsQjdX/eldFeVlfR0I1Ymd1/OW41NHhXTlVtTm16/T1E3LUE9');">
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRpYS5pc3RvY2twaG90by5jb20vaWQvNjg3MTI3Nzk0L3Bob3RvL3RyYWRpdGlvbmFsLW9ybmF0ZS1wb3J0dWd1ZXNlLWRlY29yYXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNGeHhxTXI0UHFsQjdXeldFeVlfR0I1Ymd1OW41NHhXTlVtTm16T1E3LUE9');">
         <h2>Mogache Goa</h2>
         <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a class="project" href="tools/tools.html" style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC81NC8yMi9h/YnN0cmFjdC1jeWJl/cnNwYWNlLWJnLWRp/Z2l0YWwtYmluYXJ5/LWNvZGUtc2NyZWVu/LXZlY3Rvci0yMzk2/NTQyMi5qcGc');">
+      <a class="project" href="tools/tools.html" style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4udmVjdG9yc3RvY2suY29tL2kvcHJldmlldy0xeC81NC8yMi9hYnN0cmFjdC1jeWJlcnNwYWNlLWJnLWRpZ2l0YWwtYmluYXJ5LWNvZGUtc2NyZWVuLXZlY3Rvci0yMzk2NTQyMi5qcGc');">
         <h2>Offline Tool Box</h2>
         <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
     </div>
   </main>
 
+  <div id="site-footer"></div>
+
   <script>
-    const btn = document.getElementById('mobile-menu-btn');
-    const nav = document.getElementById('mobile-nav');
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
 
-    btn.setAttribute('aria-controls', 'mobile-nav');
-    btn.setAttribute('aria-expanded', 'false');
-
-    function setNavHeightVar() {
-      const wasHidden = nav.hidden;
-      if (wasHidden) nav.hidden = false;
-      nav.style.setProperty('--mobile-nav-h', `${nav.scrollHeight}px`);
-      if (wasHidden) nav.hidden = true;
+      const response = await fetch(filePath);
+      if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+      target.innerHTML = await response.text();
     }
 
-    function openNav() {
-      setNavHeightVar();
-      nav.hidden = false;
-      // Ensure the browser applies the initial "closed" styles first.
-      nav.dataset.open = 'false';
-      requestAnimationFrame(() => {
-        nav.dataset.open = 'true';
-        btn.setAttribute('aria-expanded', 'true');
+    function getRootPath() {
+      return document.body.dataset.root || ".";
+    }
+
+    function normalizePath(path) {
+      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
+    }
+
+    function buildMobileNav() {
+      const desktopList = document.getElementById("main-nav-links");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (!desktopList || !mobileNav) return;
+
+      mobileNav.innerHTML = "";
+
+      desktopList.querySelectorAll("a").forEach((link) => {
+        const mobileLink = document.createElement("a");
+        mobileLink.setAttribute("data-link", link.getAttribute("data-link") || "");
+        mobileLink.textContent = link.textContent;
+        mobileNav.appendChild(mobileLink);
       });
     }
 
-    function closeNav({ immediate = false } = {}) {
-      if (immediate) {
-        nav.dataset.open = 'false';
-        nav.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
-        return;
-      }
+    function setLinks() {
+      const root = getRootPath();
 
-      if (nav.hidden) {
-        nav.dataset.open = 'false';
-        btn.setAttribute('aria-expanded', 'false');
-        return;
-      }
-
-      nav.dataset.open = 'false';
-      btn.setAttribute('aria-expanded', 'false');
-
-      nav.addEventListener(
-        'transitionend',
-        (e) => {
-          if (e.target !== nav) return;
-          nav.hidden = true;
-        },
-        { once: true }
-      );
+      document.querySelectorAll("[data-link]").forEach((el) => {
+        const raw = el.getAttribute("data-link");
+        if (!raw) return;
+        el.setAttribute("href", normalizePath(`${root}/${raw}`));
+      });
     }
 
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      const isOpen = nav.dataset.open === 'true' && !nav.hidden;
-      if (isOpen) closeNav();
-      else openNav();
-    };
+    function setActiveNav() {
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
 
-    document.onclick = (e) => {
-      if (!e.target.closest('nav')) closeNav();
-    };
+      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        const linkUrl = new URL(href, window.location.origin);
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
 
-    nav.addEventListener('click', (e) => {
-      if (e.target.closest('a')) closeNav();
-    });
+        if (linkPath === currentNormalized) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
 
-    window.addEventListener('resize', () => {
-      // Avoid a stuck partially-open state on resize.
-      setNavHeightVar();
-      if (nav.hidden) closeNav({ immediate: true });
+    function setupMobileNav() {
+      const btn = document.getElementById("mobile-menu-btn");
+      const nav = document.getElementById("mobile-nav");
+      if (!btn || !nav) return;
+
+      btn.setAttribute("aria-controls", "mobile-nav");
+      btn.setAttribute("aria-expanded", "false");
+
+      function setNavHeightVar() {
+        const wasHidden = nav.hidden;
+        if (wasHidden) nav.hidden = false;
+        nav.style.setProperty("--mobile-nav-h", `${nav.scrollHeight}px`);
+        if (wasHidden) nav.hidden = true;
+      }
+
+      function openNav() {
+        setNavHeightVar();
+        nav.hidden = false;
+        nav.dataset.open = "false";
+        requestAnimationFrame(() => {
+          nav.dataset.open = "true";
+          btn.setAttribute("aria-expanded", "true");
+        });
+      }
+
+      function closeNav(immediate = false) {
+        if (immediate) {
+          nav.dataset.open = "false";
+          nav.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        if (nav.hidden) {
+          nav.dataset.open = "false";
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        nav.dataset.open = "false";
+        btn.setAttribute("aria-expanded", "false");
+
+        nav.addEventListener("transitionend", function handler(e) {
+          if (e.target !== nav) return;
+          nav.hidden = true;
+        }, { once: true });
+      }
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = nav.dataset.open === "true" && !nav.hidden;
+        if (isOpen) closeNav();
+        else openNav();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".site-nav")) closeNav();
+      });
+
+      nav.addEventListener("click", (e) => {
+        if (e.target.closest("a")) closeNav();
+      });
+
+      window.addEventListener("resize", () => {
+        setNavHeightVar();
+        if (window.innerWidth > 768) closeNav(true);
+      });
+    }
+
+    async function initLayout() {
+      const root = getRootPath();
+
+      await loadComponent("site-header", `${root}/components/header.html`);
+      await loadComponent("site-footer", `${root}/components/footer.html`);
+
+      buildMobileNav();
+      setLinks();
+      setActiveNav();
+      setupMobileNav();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initLayout().catch((err) => console.error(err));
     });
   </script>
-
 </body>
 </html>
