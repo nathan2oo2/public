@@ -1,215 +1,331 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nathan Baptista</title>
+<style>
+  /* HEADER STYLES - Self-contained */
+  :root {
+    --nav-bg: #000;
+    --nav-border: #111;
+    --accent: #4da3ff;
+    --fg: #e6e6e6;
+    --text-muted: #9aa0a6;
+    --active-bg: #2b2b2b;
+  }
 
-  <style>
-    /* BASE STYLES */
-    :root {
-      --bg: #181818;
-      --fg: #e6e6e6;
-      --card-bg: #1f1f1f;
-      --border: #2a2a2a;
-      --accent: #4da3ff;
-      --text-muted: #9aa0a6;
+  .site-nav {
+    width: 100%;
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    position: relative;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    height: 60px;
+    max-width: 150px;
+    border-radius: 8px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.6rem;
+    list-style: none;
+    margin-left: auto;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-links a.active {
+    color: var(--accent);
+    background: rgba(77, 163, 255, 0.14);
+    font-weight: 500;
+    box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--fg);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto;
+    transition: color 0.2s ease;
+  }
+
+  .mobile-menu-btn:hover {
+    color: var(--accent);
+  }
+
+  .mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--nav-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 999;
+    overflow: clip;
+    max-height: 0px;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
+    will-change: max-height, opacity, transform;
+  }
+
+  .mobile-nav[data-open="true"] {
+    max-height: var(--mobile-nav-h, 320px);
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav {
+      transition: none;
+      transform: none;
+    }
+  }
+
+  .mobile-nav a {
+    padding: 0.75rem 0.9rem;
+    color: var(--fg);
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.2s ease;
+  }
+
+  .mobile-nav a:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .mobile-nav a.active {
+    background: var(--active-bg);
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .nav-container {
+      padding: 0.5rem 1rem;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    .nav-links {
+      display: none;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background-color: var(--bg);
-      color: var(--fg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* MAIN CONTENT */
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      width: 100%;
-    }
-
-    .hero {
-      max-width: 700px;
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 300;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      max-width: 1000px;
-    }
-
-    .project {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 2rem;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
+    .mobile-menu-btn {
       display: block;
-      -webkit-tap-highlight-color: transparent;
-      position: relative;
-      overflow: hidden;
-      background-image: var(--project-bg);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
     }
 
-    .project::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.80);
-      transition: background 200ms ease;
+    .logo-icon {
+      height: 52px;
+      max-width: 130px;
     }
 
-    .project > * {
-      position: relative;
-      z-index: 1;
+    .mobile-nav {
+      padding: 1rem;
     }
+  }
 
-    .project:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  @media (max-width: 480px) {
+    .nav-container {
+      padding: 0.5rem 0.75rem;
     }
+  }
+</style>
 
-    .project:hover::before {
-      background: rgba(0, 0, 0, 0.65);
-    }
+<nav class="site-nav">
+  <div class="nav-container">
+    <div class="nav-left">
+      <a href="#" class="logo" data-link="index.html">
+        <img src="/images/nathan-logo.png" class="logo-icon" alt="Nathan Baptista">
+      </a>
 
-    .project h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .project p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 768px) {
-      main {
-        padding: 2rem 1.25rem;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .projects {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      main {
-        padding: 1.5rem 1rem;
-      }
-    }
-  </style>
-</head>
-
-<body data-root=".">
-  <!-- HEADER: Standalone component with all CSS and JS -->
-  <div id="site-header"></div>
-
-  <main>
-    <div class="hero">
-      <h1>Hi, I'm Nathan</h1>
-      <p>
-        A curious developer exploring web, electronics, and clean design.
-        I love building simple, useful tools and learning as I go.
-      </p>
+      <ul class="nav-links" id="main-nav-links">
+        <li><a data-link="index.html">Home</a></li>
+        <li><a data-link="mogache-goa/mogache-goa.html">Mogache Goa</a></li>
+        <li><a data-link="projects/projects.html">Projects</a></li>
+        <li><a data-link="contact/contact.html">Contact</a></li>
+      </ul>
     </div>
 
-    <div class="projects">
-      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdl/cy5jb20vaWQvOTIyODI0MDAvcGhvdG8vaHltbi1wYWdlLTEuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPV9PcEx0Rk8tRVJmVWx2RXdZaUZDczRuTnJFV0pZQ1NZaHRVZjA0ZWVEMGM9');">
-        <h2>Kantarancho Jhelo</h2>
-        <p>My own rendition of a digital konkani songbook.</p>
-      </a>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+  </div>
 
-      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRpYS5pc3RvY2twaG90by5jb20vaWQvNjg3MTI3Nzk0L3Bob3RvL3RyYWRpdGlvbmFsLW9ybmF0ZS1wb3J0dWd1ZXNlLWRlY29yYXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNGeHhxTXI0UHFsQjdXeldFeVlfR0I1Ymd1OW41NHhXTlVtTm16T1E3LUE9');">
-        <h2>Mogache Goa</h2>
-        <p>My personal catalog of things just Goa.</p>
-      </a>
+  <div class="mobile-nav" id="mobile-nav"></div>
+</nav>
 
-      <a class="project" href="tools/tools.html" style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4udmVjdG9yc3RvY2suY29tL2kvcHJldmlldy0xeC81NC8yMi9hYnN0cmFjdC1jeWJlcnNwYWNlLWJnLWRpZ2l0YWwtYmluYXJ5LWNvZGUtc2NyZWVuLXZlY3Rvci0yMzk2NTQyMi5qcGc');">
-        <h2>Offline Tool Box</h2>
-        <p>A small hub for simple tools — fast-loading and offline-capable.</p>
-      </a>
-    </div>
-  </main>
+<script>
+  (function() {
+    // Get the root path from the calling page
+    function getRootPath() {
+      return document.body.dataset.root || ".";
+    }
 
-  <!-- FOOTER: Standalone component with all CSS -->
-  <div id="site-footer"></div>
+    function normalizePath(path) {
+      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
+    }
 
-  <script>
-    // Load standalone components with their own CSS and JS
-    async function loadComponent(targetId, filePath) {
-      const target = document.getElementById(targetId);
-      if (!target) return;
+    // Build mobile nav from desktop nav
+    function buildMobileNav() {
+      const desktopList = document.getElementById("main-nav-links");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (!desktopList || !mobileNav) return;
 
-      try {
-        const response = await fetch(filePath);
-        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
-        target.innerHTML = await response.text();
-        
-        // Execute any scripts in the loaded component
-        const scripts = target.querySelectorAll("script");
-        scripts.forEach((script) => {
-          const newScript = document.createElement("script");
-          newScript.textContent = script.textContent;
-          target.appendChild(newScript);
+      mobileNav.innerHTML = "";
+
+      desktopList.querySelectorAll("a").forEach((link) => {
+        const mobileLink = document.createElement("a");
+        mobileLink.setAttribute("data-link", link.getAttribute("data-link") || "");
+        mobileLink.textContent = link.textContent;
+        mobileNav.appendChild(mobileLink);
+      });
+    }
+
+    // Set href attributes from data-link
+    function setLinks() {
+      const root = getRootPath();
+
+      document.querySelectorAll("[data-link]").forEach((el) => {
+        const raw = el.getAttribute("data-link");
+        if (!raw) return;
+        const href = root === "." ? raw : normalizePath(`${root}/${raw}`);
+        el.setAttribute("href", href);
+      });
+    }
+
+    // Set active nav state
+    function setActiveNav() {
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
+
+      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        const linkUrl = new URL(href, window.location.origin);
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
+
+        if (linkPath === currentNormalized) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
+
+    // Setup mobile menu interactions
+    function setupMobileNav() {
+      const btn = document.getElementById("mobile-menu-btn");
+      const nav = document.getElementById("mobile-nav");
+      if (!btn || !nav) return;
+
+      btn.setAttribute("aria-controls", "mobile-nav");
+      btn.setAttribute("aria-expanded", "false");
+
+      function setNavHeightVar() {
+        const wasHidden = nav.hidden;
+        if (wasHidden) nav.hidden = false;
+        nav.style.setProperty("--mobile-nav-h", `${nav.scrollHeight}px`);
+        if (wasHidden) nav.hidden = true;
+      }
+
+      function openNav() {
+        setNavHeightVar();
+        nav.hidden = false;
+        nav.dataset.open = "false";
+        requestAnimationFrame(() => {
+          nav.dataset.open = "true";
+          btn.setAttribute("aria-expanded", "true");
         });
-      } catch (err) {
-        console.error("Component loading error:", err);
       }
+
+      function closeNav(immediate = false) {
+        if (immediate) {
+          nav.dataset.open = "false";
+          nav.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        if (nav.hidden) {
+          nav.dataset.open = "false";
+          btn.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        nav.dataset.open = "false";
+        btn.setAttribute("aria-expanded", "false");
+
+        nav.addEventListener("transitionend", function handler(e) {
+          if (e.target !== nav) return;
+          nav.hidden = true;
+        }, { once: true });
+      }
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = nav.dataset.open === "true" && !nav.hidden;
+        if (isOpen) closeNav();
+        else openNav();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".site-nav")) closeNav();
+      });
+
+      nav.addEventListener("click", (e) => {
+        if (e.target.closest("a")) closeNav();
+      });
+
+      window.addEventListener("resize", () => {
+        setNavHeightVar();
+        if (window.innerWidth > 768) closeNav(true);
+      });
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const root = document.body.dataset.root || ".";
-      loadComponent("site-header", `${root}/components/header.html`);
-      loadComponent("site-footer", `${root}/components/footer.html`);
-    });
-  </script>
-</body>
-</html>
+    // Initialize when this script loads
+    buildMobileNav();
+    setLinks();
+    setActiveNav();
+    setupMobileNav();
+  })();
+</script>
