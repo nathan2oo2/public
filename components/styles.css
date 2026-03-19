@@ -1,0 +1,255 @@
+/* STYLES.CSS - Shared styles for all pages */
+
+:root {
+  --bg: #181818;
+  --fg: #e6e6e6;
+  --card-bg: #1f1f1f;
+  --border: #2a2a2a;
+  --accent: #4da3ff;
+  --active-bg: #2b2b2b;
+  --nav-bg: #000;
+  --nav-border: #111;
+  --footer-bg: #111;
+  --text-muted: #9aa0a6;
+  --text-dim: #8e9399;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER / NAV ===== */
+
+.site-nav {
+  width: 100%;
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  position: relative;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  height: 60px;
+  max-width: 150px;
+  border-radius: 8px;
+  object-fit: contain;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.6rem;
+  list-style: none;
+  margin-left: auto;
+  align-items: center;
+}
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-links a.active {
+  color: var(--accent);
+  background: rgba(77, 163, 255, 0.14);
+  font-weight: 500;
+  box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: auto;
+  transition: color 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  color: var(--accent);
+}
+
+.mobile-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--nav-bg);
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 999;
+  overflow: clip;
+  max-height: 0px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
+  will-change: max-height, opacity, transform;
+}
+
+.mobile-nav[data-open="true"] {
+  max-height: var(--mobile-nav-h, 320px);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav {
+    transition: none;
+    transform: none;
+  }
+}
+
+.mobile-nav a {
+  padding: 0.75rem 0.9rem;
+  color: var(--fg);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.mobile-nav a:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mobile-nav a.active {
+  background: var(--active-bg);
+  color: #fff;
+}
+
+/* ===== FOOTER ===== */
+
+.site-footer {
+  background: var(--footer-bg);
+  border-top: 1px solid var(--nav-border);
+  margin-top: 3rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  text-align: center;
+}
+
+.site-footer p {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+/* ===== MAIN CONTENT ===== */
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  main {
+    padding: 2rem 1.25rem;
+  }
+
+  .logo-icon {
+    height: 52px;
+    max-width: 130px;
+  }
+
+  .footer-container {
+    padding: 1rem 1.25rem;
+  }
+
+  .mobile-nav {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0.5rem 0.75rem;
+  }
+
+  main {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-container {
+    padding: 0.75rem 1rem;
+  }
+}
