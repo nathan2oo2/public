@@ -192,6 +192,14 @@
         const response = await fetch(filePath);
         if (!response.ok) throw new Error(`Failed to load ${filePath}`);
         target.innerHTML = await response.text();
+        
+        // Execute any scripts in the loaded component
+        const scripts = target.querySelectorAll("script");
+        scripts.forEach((script) => {
+          const newScript = document.createElement("script");
+          newScript.textContent = script.textContent;
+          target.appendChild(newScript);
+        });
       } catch (err) {
         console.error("Component loading error:", err);
       }
@@ -199,8 +207,8 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       const root = document.body.dataset.root || ".";
-      loadComponent("site-header", `${root}/components/header-component.html`);
-      loadComponent("site-footer", `${root}/components/footer-component.html`);
+      loadComponent("site-header", `${root}/components/header.html`);
+      loadComponent("site-footer", `${root}/components/footer.html`);
     });
   </script>
 </body>
