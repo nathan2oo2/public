@@ -5,10 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact - Nathan Baptista</title>
 
-  <link rel="stylesheet" href="../components/styles.css">
-
   <style>
-    /* PAGE-SPECIFIC STYLES FOR CONTACT */
+    /* BASE STYLES */
+    :root {
+      --bg: #181818;
+      --fg: #e6e6e6;
+      --text-muted: #9aa0a6;
+      --accent: #4da3ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+    }
+
     .page-title {
       font-size: 2rem;
       margin-bottom: 2rem;
@@ -46,10 +82,27 @@
     .contact-link:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 2rem 1.25rem;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 1.5rem 1rem;
+      }
+    }
   </style>
 </head>
 
 <body data-root="..">
+  <!-- HEADER: Standalone component with all CSS and JS -->
   <div id="site-header"></div>
 
   <main>
@@ -76,9 +129,11 @@
     </div>
   </main>
 
+  <!-- FOOTER: Standalone component with all CSS -->
   <div id="site-footer"></div>
 
   <script>
+    // Load standalone components with their own CSS and JS
     async function loadComponent(targetId, filePath) {
       const target = document.getElementById(targetId);
       if (!target) return;
@@ -87,74 +142,15 @@
         const response = await fetch(filePath);
         if (!response.ok) throw new Error(`Failed to load ${filePath}`);
         target.innerHTML = await response.text();
-
-        if (targetId === "site-header") {
-          const headerScript = target.querySelector("script");
-          if (headerScript) {
-            eval(headerScript.textContent);
-          }
-          setLinks();
-          setActiveNav();
-        }
       } catch (err) {
         console.error("Component loading error:", err);
       }
     }
 
-    function getRootPath() {
-      return document.body.dataset.root || ".";
-    }
-
-    function normalizePath(path) {
-      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
-    }
-
-    function setLinks() {
-      const root = getRootPath();
-
-      document.querySelectorAll("[data-link]").forEach((el) => {
-        const raw = el.getAttribute("data-link");
-        if (!raw) return;
-        // Only add root prefix if it's not just "."
-        const href = root === "." ? raw : normalizePath(`${root}/${raw}`);
-        el.setAttribute("href", href);
-      });
-    }
-
-    function setActiveNav() {
-      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
-      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
-
-      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
-        const href = link.getAttribute("href") || "";
-        const linkUrl = new URL(href, window.location.origin);
-        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
-
-        if (linkPath === currentNormalized) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
-    }
-
-    async function initLayout() {
-      const root = getRootPath();
-      const headerPath = `${root}/components/header.html`;
-      const footerPath = `${root}/components/footer.html`;
-
-      console.log("Loading header from:", headerPath);
-      console.log("Loading footer from:", footerPath);
-
-      await loadComponent("site-header", headerPath);
-      await loadComponent("site-footer", footerPath);
-
-      setLinks();
-      setActiveNav();
-    }
-
     window.addEventListener("DOMContentLoaded", () => {
-      initLayout().catch((err) => console.error(err));
+      const root = document.body.dataset.root || "..";
+      loadComponent("site-header", `${root}/components/header-component.html`);
+      loadComponent("site-footer", `${root}/components/footer-component.html`);
     });
   </script>
 </body>
