@@ -6,13 +6,14 @@
   <title>Nathan Baptista</title>
 
   <style>
+    /* BASE STYLES */
     :root {
       --bg: #181818;
       --fg: #e6e6e6;
       --card-bg: #1f1f1f;
       --border: #2a2a2a;
       --accent: #4da3ff;
-      --active-bg: #2b2b2b;
+      --text-muted: #9aa0a6;
     }
 
     * {
@@ -21,8 +22,8 @@
       box-sizing: border-box;
     }
 
-    [hidden] {
-      display: none !important;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -34,138 +35,7 @@
       flex-direction: column;
     }
 
-    /* HEADER / NAV */
-    .site-nav {
-      width: 100%;
-      background-color: #000;
-      border-bottom: 1px solid #111;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      padding: 0.5rem 2rem;
-      position: relative;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .logo-icon {
-      height: 60px;
-      max-width: 150px;
-      border-radius: 8px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 0.6rem;
-      list-style: none;
-      margin-left: auto;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 0.95rem;
-      padding: 0.45rem 0.9rem;
-      border-radius: 999px;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-      background: rgba(255,255,255,0.04);
-    }
-
-    .nav-links a.active {
-      color: var(--accent);
-      background: rgba(77, 163, 255, 0.14);
-      font-weight: 500;
-      box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--fg);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      margin-left: auto;
-    }
-
-    .mobile-nav {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background-color: #000;
-      padding: 1rem 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 999;
-      overflow: clip;
-      max-height: 0px;
-      opacity: 0;
-      transform: translateY(-8px);
-      transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
-      will-change: max-height, opacity, transform;
-    }
-
-    .mobile-nav[data-open="true"] {
-      max-height: var(--mobile-nav-h, 320px);
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .mobile-nav {
-        transition: none;
-        transform: none;
-      }
-    }
-
-    .mobile-nav a {
-      padding: 0.75rem 0.9rem;
-      color: var(--fg);
-      text-decoration: none;
-      border-radius: 10px;
-      transition: 0.2s ease;
-    }
-
-    .mobile-nav a:hover {
-      background: rgba(255,255,255,0.04);
-    }
-
-    .mobile-nav a.active {
-      background: var(--active-bg);
-      color: #fff;
-    }
-
-    /* MAIN */
+    /* MAIN CONTENT */
     main {
       max-width: 1200px;
       margin: 0 auto;
@@ -191,7 +61,7 @@
 
     .hero p {
       font-size: 1.1rem;
-      color: #9aa0a6;
+      color: var(--text-muted);
       line-height: 1.6;
     }
 
@@ -220,7 +90,6 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     .project::before {
@@ -239,7 +108,7 @@
     .project:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 
     .project:hover::before {
@@ -252,43 +121,12 @@
     }
 
     .project p {
-      color: #9aa0a6;
+      color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.5;
     }
 
-    /* FOOTER */
-    .site-footer {
-      background: #000;
-      margin-top: 3rem;
-    }
-
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.25rem 2rem;
-      text-align: center;
-    }
-
-    .site-footer p {
-      color: #8e9399;
-      font-size: 0.92rem;
-    }
-
-    /* RESPONSIVE */
     @media (max-width: 768px) {
-      .nav-container {
-        padding: 0.5rem 1rem;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .mobile-menu-btn {
-        display: block;
-      }
-
       main {
         padding: 2rem 1.25rem;
       }
@@ -300,24 +138,18 @@
       .projects {
         grid-template-columns: 1fr;
       }
+    }
 
-      .logo-icon {
-        height: 52px;
-        max-width: 130px;
-      }
-
-      .footer-container {
-        padding: 1rem 1.25rem;
-      }
-
-      .mobile-nav {
-        padding: 1rem;
+    @media (max-width: 480px) {
+      main {
+        padding: 1.5rem 1rem;
       }
     }
   </style>
 </head>
 
 <body data-root=".">
+  <!-- HEADER: Standalone component with all CSS and JS -->
   <div id="site-header"></div>
 
   <main>
@@ -347,151 +179,28 @@
     </div>
   </main>
 
+  <!-- FOOTER: Standalone component with all CSS -->
   <div id="site-footer"></div>
 
   <script>
+    // Load standalone components with their own CSS and JS
     async function loadComponent(targetId, filePath) {
       const target = document.getElementById(targetId);
       if (!target) return;
 
-      const response = await fetch(filePath);
-      if (!response.ok) throw new Error(`Failed to load ${filePath}`);
-      target.innerHTML = await response.text();
-    }
-
-    function getRootPath() {
-      return document.body.dataset.root || ".";
-    }
-
-    function normalizePath(path) {
-      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
-    }
-
-    function buildMobileNav() {
-      const desktopList = document.getElementById("main-nav-links");
-      const mobileNav = document.getElementById("mobile-nav");
-      if (!desktopList || !mobileNav) return;
-
-      mobileNav.innerHTML = "";
-
-      desktopList.querySelectorAll("a").forEach((link) => {
-        const mobileLink = document.createElement("a");
-        mobileLink.setAttribute("data-link", link.getAttribute("data-link") || "");
-        mobileLink.textContent = link.textContent;
-        mobileNav.appendChild(mobileLink);
-      });
-    }
-
-    function setLinks() {
-      const root = getRootPath();
-
-      document.querySelectorAll("[data-link]").forEach((el) => {
-        const raw = el.getAttribute("data-link");
-        if (!raw) return;
-        el.setAttribute("href", normalizePath(`${root}/${raw}`));
-      });
-    }
-
-    function setActiveNav() {
-      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
-      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
-
-      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
-        const href = link.getAttribute("href") || "";
-        const linkUrl = new URL(href, window.location.origin);
-        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
-
-        if (linkPath === currentNormalized) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
-    }
-
-    function setupMobileNav() {
-      const btn = document.getElementById("mobile-menu-btn");
-      const nav = document.getElementById("mobile-nav");
-      if (!btn || !nav) return;
-
-      btn.setAttribute("aria-controls", "mobile-nav");
-      btn.setAttribute("aria-expanded", "false");
-
-      function setNavHeightVar() {
-        const wasHidden = nav.hidden;
-        if (wasHidden) nav.hidden = false;
-        nav.style.setProperty("--mobile-nav-h", `${nav.scrollHeight}px`);
-        if (wasHidden) nav.hidden = true;
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+        target.innerHTML = await response.text();
+      } catch (err) {
+        console.error("Component loading error:", err);
       }
-
-      function openNav() {
-        setNavHeightVar();
-        nav.hidden = false;
-        nav.dataset.open = "false";
-        requestAnimationFrame(() => {
-          nav.dataset.open = "true";
-          btn.setAttribute("aria-expanded", "true");
-        });
-      }
-
-      function closeNav(immediate = false) {
-        if (immediate) {
-          nav.dataset.open = "false";
-          nav.hidden = true;
-          btn.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        if (nav.hidden) {
-          nav.dataset.open = "false";
-          btn.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        nav.dataset.open = "false";
-        btn.setAttribute("aria-expanded", "false");
-
-        nav.addEventListener("transitionend", function handler(e) {
-          if (e.target !== nav) return;
-          nav.hidden = true;
-        }, { once: true });
-      }
-
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = nav.dataset.open === "true" && !nav.hidden;
-        if (isOpen) closeNav();
-        else openNav();
-      });
-
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".site-nav")) closeNav();
-      });
-
-      nav.addEventListener("click", (e) => {
-        if (e.target.closest("a")) closeNav();
-      });
-
-      window.addEventListener("resize", () => {
-        setNavHeightVar();
-        if (window.innerWidth > 768) closeNav(true);
-      });
-    }
-
-    async function initLayout() {
-      const root = getRootPath();
-
-      await loadComponent("site-header", `${root}/components/header.html`);
-      await loadComponent("site-footer", `${root}/components/footer.html`);
-
-      buildMobileNav();
-      setLinks();
-      setActiveNav();
-      setupMobileNav();
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      initLayout().catch((err) => console.error(err));
+      const root = document.body.dataset.root || ".";
+      loadComponent("site-header", `${root}/components/header-component.html`);
+      loadComponent("site-footer", `${root}/components/footer-component.html`);
     });
   </script>
 </body>
