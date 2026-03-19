@@ -178,7 +178,7 @@
   <div class="nav-container">
     <div class="nav-left">
       <a href="#" class="logo" data-link="index.html">
-        <img src="../images/nathan-logo.png" class="logo-icon" alt="Nathan Baptista">
+        <img class="logo-icon" alt="Nathan Baptista">
       </a>
 
       <ul class="nav-links" id="main-nav-links">
@@ -232,6 +232,20 @@
         const href = root === "." ? raw : normalizePath(`${root}/${raw}`);
         el.setAttribute("href", href);
       });
+    }
+
+    // Fix logo path with fallback
+    function setLogoPaths() {
+      const logoImg = document.querySelector(".logo-icon");
+      if (!logoImg) return;
+
+      // Try root-relative path first
+      logoImg.src = "images/nathan-logo.png";
+      
+      // If it fails to load, fall back to relative path
+      logoImg.onerror = function() {
+        this.src = "../images/nathan-logo.png";
+      };
     }
 
     // Set active nav state
@@ -325,6 +339,7 @@
     // Initialize when this script loads
     buildMobileNav();
     setLinks();
+    setLogoPaths();
     setActiveNav();
     setupMobileNav();
   })();
