@@ -89,7 +89,7 @@
       font-size: 0.95rem;
       padding: 0.45rem 0.9rem;
       border-radius: 999px;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
       position: relative;
     }
 
@@ -153,7 +153,7 @@
       color: var(--fg);
       text-decoration: none;
       border-radius: 10px;
-      transition: 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease;
     }
 
     .mobile-nav a:hover {
@@ -208,7 +208,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 2rem;
-      transition: all 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
@@ -237,7 +237,6 @@
     }
 
     .project:hover {
-      transform: translateY(-4px);
       border-color: var(--accent);
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
@@ -367,6 +366,25 @@
       return path.replace(/\\/g, "/").replace(/\/+/g, "/");
     }
 
+    function normalizePagePath(pathname) {
+      let path = pathname || "/";
+
+      path = path.split("#")[0].split("?")[0];
+      path = path.replace(/\\/g, "/");
+      path = path.replace(/\/+/g, "/");
+
+      if (path.endsWith("/")) path += "index.html";
+      if (path === "") path = "/index.html";
+
+      return path.toLowerCase();
+    }
+
+    function getPageName(pathname) {
+      const normalized = normalizePagePath(pathname);
+      const parts = normalized.split("/");
+      return parts[parts.length - 1] || "index.html";
+    }
+
     function buildMobileNav() {
       const desktopList = document.getElementById("main-nav-links");
       const mobileNav = document.getElementById("mobile-nav");
@@ -393,19 +411,25 @@
     }
 
     function setActiveNav() {
-      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
-      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
+      const currentFullPath = normalizePagePath(window.location.pathname);
+      const currentPageName = getPageName(window.location.pathname);
 
       document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
-        const href = link.getAttribute("href") || "";
-        const linkUrl = new URL(href, window.location.origin);
-        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
-
-        if (linkPath === currentNormalized) {
-          link.classList.add("active");
-        } else {
+        const href = link.getAttribute("href");
+        if (!href) {
           link.classList.remove("active");
+          return;
         }
+
+        const linkUrl = new URL(href, window.location.href);
+        const linkFullPath = normalizePagePath(linkUrl.pathname);
+        const linkPageName = getPageName(linkUrl.pathname);
+
+        const isActive =
+          linkFullPath === currentFullPath ||
+          linkPageName === currentPageName;
+
+        link.classList.toggle("active", isActive);
       });
     }
 
