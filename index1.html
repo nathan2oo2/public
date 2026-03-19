@@ -26,7 +26,7 @@
     }
 
     body {
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       background-color: var(--bg);
       color: var(--fg);
       min-height: 100vh;
@@ -90,11 +90,12 @@
       padding: 0.45rem 0.9rem;
       border-radius: 999px;
       transition: all 0.2s ease;
+      position: relative;
     }
 
     .nav-links a:hover {
       color: var(--accent);
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
     }
 
     .nav-links a.active {
@@ -127,7 +128,7 @@
       gap: 6px;
       z-index: 999;
       overflow: clip;
-      max-height: 0;
+      max-height: 0px;
       opacity: 0;
       transform: translateY(-8px);
       transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
@@ -140,6 +141,13 @@
       transform: translateY(0);
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav {
+        transition: none;
+        transform: none;
+      }
+    }
+
     .mobile-nav a {
       padding: 0.75rem 0.9rem;
       color: var(--fg);
@@ -149,7 +157,7 @@
     }
 
     .mobile-nav a:hover {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
     }
 
     .mobile-nav a.active {
@@ -157,23 +165,16 @@
       color: #fff;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .mobile-nav {
-        transition: none;
-        transform: none;
-      }
-    }
-
     /* MAIN */
     main {
-      flex: 1;
       max-width: 1200px;
-      width: 100%;
       margin: 0 auto;
       padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex: 1;
+      width: 100%;
     }
 
     .hero {
@@ -197,7 +198,7 @@
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
+      gap: 2rem;
       width: 100%;
       max-width: 1000px;
     }
@@ -207,7 +208,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 2rem;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
@@ -219,19 +220,15 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      min-height: 210px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     .project::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.76),
-        rgba(0, 0, 0, 0.86)
-      );
-      transition: background 240ms ease;
+      background: rgba(0, 0, 0, 0.84);
+      transition: background 200ms ease;
     }
 
     .project > * {
@@ -242,40 +239,34 @@
     .project:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
 
     .project:hover::before {
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.54),
-        rgba(0, 0, 0, 0.66)
-      );
+      background: rgba(0, 0, 0, 0.70);
     }
 
     .project h2 {
       font-size: 1.3rem;
       margin-bottom: 0.75rem;
-      color: #fff;
     }
 
     .project p {
-      color: #c0c4c9;
+      color: #9aa0a6;
       font-size: 0.95rem;
       line-height: 1.5;
     }
 
     /* FOOTER */
     .site-footer {
-      border-top: 1px solid #111;
-      background: #111;
-      margin-top: 3rem;
+      background: #000;
+      margin-top: 2rem;
     }
 
     .footer-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 1.25rem 2rem;
+      padding: 0.75rem 2rem;
       text-align: center;
     }
 
@@ -298,10 +289,6 @@
         display: block;
       }
 
-      .mobile-nav {
-        padding: 1rem;
-      }
-
       main {
         padding: 2rem 1.25rem;
       }
@@ -320,7 +307,11 @@
       }
 
       .footer-container {
-        padding: 1rem 1.25rem;
+        padding: 0.6rem 1.25rem;
+      }
+
+      .mobile-nav {
+        padding: 1rem;
       }
     }
   </style>
@@ -339,29 +330,17 @@
     </div>
 
     <div class="projects">
-      <a
-        class="project"
-        href="jhelo/songbook.html"
-        style="--project-bg: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80');"
-      >
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://media.gettyimages.com/id/92282400/photo/hymn-page-1.jpg?s=612x612&w=0&k=20&c=_OpLtFO-ERfUyvEwYiFCs4nNrEWJYCSYhtUf04eeD0c=');">
         <h2>Kantarancho Jhelo</h2>
-        <p>My own rendition of a digital Konkani songbook.</p>
+        <p>My own rendition of a digital konkani songbook.</p>
       </a>
 
-      <a
-        class="project"
-        href="mogache-goa/mogache-goa.html"
-        style="--project-bg: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80');"
-      >
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://media.gettyimages.com/id/183584154/photo/old-lisbon-tiles-azulejos.jpg?s=612x612&w=0&k=20&c=dTv59yzXrG00AGfvcaAyhgXkZJThDtbEX7R9ySFRQYM=');">
         <h2>Mogache Goa</h2>
         <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a
-        class="project"
-        href="tools/tools.html"
-        style="--project-bg: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');"
-      >
+      <a class="project" href="tools/tools.html" style="--project-bg: url('https://t3.ftcdn.net/jpg/17/69/22/72/240_F_1769227251_4vuDiSDS1UeewkbL4ifOORohW61SxLUC.jpg');">
         <h2>Offline Tool Box</h2>
         <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
@@ -414,36 +393,15 @@
     }
 
     function setActiveNav() {
-      let currentPath = window.location.pathname.replace(/\/+$/, "");
-
-      if (!currentPath || currentPath === "/") {
-        currentPath = "/index.html";
-      }
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
 
       document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
         const href = link.getAttribute("href") || "";
         const linkUrl = new URL(href, window.location.origin);
-        const linkPath = linkUrl.pathname.replace(/\/+$/, "");
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
 
-        const isHome =
-          (currentPath === "/" || currentPath.endsWith("/index.html")) &&
-          linkPath.endsWith("/index.html");
-
-        const isExactMatch = linkPath === currentPath;
-
-        const isContactSection =
-          currentPath.includes("/contact/") &&
-          linkPath.includes("/contact/contact.html");
-
-        const isProjectsSection =
-          currentPath.includes("/projects/") &&
-          linkPath.includes("/projects/projects.html");
-
-        const isMogacheSection =
-          currentPath.includes("/mogache-goa/") &&
-          linkPath.includes("/mogache-goa/mogache-goa.html");
-
-        if (isHome || isExactMatch || isContactSection || isProjectsSection || isMogacheSection) {
+        if (linkPath === currentNormalized) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
