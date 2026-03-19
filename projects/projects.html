@@ -336,15 +336,25 @@
     // Load projects from JSON
     async function loadProjects() {
       try {
-        const response = await fetch('../projects.json');
-        if (!response.ok) throw new Error('Failed to load projects');
+        // Try multiple paths for flexibility
+        let response = await fetch('/projects.json');
+        if (!response.ok) {
+          response = await fetch('../projects.json');
+        }
+        if (!response.ok) {
+          console.error('HTTP Error:', response.status);
+          throw new Error(`Failed to load projects (${response.status})`);
+        }
         const data = await response.json();
         allProjects = data.projects;
+        console.log('Projects loaded:', allProjects.length);
         
         initializeFilters();
         filterProjects(currentFilter);
       } catch (err) {
         console.error('Error loading projects:', err);
+        document.getElementById('empty-state').style.display = 'block';
+        document.getElementById('empty-state').innerHTML = '<h3>Error loading projects</h3><p>' + err.message + '</p>';
       }
     }
 
