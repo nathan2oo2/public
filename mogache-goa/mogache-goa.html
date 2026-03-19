@@ -3,169 +3,554 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Heritage Homes</title>
-
-  <!-- Google Material Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>Mogache Goa - Goan Heritage & Memories</title>
 
   <style>
+    /* BASE STYLES */
     :root {
-      --bg: #202124;
-      --fg: #e8eaed;
-      --border: #5f6368;
+      --cream: #f5f1e8;
+      --terracotta: #c85a3a;
+      --dark-brown: #3d2817;
+      --gold: #d4af37;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --vintage-sepia: #e6d5c3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-    }
-
-    .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      max-width: 1000px;
-      width: 100%;
-    }
-
-    .box {
+      font-family: 'Georgia', 'Garamond', serif;
+      background-color: var(--cream);
+      color: var(--dark-brown);
+      min-height: 100vh;
+      overflow-x: hidden;
       position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      width: 300px;
-      height: 230px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .box:hover {
-      transform: translateY(-4px);
+    /* FILM GRAIN TEXTURE */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="2"/><feColorMatrix type="saturate" values="0.3"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .box .bg {
+    /* CAMOUFLAGED NAV BAR */
+    #site-header {
+      position: relative;
+      z-index: 100;
+    }
+
+    #site-header::after {
+      content: '';
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(198, 90, 58, 0.85) 0%, rgba(157, 70, 45, 0.85) 50%, rgba(116, 51, 32, 0.85) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    :global(#site-header .site-nav) {
+      background-color: transparent !important;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.4) !important;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    :global(#site-header .nav-links a) {
+      color: var(--cream) !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    :global(#site-header .nav-links a:hover) {
+      color: var(--gold) !important;
+      background: rgba(212, 175, 55, 0.2) !important;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    :global(#site-header .nav-links a.active) {
+      color: var(--gold) !important;
+      background: rgba(212, 175, 55, 0.3) !important;
+      box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.5) !important;
+    }
+
+    :global(#site-header .mobile-nav) {
+      background-color: rgba(198, 90, 58, 0.95) !important;
+      border-top: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    :global(#site-header .mobile-nav a) {
+      color: var(--cream) !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    :global(#site-header .mobile-menu-btn) {
+      color: var(--cream) !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* MAIN CONTENT */
+    main {
+      position: relative;
+      z-index: 1;
+      padding: 0;
+    }
+
+    /* HERO SECTION - GOAN HOUSE WINDOW */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(61, 40, 23, 0.4), rgba(61, 40, 23, 0.3)),
+                  url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop');
       background-size: cover;
       background-position: center;
-      filter: blur(8px) brightness(0.4);
-      z-index: 1;
-    }
-
-    .box .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 80% 50%, rgba(198, 90, 58, 0.1) 0%, transparent 30%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      text-align: center;
+      color: var(--cream);
       z-index: 2;
-      padding: 1rem 1.5rem;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(4px);
+      animation: fadeInUp 1.2s ease-out;
     }
 
-    .title {
-      font-size: 1.2rem;
-      font-weight: 500;
-      margin-bottom: 0.2rem;
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      font-style: italic;
     }
 
-    .location {
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+      font-weight: 300;
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 2px;
+      background: var(--gold);
+      margin: 2rem auto;
+      opacity: 0.8;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--cream);
       font-size: 0.9rem;
-      color: #cfcfcf;
+      animation: bounce 2s infinite;
+      z-index: 3;
     }
 
-    .icons {
-      display: flex;
-      gap: 0.6rem;
+    /* CURATED MEMORIES SECTION */
+    .memories-section {
+      background: var(--cream);
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      text-align: center;
+      color: var(--dark-brown);
+      margin-bottom: 1rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--terracotta);
+      font-size: 1.1rem;
+      margin-bottom: 4rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    /* PHOTO GALLERY GRID */
+    .gallery {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .memory-card {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 20px var(--shadow);
+      background: white;
+      border: 8px solid var(--dark-brown);
+      transform: rotate(-1deg);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .memory-card:nth-child(even) {
+      transform: rotate(1deg);
+    }
+
+    .memory-card:hover {
+      transform: translateY(-8px) rotate(0deg);
+      box-shadow: 0 12px 30px var(--shadow);
+    }
+
+    .memory-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      filter: sepia(0.3) contrast(1.1);
+      transition: filter 0.4s ease;
+    }
+
+    .memory-card:hover .memory-image {
+      filter: sepia(0.1) contrast(1.2);
+    }
+
+    .memory-info {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--vintage-sepia) 100%);
+      position: relative;
+    }
+
+    .memory-title {
       font-size: 1.2rem;
-      margin: 0.6rem 0;
+      color: var(--terracotta);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      font-size: 22px;
-      color: #e8eaed;
+    .memory-description {
+      font-size: 0.9rem;
+      color: var(--dark-brown);
+      line-height: 1.6;
       opacity: 0.85;
     }
 
-    .condition {
-      font-size: 1rem;
-      color: #fbbc04;
-      white-space: nowrap;
-      overflow: hidden;
+    .memory-year {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* CURATION SHOWCASE */
+    .curation-section {
+      background: linear-gradient(135deg, var(--dark-brown) 0%, #4a3228 100%);
+      color: var(--cream);
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+
+    .curation-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .curation-text {
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--vintage-sepia);
+    }
+
+    .explore-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--gold);
+      color: var(--dark-brown);
+      text-decoration: none;
+      border-radius: 2px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    .explore-btn:hover {
+      background: var(--cream);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+    }
+
+    /* DECORATIVE ELEMENTS */
+    .corner-ornament {
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.1;
+    }
+
+    .corner-ornament.top-left {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .corner-ornament.bottom-right {
+      bottom: 1rem;
+      right: 1rem;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(10px);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .memories-section {
+        padding: 3rem 1rem;
+      }
+
+      .curation-section {
+        padding: 3rem 1rem;
+      }
+
+      .curation-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        height: 70vh;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+
+      .memory-card {
+        border: 6px solid var(--dark-brown);
+      }
+
+      .explore-btn {
+        padding: 0.875rem 2rem;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
+
 <body>
-  <nav id="nav-placeholder">
-    <!-- nav.html will be loaded here later -->
-  </nav>
-  <div class="grid">
+  <!-- HEADER: Camouflaged nav -->
+  <div id="site-header"></div>
 
-    <!-- House 1 -->
-    <div class="box" onclick="location.href='homes/house-001.html'">
-      <div class="bg" style="background-image: url('imgs/house1.jpg');"></div>
-      <div class="content">
-        <div>
-          <div class="title">Casa Bragança</div>
-          <div class="location"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span> Vidyanagar, Margao</div>
-        </div>
-        <div>
-          <div class="icons">
-            <span class="material-symbols-outlined" title="Photos">photo_library</span>
-            <span class="material-symbols-outlined" title="360 View">panorama</span>
-            <span class="material-symbols-outlined" title="Floorplan">floor_plan</span>
-            <span class="material-symbols-outlined" title="3D Scan">view_in_ar</span>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="corner-ornament top-left">◆</div>
+      <div class="corner-ornament bottom-right">◆</div>
+      
+      <div class="hero-content">
+        <h1 class="hero-title">Mogache Goa</h1>
+        <p class="hero-subtitle">A Curation of Vintage Goan Memories</p>
+        <div class="hero-divider"></div>
+        <p style="font-size: 1rem; letter-spacing: 0.5px;">Preserving the soul of Goa through photographs, places, and stories</p>
+      </div>
+
+      <div class="scroll-hint">Scroll to explore ↓</div>
+    </section>
+
+    <!-- MEMORIES SECTION -->
+    <section class="memories-section">
+      <h2 class="section-title">Vintage Goan Heritage</h2>
+      <p class="section-subtitle">
+        A curated collection of photographs capturing the essence of Goan culture, 
+        architecture, traditions, and the timeless beauty of our heritage.
+      </p>
+
+      <div class="gallery">
+        <div class="memory-card">
+          <img src="https://images.unsplash.com/photo-1504681869696-d977e2a45112?w=400&h=400&fit=crop" alt="Colonial Architecture" class="memory-image">
+          <div class="memory-info">
+            <span class="memory-year">1970s</span>
+            <h3 class="memory-title">Colonial Mansions</h3>
+            <p class="memory-description">Grand Portuguese colonial houses with their distinctive terraced roofs and ornate windows.</p>
           </div>
-          <div class="condition">⭐⭐⭐⭐☆</div>
+        </div>
+
+        <div class="memory-card">
+          <img src="https://images.unsplash.com/photo-1488976613614-0e00a2d3d112?w=400&h=400&fit=crop" alt="Goan Spice Market" class="memory-image">
+          <div class="memory-info">
+            <span class="memory-year">1980s</span>
+            <h3 class="memory-title">Spice Trade Heritage</h3>
+            <p class="memory-description">The vibrant colors and aromas of traditional Goan spice markets that shaped our cuisine.</p>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img src="https://images.unsplash.com/photo-1507246109139-19a721d09d84?w=400&h=400&fit=crop" alt="Portuguese Tiles" class="memory-image">
+          <div class="memory-info">
+            <span class="memory-year">1960s</span>
+            <h3 class="memory-title">Azulejo Artistry</h3>
+            <p class="memory-description">Intricate Portuguese tiles adorning homes, depicting stories of faith and tradition.</p>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=400&h=400&fit=crop" alt="Traditional Church" class="memory-image">
+          <div class="memory-info">
+            <span class="memory-year">1950s</span>
+            <h3 class="memory-title">Sacred Spaces</h3>
+            <p class="memory-description">Majestic churches and temples reflecting the diverse spiritual heritage of Goa.</p>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400&h=400&fit=crop" alt="Coastal Life" class="memory-image">
+          <div class="memory-info">
+            <span class="memory-year">1970s</span>
+            <h3 class="memory-title">Coastal Memories</h3>
+            <p class="memory-description">Fishermen, boats, and the rhythm of life along Goa's golden shores.</p>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="Village Life" class="memory-image">
+          <div class="memory-info">
+            <span class="memory-year">1980s</span>
+            <h3 class="memory-title">Village Traditions</h3>
+            <p class="memory-description">Daily life, festivals, and cultural practices that define the Goan spirit.</p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- House 2 -->
-    <div class="box" onclick="location.href='homes/house-002.html'">
-      <div class="bg" style="background-image: url('imgs/house2.jpg');"></div>
-      <div class="content">
-        <div>
-          <div class="title">Villa D'Souza</div>
-          <div class="location"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span> Fatorda, Margao</div>
-        </div>
-        <div>
-          <div class="icons">
-            <span class="material-symbols-outlined" title="Photos">photo_library</span>
-            <span class="material-symbols-outlined" title="3D Scan">view_in_ar</span>
-          </div>
-          <div class="condition">⭐⭐⭐☆☆</div>
-        </div>
-      </div>
-    </div>
+    <!-- CURATION SECTION -->
+    <section class="curation-section">
+      <h2 class="curation-title">Discover More</h2>
+      <p class="curation-text">
+        Explore curated collections of Goa's finest: iconic places, architectural marvels, 
+        culinary treasures, and the stories that weave together the fabric of our heritage. 
+        Each collection is a window into the soul of Mogache Goa.
+      </p>
+      <a href="#" class="explore-btn">Explore Collections</a>
+    </section>
+  </main>
 
-    <!-- House 3 -->
-    <div class="box" onclick="location.href='homes/house-003.html'">
-      <div class="bg" style="background-image: url('imgs/house3.jpg');"></div>
-      <div class="content">
-        <div>
-          <div class="title">Manor Pinto</div>
-          <div class="location"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span> Raia, Goa</div>
-        </div>
-        <div>
-          <div class="icons">
-            <span class="material-symbols-outlined" title="Photos">photo_library</span>
-            <span class="material-symbols-outlined" title="360 View">panorama</span>
-          </div>
-          <div class="condition">⭐⭐⭐⭐⭐</div>
-        </div>
-      </div>
-    </div>
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
 
-  </div>
+  <script>
+    // Load standalone components
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
 
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+        target.innerHTML = await response.text();
+        
+        const scripts = target.querySelectorAll("script");
+        scripts.forEach((script) => {
+          const newScript = document.createElement("script");
+          newScript.textContent = script.textContent;
+          target.appendChild(newScript);
+        });
+      } catch (err) {
+        console.error("Component loading error:", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const root = document.body.dataset.root || ".";
+      loadComponent("site-header", `${root}/components/header.html`);
+      loadComponent("site-footer", `${root}/components/footer.html`);
+    });
+  </script>
 </body>
 </html>
