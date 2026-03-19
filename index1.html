@@ -26,155 +26,24 @@
     }
 
     body {
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background-color: var(--bg);
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
       color: var(--fg);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
-    /* HEADER / NAV */
-    .site-nav {
-      width: 100%;
-      background-color: #000;
-      border-bottom: 1px solid #111;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      padding: 0.5rem 2rem;
-      position: relative;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .logo-icon {
-      height: 60px;
-      max-width: 150px;
-      border-radius: 8px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 0.6rem;
-      list-style: none;
-      margin-left: auto;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 0.95rem;
-      padding: 0.45rem 0.9rem;
-      border-radius: 999px;
-      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-      background: rgba(255,255,255,0.04);
-    }
-
-    .nav-links a.active {
-      color: var(--accent);
-      background: rgba(77, 163, 255, 0.14);
-      font-weight: 500;
-      box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.18);
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--fg);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      margin-left: auto;
-    }
-
-    .mobile-nav {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background-color: #000;
-      padding: 1rem 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 999;
-      overflow: clip;
-      max-height: 0px;
-      opacity: 0;
-      transform: translateY(-8px);
-      transition: max-height 260ms ease, opacity 200ms ease, transform 260ms ease;
-      will-change: max-height, opacity, transform;
-    }
-
-    .mobile-nav[data-open="true"] {
-      max-height: var(--mobile-nav-h, 320px);
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .mobile-nav {
-        transition: none;
-        transform: none;
-      }
-    }
-
-    .mobile-nav a {
-      padding: 0.75rem 0.9rem;
-      color: var(--fg);
-      text-decoration: none;
-      border-radius: 10px;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .mobile-nav a:hover {
-      background: rgba(255,255,255,0.04);
-    }
-
-    .mobile-nav a.active {
-      background: var(--active-bg);
-      color: #fff;
-    }
-
     /* MAIN */
     main {
+      flex: 1;
       max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
       padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      flex: 1;
-      width: 100%;
     }
 
     .hero {
@@ -195,40 +64,44 @@
       line-height: 1.6;
     }
 
+    /* PROJECT CARDS */
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+      gap: 1.25rem;
       width: 100%;
       max-width: 1000px;
     }
 
     .project {
-      background-color: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 2rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.25s ease;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
       display: block;
-      -webkit-tap-highlight-color: transparent;
       position: relative;
       overflow: hidden;
+
       background-image: var(--project-bg);
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      min-height: 210px;
     }
 
+    /* DARK TINT */
     .project::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.84);
-      transition: background 200ms ease;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.75),
+        rgba(0,0,0,0.85)
+      );
+      transition: background 0.25s ease;
     }
 
     .project > * {
@@ -236,58 +109,36 @@
       z-index: 1;
     }
 
+    /* HOVER */
     .project:hover {
+      transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.65);
     }
 
+    /* LIGHTEN IMAGE */
     .project:hover::before {
-      background: rgba(0, 0, 0, 0.70);
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.65)
+      );
     }
 
     .project h2 {
       font-size: 1.3rem;
       margin-bottom: 0.75rem;
+      color: #fff;
     }
 
     .project p {
-      color: #9aa0a6;
+      color: #c0c4c9;
       font-size: 0.95rem;
       line-height: 1.5;
     }
 
-    /* FOOTER */
-    .site-footer {
-      background: #000;
-      margin-top: 2rem;
-    }
-
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0.75rem 2rem;
-      text-align: center;
-    }
-
-    .site-footer p {
-      color: #8e9399;
-      font-size: 0.92rem;
-    }
-
-    /* RESPONSIVE */
+    /* MOBILE */
     @media (max-width: 768px) {
-      .nav-container {
-        padding: 0.5rem 1rem;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .mobile-menu-btn {
-        display: block;
-      }
-
       main {
         padding: 2rem 1.25rem;
       }
@@ -299,26 +150,16 @@
       .projects {
         grid-template-columns: 1fr;
       }
-
-      .logo-icon {
-        height: 52px;
-        max-width: 130px;
-      }
-
-      .footer-container {
-        padding: 0.6rem 1.25rem;
-      }
-
-      .mobile-nav {
-        padding: 1rem;
-      }
     }
   </style>
 </head>
 
 <body data-root=".">
+
+  <!-- HEADER -->
   <div id="site-header"></div>
 
+  <!-- MAIN -->
   <main>
     <div class="hero">
       <h1>Hi, I'm Nathan</h1>
@@ -329,194 +170,36 @@
     </div>
 
     <div class="projects">
-      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://media.gettyimages.com/id/92282400/photo/hymn-page-1.jpg?s=612x612&w=0&k=20&c=_OpLtFO-ERfUyvEwYiFCs4nNrEWJYCSYhtUf04eeD0c=');">
+
+      <a class="project"
+         href="jhelo/songbook.html"
+         style="--project-bg: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80');">
         <h2>Kantarancho Jhelo</h2>
-        <p>My own rendition of a digital konkani songbook.</p>
+        <p>My own rendition of a digital Konkani songbook.</p>
       </a>
 
-      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://media.gettyimages.com/id/183584154/photo/old-lisbon-tiles-azulejos.jpg?s=612x612&w=0&k=20&c=dTv59yzXrG00AGfvcaAyhgXkZJThDtbEX7R9ySFRQYM=');">
+      <a class="project"
+         href="mogache-goa/mogache-goa.html"
+         style="--project-bg: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80');">
         <h2>Mogache Goa</h2>
         <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a class="project" href="tools/tools.html" style="--project-bg: url('https://t3.ftcdn.net/jpg/17/69/22/72/240_F_1769227251_4vuDiSDS1UeewkbL4ifOORohW61SxLUC.jpg');">
+      <a class="project"
+         href="tools/tools.html"
+         style="--project-bg: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');">
         <h2>Offline Tool Box</h2>
         <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
+
     </div>
   </main>
 
+  <!-- FOOTER -->
   <div id="site-footer"></div>
 
-  <script>
-    async function loadComponent(targetId, filePath) {
-      const target = document.getElementById(targetId);
-      if (!target) return;
+  <!-- LAYOUT SCRIPT -->
+  <script src="js/layout.js"></script>
 
-      const response = await fetch(filePath);
-      if (!response.ok) throw new Error(`Failed to load ${filePath}`);
-      target.innerHTML = await response.text();
-    }
-
-    function getRootPath() {
-      return document.body.dataset.root || ".";
-    }
-
-    function normalizePath(path) {
-      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
-    }
-
-    function normalizePagePath(pathname) {
-      let path = pathname || "/";
-
-      path = path.split("#")[0].split("?")[0];
-      path = path.replace(/\\/g, "/");
-      path = path.replace(/\/+/g, "/");
-
-      if (path.endsWith("/")) path += "index.html";
-      if (path === "") path = "/index.html";
-
-      return path.toLowerCase();
-    }
-
-    function getPageName(pathname) {
-      const normalized = normalizePagePath(pathname);
-      const parts = normalized.split("/");
-      return parts[parts.length - 1] || "index.html";
-    }
-
-    function buildMobileNav() {
-      const desktopList = document.getElementById("main-nav-links");
-      const mobileNav = document.getElementById("mobile-nav");
-      if (!desktopList || !mobileNav) return;
-
-      mobileNav.innerHTML = "";
-
-      desktopList.querySelectorAll("a").forEach((link) => {
-        const mobileLink = document.createElement("a");
-        mobileLink.setAttribute("data-link", link.getAttribute("data-link") || "");
-        mobileLink.textContent = link.textContent;
-        mobileNav.appendChild(mobileLink);
-      });
-    }
-
-    function setLinks() {
-      const root = getRootPath();
-
-      document.querySelectorAll("[data-link]").forEach((el) => {
-        const raw = el.getAttribute("data-link");
-        if (!raw) return;
-        el.setAttribute("href", normalizePath(`${root}/${raw}`));
-      });
-    }
-
-    function setActiveNav() {
-      const currentFullPath = normalizePagePath(window.location.pathname);
-      const currentPageName = getPageName(window.location.pathname);
-
-      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
-        const href = link.getAttribute("href");
-        if (!href) {
-          link.classList.remove("active");
-          return;
-        }
-
-        const linkUrl = new URL(href, window.location.href);
-        const linkFullPath = normalizePagePath(linkUrl.pathname);
-        const linkPageName = getPageName(linkUrl.pathname);
-
-        const isActive =
-          linkFullPath === currentFullPath ||
-          linkPageName === currentPageName;
-
-        link.classList.toggle("active", isActive);
-      });
-    }
-
-    function setupMobileNav() {
-      const btn = document.getElementById("mobile-menu-btn");
-      const nav = document.getElementById("mobile-nav");
-      if (!btn || !nav) return;
-
-      btn.setAttribute("aria-controls", "mobile-nav");
-      btn.setAttribute("aria-expanded", "false");
-
-      function setNavHeightVar() {
-        const wasHidden = nav.hidden;
-        if (wasHidden) nav.hidden = false;
-        nav.style.setProperty("--mobile-nav-h", `${nav.scrollHeight}px`);
-        if (wasHidden) nav.hidden = true;
-      }
-
-      function openNav() {
-        setNavHeightVar();
-        nav.hidden = false;
-        nav.dataset.open = "false";
-        requestAnimationFrame(() => {
-          nav.dataset.open = "true";
-          btn.setAttribute("aria-expanded", "true");
-        });
-      }
-
-      function closeNav(immediate = false) {
-        if (immediate) {
-          nav.dataset.open = "false";
-          nav.hidden = true;
-          btn.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        if (nav.hidden) {
-          nav.dataset.open = "false";
-          btn.setAttribute("aria-expanded", "false");
-          return;
-        }
-
-        nav.dataset.open = "false";
-        btn.setAttribute("aria-expanded", "false");
-
-        nav.addEventListener("transitionend", function handler(e) {
-          if (e.target !== nav) return;
-          nav.hidden = true;
-        }, { once: true });
-      }
-
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = nav.dataset.open === "true" && !nav.hidden;
-        if (isOpen) closeNav();
-        else openNav();
-      });
-
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".site-nav")) closeNav();
-      });
-
-      nav.addEventListener("click", (e) => {
-        if (e.target.closest("a")) closeNav();
-      });
-
-      window.addEventListener("resize", () => {
-        setNavHeightVar();
-        if (window.innerWidth > 768) closeNav(true);
-      });
-    }
-
-    async function initLayout() {
-      const root = getRootPath();
-
-      await loadComponent("site-header", `${root}/components/header.html`);
-      await loadComponent("site-footer", `${root}/components/footer.html`);
-
-      buildMobileNav();
-      setLinks();
-      setActiveNav();
-      setupMobileNav();
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      initLayout().catch((err) => console.error(err));
-    });
-  </script>
 </body>
 </html>
