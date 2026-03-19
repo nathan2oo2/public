@@ -3,197 +3,159 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact | Nathan Baptista</title>
+  <title>Contact - Nathan Baptista</title>
+
+  <link rel="stylesheet" href="../components/styles.css">
 
   <style>
-    :root {
-      --bg: #181818;
-      --fg: #e6e6e6;
-      --card-bg: #1f1f1f;
-      --border: #2a2a2a;
-      --accent: #4da3ff;
-      --active-bg: #2b2b2b;
-      --muted: #9aa0a6;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-
-    body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    main {
-      flex: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-    }
-
-    .page-head {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .page-head h1 {
-      font-size: 2.5rem;
+    /* PAGE-SPECIFIC STYLES FOR CONTACT */
+    .page-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
       font-weight: 300;
+    }
+
+    .contact-content {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .contact-section {
+      margin-bottom: 2rem;
+    }
+
+    .contact-section h2 {
+      font-size: 1.2rem;
       margin-bottom: 1rem;
+      color: var(--accent);
     }
 
-    .page-head p {
-      color: var(--muted);
+    .contact-section p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
     }
 
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.5rem;
-    }
-
-    .social-list {
-      display: grid;
-      gap: 0.85rem;
-      margin-top: 1rem;
-    }
-
-    .social-link {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem;
-      border-radius: 14px;
-      border: 1px solid var(--border);
+    .contact-link {
+      display: inline-block;
+      color: var(--accent);
       text-decoration: none;
-      color: var(--fg);
-      transition: 0.2s;
+      transition: 0.2s ease;
     }
 
-    .social-link:hover {
-      border-color: var(--accent);
-    }
-
-    form {
-      display: grid;
-      gap: 1rem;
-    }
-
-    input, textarea {
-      padding: 0.9rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #151515;
-      color: var(--fg);
-    }
-
-    .submit-btn {
-      background: var(--accent);
-      border: none;
-      padding: 0.9rem;
-      border-radius: 10px;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    @media (max-width: 860px) {
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
+    .contact-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 
-<body data-root=".." data-active="contact">
-
+<body data-root="..">
   <div id="site-header"></div>
 
   <main>
-    <section class="page-head">
-      <h1>Contact</h1>
-      <p>Reach out anytime.</p>
-    </section>
+    <h1 class="page-title">Contact</h1>
 
-    <section class="contact-grid">
-      <div class="card">
-        <h2>Social Links</h2>
-
-        <div class="social-list">
-          <a class="social-link" href="#">Instagram</a>
-          <a class="social-link" href="#">GitHub</a>
-          <a class="social-link" href="#">Email</a>
-        </div>
+    <div class="contact-content">
+      <div class="contact-section">
+        <h2>Get in Touch</h2>
+        <p>I'd love to hear from you. Feel free to reach out through any of these channels:</p>
       </div>
 
-      <div class="card">
-        <h2>Send Message</h2>
-
-        <form>
-          <input placeholder="Name" required />
-          <input type="email" placeholder="Email" required />
-          <textarea placeholder="Message" required></textarea>
-          <button class="submit-btn">Send</button>
-        </form>
+      <div class="contact-section">
+        <h2>Email</h2>
+        <p><a href="mailto:hello@example.com" class="contact-link">hello@example.com</a></p>
       </div>
-    </section>
+
+      <div class="contact-section">
+        <h2>Social</h2>
+        <p>
+          <a href="https://github.com" target="_blank" class="contact-link">GitHub</a><br>
+          <a href="https://twitter.com" target="_blank" class="contact-link">Twitter</a>
+        </p>
+      </div>
+    </div>
   </main>
 
   <div id="site-footer"></div>
 
   <script>
-    async function loadComponent(id, path) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const res = await fetch(path);
-      el.innerHTML = await res.text();
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+        target.innerHTML = await response.text();
+
+        if (targetId === "site-header") {
+          const headerScript = target.querySelector("script");
+          if (headerScript) {
+            eval(headerScript.textContent);
+          }
+          setLinks();
+          setActiveNav();
+        }
+      } catch (err) {
+        console.error("Component loading error:", err);
+      }
+    }
+
+    function getRootPath() {
+      return document.body.dataset.root || ".";
+    }
+
+    function normalizePath(path) {
+      return path.replace(/\\/g, "/").replace(/\/+/g, "/");
     }
 
     function setLinks() {
-      const root = document.body.dataset.root || ".";
-      document.querySelectorAll("[data-link]").forEach(el => {
-        el.href = root + "/" + el.getAttribute("data-link");
+      const root = getRootPath();
+
+      document.querySelectorAll("[data-link]").forEach((el) => {
+        const raw = el.getAttribute("data-link");
+        if (!raw) return;
+        // Only add root prefix if it's not just "."
+        const href = root === "." ? raw : normalizePath(`${root}/${raw}`);
+        el.setAttribute("href", href);
       });
     }
 
-    function setManualActive() {
-      const active = document.body.dataset.active;
+    function setActiveNav() {
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+      const currentNormalized = currentPath === "/" ? "/index.html" : currentPath;
 
-      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach(link => {
-        if ((link.getAttribute("data-link") || "").includes(active)) {
+      document.querySelectorAll(".nav-links a, .mobile-nav a").forEach((link) => {
+        const href = link.getAttribute("href") || "";
+        const linkUrl = new URL(href, window.location.origin);
+        const linkPath = linkUrl.pathname.replace(/\/+$/, "") || "/";
+
+        if (linkPath === currentNormalized) {
           link.classList.add("active");
+        } else {
+          link.classList.remove("active");
         }
       });
     }
 
-    async function init() {
-      const root = document.body.dataset.root;
+    async function initLayout() {
+      const root = getRootPath();
+      const headerPath = `${root}/components/header.html`;
+      const footerPath = `${root}/components/footer.html`;
 
-      await loadComponent("site-header", root + "/components/header.html");
-      await loadComponent("site-footer", root + "/components/footer.html");
+      console.log("Loading header from:", headerPath);
+      console.log("Loading footer from:", footerPath);
+
+      await loadComponent("site-header", headerPath);
+      await loadComponent("site-footer", footerPath);
 
       setLinks();
-      setManualActive();
+      setActiveNav();
     }
 
-    init();
+    window.addEventListener("DOMContentLoaded", () => {
+      initLayout().catch((err) => console.error(err));
+    });
   </script>
-
 </body>
 </html>
