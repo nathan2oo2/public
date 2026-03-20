@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nathan Baptista</title>
+
+  <style>
+    /* BASE STYLES */
+    :root {
+      --bg: #181818;
+      --fg: #e6e6e6;
+      --card-bg: #1f1f1f;
+      --border: #2a2a2a;
+      --accent: #4da3ff;
+      --text-muted: #9aa0a6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+    }
+
+    .hero {
+      max-width: 700px;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .project {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+      background-image: var(--project-bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .project::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      transition: background 300ms ease;
+    }
+
+    .project > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .project:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    .project:hover::before {
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .project h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 2rem 1.25rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body data-root=".">
+  <!-- HEADER: Standalone component with all CSS and JS -->
+  <div id="site-header"></div>
+
+  <main>
+    <div class="hero">
+      <h1>Hi, I'm Nathan</h1>
+      <p>
+        A curious developer exploring web, electronics, and clean design.
+        I love building simple, useful tools and learning as I go.
+      </p>
+    </div>
+
+    <div class="projects">
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('../images/songbook.webp');">
+        <h2>Kantarancho Jhelo</h2>
+        <p>My own rendition of a digital konkani songbook.</p>
+      </a>
+
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('../images/tiles.webp');">
+        <h2>Mogache Goa</h2>
+        <p>My personal catalog of things just Goa.</p>
+      </a>
+
+      <a class="project" href="tools/tools.html" style="--project-bg: url('../images/digital-tools.webp');">
+        <h2>Offline Tool Box</h2>
+        <p>A small hub for simple tools — fast-loading and offline-capable.</p>
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER: Standalone component with all CSS -->
+  <div id="site-footer"></div>
+
+  <script>
+    // Load standalone components with their own CSS and JS
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+        target.innerHTML = await response.text();
+        
+        // Execute any scripts in the loaded component
+        const scripts = target.querySelectorAll("script");
+        scripts.forEach((script) => {
+          const newScript = document.createElement("script");
+          newScript.textContent = script.textContent;
+          target.appendChild(newScript);
+        });
+      } catch (err) {
+        console.error("Component loading error:", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const root = document.body.dataset.root || ".";
+      loadComponent("site-header", `${root}/components/header.html`);
+      loadComponent("site-footer", `${root}/components/footer.html`);
+    });
+  </script>
+</body>
+</html>
