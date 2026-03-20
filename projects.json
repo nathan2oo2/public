@@ -4,7 +4,7 @@
       "id": 1,
       "title": "Kantarancho Jhelo",
       "popular": 1,
-      "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&h=300&fit=crop",
+      "image": "../images/songbook.webp",
       "tags": ["Music", "Konkani", "Digital Archive"],
       "status": "Active",
       "category": "Cultural",
