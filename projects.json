@@ -67,17 +67,6 @@
       "link": "#"
     },
     {
-      "id": 7,
-      "title": "Design System",
-      "popular": 0,
-      "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=300&fit=crop",
-      "tags": ["Design", "System", "UI/UX"],
-      "status": "In Progress",
-      "category": "Design",
-      "description": "A comprehensive design system with typography, colors, components, and guidelines for consistent UI design.",
-      "link": "#"
-    },
-    {
       "id": 8,
       "title": "Electronics Projects",
       "popular": 0,
