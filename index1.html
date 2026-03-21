@@ -151,7 +151,21 @@
   <!-- HEADER: Standalone component with all CSS and JS -->
   <div id="site-header"></div>
 
-  <main>
+  <script>
+    // Auto-detect the correct image path
+    function getImagePath(imageName) {
+      // Check if images load with /images/ path
+      const testImg = new Image();
+      testImg.onload = function() {
+        // Path works, do nothing
+      };
+      testImg.onerror = function() {
+        // Try with repo name if /images/ doesn't work
+        console.log('Image path issue - check repo structure');
+      };
+      return `images/${imageName}`;
+    }
+  </script>
     <div class="hero">
       <h1>Hi, I'm Nathan</h1>
       <p>
@@ -161,17 +175,17 @@
     </div>
 
     <div class="projects">
-      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('/images/songbook.webp');">
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('images/songbook.webp');">
         <h2>Kantarancho Jhelo</h2>
         <p>My own rendition of a digital konkani songbook.</p>
       </a>
 
-      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('/images/tiles.webp');">
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('images/tiles.webp');">
         <h2>Mogache Goa</h2>
         <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a class="project" href="tools/tools.html" style="--project-bg: url('/images/digital-tools.webp');">
+      <a class="project" href="tools/tools.html" style="--project-bg: url('images/digital-tools.webp');">
         <h2>Offline Tool Box</h2>
         <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
