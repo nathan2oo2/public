@@ -11,7 +11,9 @@
       --bg: #181818;
       --fg: #e6e6e6;
       --text-muted: #9aa0a6;
-      --accent: #4da3ff;
+      --card-bg: #1f1f1f;
+      --border: #2a2a2a;
+      --input-bg: #0f0f0f;
     }
 
     * {
@@ -25,7 +27,7 @@
     }
 
     body {
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       background-color: var(--bg);
       color: var(--fg);
       min-height: 100vh;
@@ -35,105 +37,486 @@
 
     /* MAIN CONTENT */
     main {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 3rem 2rem;
+      padding: 4rem 2rem;
       display: flex;
       flex-direction: column;
-      align-items: center;
       flex: 1;
       width: 100%;
     }
 
+    /* HEADER */
+    .contact-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
     .page-title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
       font-weight: 300;
     }
 
-    .contact-content {
-      max-width: 600px;
-      width: 100%;
+    /* COMPARTMENTS GRID */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
     }
 
-    .contact-section {
-      margin-bottom: 2rem;
+    /* COMPARTMENT BOXES */
+    .compartment {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: border-color 0.3s ease;
     }
 
-    .contact-section h2 {
-      font-size: 1.2rem;
+    .compartment:hover {
+      border-color: var(--border);
+    }
+
+    .compartment-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--fg);
+      letter-spacing: 0.5px;
+    }
+
+    /* SOCIAL SECTION */
+    .social-section {
+      margin-top: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .social-section .compartment-title {
       margin-bottom: 1rem;
-      color: var(--accent);
     }
 
-    .contact-section p {
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 0.75rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      width: 50px;
+      height: 50px;
+    }
+
+    .social-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .social-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* FORM */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--fg);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.75rem 0.875rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease;
+      outline: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #555;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--fg);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    /* FILE INPUT */
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .file-input-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .file-input-label:hover {
+      border-color: var(--fg);
+    }
+
+    .file-name {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn {
+      background: var(--fg);
+      color: var(--bg);
+      border: none;
+      padding: 0.875rem 1.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.9;
+    }
+
+    .submit-btn:active {
+      opacity: 0.8;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* MESSAGE */
+    .form-message {
+      padding: 0.875rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    .form-message.success {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4caf50;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      display: block;
+    }
+
+    .form-message.error {
+      background: rgba(244, 67, 54, 0.1);
+      color: #f44336;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      display: block;
+    }
+
+    /* INFO TEXT */
+    .info-text {
+      font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.6;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      border-left: 2px solid var(--border);
     }
 
-    .contact-link {
-      display: inline-block;
-      color: var(--accent);
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
-
-    .contact-link:hover {
-      text-decoration: underline;
-    }
-
+    /* RESPONSIVE */
     @media (max-width: 768px) {
       main {
-        padding: 2rem 1.25rem;
+        padding: 3rem 1.5rem;
       }
 
       .page-title {
-        font-size: 1.5rem;
+        font-size: 2rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .compartment {
+        padding: 1.5rem;
+      }
+
+      .social-links {
+        gap: 1rem;
       }
     }
 
     @media (max-width: 480px) {
       main {
-        padding: 1.5rem 1rem;
+        padding: 2rem 1rem;
+      }
+
+      .page-title {
+        font-size: 1.75rem;
+      }
+
+      .contact-grid {
+        gap: 1.5rem;
+      }
+
+      .compartment {
+        padding: 1.25rem;
+        border-radius: 12px;
+      }
+
+      .compartment-title {
+        font-size: 1rem;
+      }
+
+      .submit-btn {
+        width: 100%;
+        align-self: stretch;
+      }
+
+      .social-link {
+        width: 45px;
+        height: 45px;
+      }
+
+      .info-text {
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 
 <body data-root="..">
-  <!-- HEADER: Standalone component with all CSS and JS -->
+  <!-- HEADER -->
   <div id="site-header"></div>
 
   <main>
-    <h1 class="page-title">Contact</h1>
+    <!-- PAGE HEADER -->
+    <div class="contact-header">
+      <h1 class="page-title">Contact</h1>
+      <p class="page-subtitle">Have a question or want to collaborate? Feel free to reach out.</p>
+    </div>
 
-    <div class="contact-content">
-      <div class="contact-section">
-        <h2>Get in Touch</h2>
-        <p>I'd love to hear from you. Feel free to reach out through any of these channels:</p>
+    <!-- COMPARTMENTS -->
+    <div class="contact-grid">
+      <!-- LEFT: SOCIAL LINKS -->
+      <div class="compartment">
+        <h2 class="compartment-title">Connect</h2>
+
+        <div class="social-section" style="margin-top: 0; padding-top: 0; border-top: none;">
+          <div class="social-links">
+            <a href="mailto:hello@nathanbaptista.com" class="social-link" title="Email">
+              <div class="social-icon">
+                <img src="../images/email.webp" alt="Email">
+              </div>
+            </a>
+
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link" title="YouTube">
+              <div class="social-icon">
+                <img src="../images/youtube.webp" alt="YouTube">
+              </div>
+            </a>
+
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" title="Instagram">
+              <div class="social-icon">
+                <img src="../images/instagram.webp" alt="Instagram">
+              </div>
+            </a>
+
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" title="Facebook">
+              <div class="social-icon">
+                <img src="../images/facebook.webp" alt="Facebook">
+              </div>
+            </a>
+
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-link" title="X/Twitter">
+              <div class="social-icon">
+                <img src="../images/twitter.webp" alt="X/Twitter">
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div class="contact-section">
-        <h2>Email</h2>
-        <p><a href="mailto:hello@example.com" class="contact-link">hello@example.com</a></p>
-      </div>
+      <!-- RIGHT: MESSAGE FORM -->
+      <div class="compartment">
+        <h2 class="compartment-title">Send a Message</h2>
 
-      <div class="contact-section">
-        <h2>Social</h2>
-        <p>
-          <a href="https://github.com" target="_blank" class="contact-link">GitHub</a><br>
-          <a href="https://twitter.com" target="_blank" class="contact-link">Twitter</a>
-        </p>
+        <div class="info-text">
+          Have lyrics to share? Media files? Stories about Goa? Or just want to chat? Send us a message and attach your files. We'd love to hear from you!
+        </div>
+
+        <div class="form-message" id="formMessage"></div>
+
+        <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+          </div>
+
+          <div class="form-group form-row full">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+          </div>
+
+          <div class="form-group form-row full">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+          </div>
+
+          <div class="form-group form-row full">
+            <label for="attachment">Attach File (optional)</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="attachment" name="attachment">
+              <label for="attachment" class="file-input-label">
+                📎 Choose File
+              </label>
+              <div class="file-name" id="fileName"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Send</button>
+        </form>
       </div>
     </div>
   </main>
 
-  <!-- FOOTER: Standalone component with all CSS -->
+  <!-- FOOTER -->
   <div id="site-footer"></div>
 
   <script>
-    // Load standalone components with their own CSS and JS
+    // File input handler
+    const fileInput = document.getElementById('attachment');
+    const fileName = document.getElementById('fileName');
+
+    fileInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        fileName.textContent = `Selected: ${this.files[0].name}`;
+      } else {
+        fileName.textContent = '';
+      }
+    });
+
+    // Form handling
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+
+    contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      const file = fileInput.files[0];
+
+      // Build mailto URL with attachment info
+      let mailtoBody = `Name: ${name}\n\nSubject: ${subject}\n\nMessage: ${message}`;
+      
+      if (file) {
+        mailtoBody += `\n\nAttachment: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        mailtoBody += `\nNote: Please attach the file manually when composing the email.`;
+      }
+
+      const mailtoLink = `mailto:hello@nathanbaptista.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailtoBody)}`;
+
+      // Open default mail app
+      window.location.href = mailtoLink;
+
+      // Show success message
+      formMessage.className = 'form-message success';
+      formMessage.textContent = '✓ Opening your email client...';
+      
+      // Reset form after a delay
+      setTimeout(() => {
+        contactForm.reset();
+        fileName.textContent = '';
+        formMessage.textContent = '';
+        formMessage.className = 'form-message';
+      }, 2000);
+    });
+
+    // Load components
     async function loadComponent(targetId, filePath) {
       const target = document.getElementById(targetId);
       if (!target) return;
@@ -143,7 +526,6 @@
         if (!response.ok) throw new Error(`Failed to load ${filePath}`);
         target.innerHTML = await response.text();
         
-        // Execute any scripts in the loaded component
         const scripts = target.querySelectorAll("script");
         scripts.forEach((script) => {
           const newScript = document.createElement("script");
