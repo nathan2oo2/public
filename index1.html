@@ -70,7 +70,8 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       width: 100%;
-      max-width: 1000px;
+      max-width: 1200px;
+      padding: 0 1.5rem;
     }
 
     .project {
@@ -96,7 +97,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.60);
       transition: background 300ms ease;
     }
 
@@ -111,18 +112,20 @@
     }
 
     .project:hover::before {
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.40);
     }
 
     .project h2 {
       font-size: 1.3rem;
       margin-bottom: 0.75rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     }
 
     .project p {
       color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.5;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
     }
 
     @media (max-width: 768px) {
@@ -151,21 +154,7 @@
   <!-- HEADER: Standalone component with all CSS and JS -->
   <div id="site-header"></div>
 
-  <script>
-    // Auto-detect the correct image path
-    function getImagePath(imageName) {
-      // Check if images load with /images/ path
-      const testImg = new Image();
-      testImg.onload = function() {
-        // Path works, do nothing
-      };
-      testImg.onerror = function() {
-        // Try with repo name if /images/ doesn't work
-        console.log('Image path issue - check repo structure');
-      };
-      return `images/${imageName}`;
-    }
-  </script>
+  <main>
     <div class="hero">
       <h1>Hi, I'm Nathan</h1>
       <p>
