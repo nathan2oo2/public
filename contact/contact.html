@@ -121,8 +121,8 @@
       padding: 0.75rem;
       border-radius: 8px;
       transition: all 0.3s ease;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
     }
 
     .social-link:hover {
@@ -130,8 +130,8 @@
     }
 
     .social-icon {
-      width: 28px;
-      height: 28px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -141,6 +141,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      filter: invert(1);
     }
 
     /* FORM */
@@ -225,10 +226,43 @@
       border-color: var(--fg);
     }
 
-    .file-name {
+    .file-list {
       font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      border-left: 2px solid var(--border);
+    }
+
+    .file-item-name {
+      flex: 1;
+      word-break: break-all;
+    }
+
+    .file-item-remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0;
+      margin-left: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .file-item-remove:hover {
+      color: var(--fg);
     }
 
     .submit-btn {
@@ -446,13 +480,13 @@
           </div>
 
           <div class="form-group form-row full">
-            <label for="attachment">Attach File (optional)</label>
+            <label for="attachment">Attach Files (optional)</label>
             <div class="file-input-wrapper">
-              <input type="file" id="attachment" name="attachment">
+              <input type="file" id="attachment" name="attachment" multiple>
               <label for="attachment" class="file-input-label">
-                📎 Choose File
+                📎 Choose Files
               </label>
-              <div class="file-name" id="fileName"></div>
+              <div class="file-list" id="fileList"></div>
             </div>
           </div>
 
@@ -468,15 +502,44 @@
   <script>
     // File input handler
     const fileInput = document.getElementById('attachment');
-    const fileName = document.getElementById('fileName');
+    const fileList = document.getElementById('fileList');
+    let selectedFiles = [];
 
     fileInput.addEventListener('change', function() {
-      if (this.files && this.files[0]) {
-        fileName.textContent = `Selected: ${this.files[0].name}`;
-      } else {
-        fileName.textContent = '';
-      }
+      selectedFiles = Array.from(this.files);
+      renderFileList();
     });
+
+    function renderFileList() {
+      fileList.innerHTML = '';
+      
+      if (selectedFiles.length === 0) {
+        return;
+      }
+
+      selectedFiles.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        
+        const fileName = document.createElement('span');
+        fileName.className = 'file-item-name';
+        fileName.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'file-item-remove';
+        removeBtn.textContent = '✕';
+        removeBtn.type = 'button';
+        removeBtn.onclick = (e) => {
+          e.preventDefault();
+          selectedFiles.splice(index, 1);
+          renderFileList();
+        };
+        
+        fileItem.appendChild(fileName);
+        fileItem.appendChild(removeBtn);
+        fileList.appendChild(fileItem);
+      });
+    }
 
     // Form handling
     const contactForm = document.getElementById('contactForm');
@@ -488,14 +551,16 @@
       const name = document.getElementById('name').value;
       const subject = document.getElementById('subject').value;
       const message = document.getElementById('message').value;
-      const file = fileInput.files[0];
 
-      // Build mailto URL with attachment info
+      // Build mailto URL with all attachments
       let mailtoBody = `Name: ${name}\n\nSubject: ${subject}\n\nMessage: ${message}`;
       
-      if (file) {
-        mailtoBody += `\n\nAttachment: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-        mailtoBody += `\nNote: Please attach the file manually when composing the email.`;
+      if (selectedFiles.length > 0) {
+        mailtoBody += `\n\nAttachments (${selectedFiles.length}):`;
+        selectedFiles.forEach(file => {
+          mailtoBody += `\n- ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        });
+        mailtoBody += `\n\nNote: Please attach these files manually when composing the email.`;
       }
 
       const mailtoLink = `mailto:hello@nathanbaptista.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailtoBody)}`;
@@ -510,7 +575,8 @@
       // Reset form after a delay
       setTimeout(() => {
         contactForm.reset();
-        fileName.textContent = '';
+        selectedFiles = [];
+        fileList.innerHTML = '';
         formMessage.textContent = '';
         formMessage.className = 'form-message';
       }, 2000);
