@@ -71,6 +71,7 @@
       gap: 2rem;
       width: 100%;
       max-width: 1000px;
+      padding: 0 1.5rem;
     }
 
     .project {
@@ -96,8 +97,8 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.80);
-      transition: background 200ms ease;
+      background: rgba(0, 0, 0, 0.45);
+      transition: background 300ms ease;
     }
 
     .project > * {
@@ -106,13 +107,12 @@
     }
 
     .project:hover {
-      transform: translateY(-4px);
       border-color: var(--accent);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 
     .project:hover::before {
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.25);
     }
 
     .project h2 {
@@ -162,17 +162,17 @@
     </div>
 
     <div class="projects">
-      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('https://imgs.search.brave.com/CAZbDWtNuS380Pck9lMa6q_Igu3ARCgo4F-VKP3BA0s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5nZXR0eWltYWdl/cy5jb20vaWQvOTIyODI0MDAvcGhvdG8vaHltbi1wYWdlLTEuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPV9PcEx0Rk8tRVJmVWx2RXdZaUZDczRuTnJFV0pZQ1NZaHRVZjA0ZWVEMGM9');">
+      <a class="project" href="jhelo/songbook.html" style="--project-bg: url('images/songbook.webp');">
         <h2>Kantarancho Jhelo</h2>
         <p>My own rendition of a digital konkani songbook.</p>
       </a>
 
-      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('https://imgs.search.brave.com/S_XJBWdSFH9WSVbJ1kBrdDGrBw6TqF9esa1XWDHr8_c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRpYS5pc3RvY2twaG90by5jb20vaWQvNjg3MTI3Nzk0L3Bob3RvL3RyYWRpdGlvbmFsLW9ybmF0ZS1wb3J0dWd1ZXNlLWRlY29yYXRpdmUtdGlsZXMtYXp1bGVqb3MuanBnP3M9NjEyeDYxMiZ3PTAmaz0yMCZjPVNGeHhxTXI0UHFsQjdXeldFeVlfR0I1Ymd1OW41NHhXTlVtTm16T1E3LUE9');">
+      <a class="project" href="mogache-goa/mogache-goa.html" style="--project-bg: url('images/tiles.webp');">
         <h2>Mogache Goa</h2>
         <p>My personal catalog of things just Goa.</p>
       </a>
 
-      <a class="project" href="tools/tools.html" style="--project-bg: url('https://imgs.search.brave.com/30UCb4Yy1iuR7dJrEFRj9QS-9VLZHG__p9mEhyD5JkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4udmVjdG9yc3RvY2suY29tL2kvcHJldmlldy0xeC81NC8yMi9hYnN0cmFjdC1jeWJlcnNwYWNlLWJnLWRpZ2l0YWwtYmluYXJ5LWNvZGUtc2NyZWVuLXZlY3Rvci0yMzk2NTQyMi5qcGc');">
+      <a class="project" href="tools/tools.html" style="--project-bg: url('images/digital-tools.webp');">
         <h2>Offline Tool Box</h2>
         <p>A small hub for simple tools — fast-loading and offline-capable.</p>
       </a>
