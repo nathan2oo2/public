@@ -1,225 +1,765 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Resistor Color Code Calculator</title>
-<style>
-  body {
-    font-family: sans-serif;
-    padding: 40px 100px;
-    background: #121212;
-    color: #e0e0e0;
-  }
-  h1 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  #main-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 60px;
-    flex-wrap: wrap;
-  }
-  .form-section {
-    flex: 1;
-    min-width: 300px;
-  }
-  .result-section {
-    flex: 0 0 auto;
-    text-align: center;
-    min-width: 260px;
-  }
-  .controls label {
-    display: block;
-    margin-top: 15px;
-  }
-  .controls select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    background-color: #2f2f2f;
-    border: none;
-    border-radius: 5px;
-    color: #e0e0e0;
-  }
-  .result {
-    margin-top: 20px;
-    font-size: 1.4em;
-  }
-  svg {
-    margin-top: 20px;
-    width: 200px;
-    height: auto;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistor Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+        :root {
+            /* Clean Dark Palette */
+            --surface-dim: #0a0a0a;
+            --surface: #121212;
+            --surface-bright: #1e1e1e;
+            --surface-container-lowest: #050505;
+            --surface-container-low: #161616;
+            --surface-container: #1a1a1a;
+            --surface-container-high: #242424;
+            --surface-container-highest: #2e2e2e;
+            
+            --on-surface: #e0e0e0;
+            --on-surface-variant: #9e9e9e;
+            --outline: #666666;
+            --outline-variant: #3a3a3a;
+            
+            --primary: #e0e0e0;
+            --on-primary: #1a1a1a;
+            --primary-container: #2a2a2a;
+            --on-primary-container: #e0e0e0;
+            
+            --secondary: #9e9e9e;
+            --on-secondary: #1a1a1a;
+            --secondary-container: #2a2a2a;
+            --on-secondary-container: #e0e0e0;
+            
+            --tertiary: #8a8a8a;
+            --on-tertiary: #1a1a1a;
+            --tertiary-container: #2a2a2a;
+            --on-tertiary-container: #e0e0e0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--surface-dim);
+            color: var(--on-surface);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Header */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--outline-variant);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--surface-container);
+            border: none;
+            border-radius: 12px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.25rem;
+        }
+
+        .back-btn:hover {
+            background: var(--surface-container-high);
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        .header-title {
+            flex: 1;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--on-surface);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                min-height: auto;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface-container);
+            border: 1px solid var(--outline-variant);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 0.5s ease-out;
+            backdrop-filter: blur(20px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--on-surface);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Band Count Selector */
+        .band-count-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .band-count-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .band-count-btn {
+            padding: 0.75rem;
+            background: var(--surface-container-low);
+            border: 2px solid var(--outline-variant);
+            color: var(--on-surface-variant);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .band-count-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--surface-container);
+        }
+
+        .band-count-btn.active {
+            background: var(--primary-container);
+            border-color: var(--primary);
+            color: var(--on-primary-container);
+        }
+
+        /* Band Selector */
+        .band-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .band-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 0 1 auto;
+        }
+
+        .band-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        select {
+            padding: 0.65rem 0.75rem;
+            background: var(--surface-container-low);
+            border: 1px solid var(--outline-variant);
+            border-radius: 8px;
+            color: var(--on-surface);
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+            padding-right: 2rem;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239e9e9e' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 16px;
+            min-width: 100px;
+        }
+
+        select:hover {
+            border-color: var(--outline);
+            background-color: var(--surface-container);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--outline);
+            background-color: var(--surface-container);
+        }
+
+        /* Colored dropdown options */
+        option {
+            background: var(--surface-dim);
+            color: var(--on-surface);
+            padding: 0.5rem;
+        }
+
+        option[style] {
+            background-color: inherit;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: none;
+        }
+
+        /* Color Guide */
+        .info-section {
+            display: none;
+        }
+
+        /* Visualizer Section */
+        .visualizer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .resistor-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .resistor-visual {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .wire {
+            width: 50px;
+            height: 2px;
+            background: var(--outline);
+            border-radius: 1px;
+        }
+
+        .resistor-body {
+            width: 70px;
+            height: 28px;
+            background: linear-gradient(135deg, #8b7355, #a0825d);
+            border: 2px solid #6b5344;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .bands-visual {
+            display: flex;
+            gap: 2px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .band {
+            width: 8px;
+            height: 28px;
+            border-radius: 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            animation: bandAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes bandAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .values-display {
+            text-align: center;
+            width: 100%;
+        }
+
+        .value-box {
+            background: var(--surface-container-low);
+            border: 1px solid var(--outline-variant);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .value-box:hover {
+            border-color: var(--primary);
+            background: var(--surface-container);
+        }
+
+        .value-label {
+            font-size: 0.75rem;
+            color: var(--on-surface-variant);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-main {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .value-unit {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .value-sub {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--outline-variant);
+        }
+
+        .sub-item {
+            text-align: left;
+        }
+
+        .sub-label {
+            font-size: 0.7rem;
+            color: var(--on-surface-variant);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .sub-value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .placeholder {
+            color: var(--on-surface-variant);
+            font-style: italic;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.125rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .band-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .resistor-visual {
+                gap: 1rem;
+                scale: 0.9;
+            }
+
+            .value-main {
+                font-size: 1.75rem;
+            }
+
+            .header {
+                padding: 0.75rem 1rem;
+            }
+
+            .header-title {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="header">
+        <button class="back-btn" onclick="goHome()" title="Go back home">←</button>
+        <div class="header-title">Resistor Calculator</div>
+    </div>
 
-<h1>Resistor Color Code Calculator</h1>
-<div id="main-container">
-  <div class="form-section controls">
-    <label>Type:
-      <select id="type">
-        <option value="3">3-Band</option>
-        <option value="4" selected>4-Band</option>
-        <option value="5">5-Band</option>
-        <option value="6">6-Band</option>
-      </select>
-    </label>
-    <label>1st Band:
-      <select id="band1"></select>
-    </label>
-    <label id="label-band2">2nd Band:
-      <select id="band2"></select>
-    </label>
-    <label id="label-band3" style="display:none;">3rd Band:
-      <select id="band3"></select>
-    </label>
-    <label>Multiplier:
-      <select id="multiplier"></select>
-    </label>
-    <label id="label-tolerance">Tolerance:
-      <select id="tolerance"></select>
-    </label>
-    <label id="label-tempco" style="display:none;">Temp Coefficient:
-      <select id="tempco">
-        <option value="250">250 ppm/K</option>
-        <option value="100">100 ppm/K</option>
-        <option value="50">50 ppm/K</option>
-        <option value="25">25 ppm/K</option>
-        <option value="15">15 ppm/K</option>
-        <option value="10">10 ppm/K</option>
-        <option value="5">5 ppm/K</option>
-      </select>
-    </label>
-  </div>
+    <div class="container">
+        <div class="main-grid">
+            <!-- Left Section: Selection -->
+            <div class="card">
+                <div class="card-title">Select Bands & Colors</div>
 
-  <div class="result-section">
-    <div class="result" id="result">Resistance: -</div>
-    <div id="resistor-svg"></div>
-  </div>
-</div>
+                <div>
+                    <label class="band-label" style="display: block; margin-bottom: 1rem;">Number of Bands</label>
+                    <div class="band-count-selector">
+                        <button class="band-count-btn active" onclick="setBandCount(3)">3 Band</button>
+                        <button class="band-count-btn" onclick="setBandCount(4)">4 Band</button>
+                        <button class="band-count-btn" onclick="setBandCount(5)">5 Band</button>
+                        <button class="band-count-btn" onclick="setBandCount(6)">6 Band</button>
+                    </div>
+                </div>
 
-<script>
-const colorMap = {
-  "black": "#000000",
-  "brown": "#8B4513",
-  "red": "#FF0000",
-  "orange": "#FFA500",
-  "yellow": "#FFFF00",
-  "green": "#008000",
-  "blue": "#0000FF",
-  "violet": "#EE82EE",
-  "gray": "#808080",
-  "white": "#FFFFFF",
-  "gold": "#FFD700",
-  "silver": "#C0C0C0"
-};
+                <div class="band-selector" id="bandSelector"></div>
+            </div>
 
-const bandOptions = [
-  {color:"black", text:"Black (0)"},
-  {color:"brown", text:"Brown (1)"},
-  {color:"red", text:"Red (2)"},
-  {color:"orange", text:"Orange (3)"},
-  {color:"yellow", text:"Yellow (4)"},
-  {color:"green", text:"Green (5)"},
-  {color:"blue", text:"Blue (6)"},
-  {color:"violet", text:"Violet (7)"},
-  {color:"gray", text:"Gray (8)"},
-  {color:"white", text:"White (9)"}
-];
-const multiplierOptions = [
-  {value:1, text:"Black (×1)", color:"black"},
-  {value:10, text:"Brown (×10)", color:"brown"},
-  {value:100, text:"Red (×100)", color:"red"},
-  {value:1000, text:"Orange (×1K)", color:"orange"},
-  {value:10000, text:"Yellow (×10K)", color:"yellow"},
-  {value:100000, text:"Green (×100K)", color:"green"},
-  {value:1000000, text:"Blue (×1M)", color:"blue"},
-  {value:10000000, text:"Violet (×10M)", color:"violet"},
-  {value:0.1, text:"Gold (×0.1)", color:"gold"},
-  {value:0.01, text:"Silver (×0.01)", color:"silver"}
-];
-const toleranceOptions = [
-  {value:"±1%", text:"Brown (±1%)", color:"brown"},
-  {value:"±2%", text:"Red (±2%)", color:"red"},
-  {value:"±0.5%", text:"Green (±0.5%)", color:"green"},
-  {value:"±0.25%", text:"Blue (±0.25%)", color:"blue"},
-  {value:"±0.1%", text:"Violet (±0.1%)", color:"violet"},
-  {value:"±0.05%", text:"Gray (±0.05%)", color:"gray"},
-  {value:"±5%", text:"Gold (±5%)", color:"gold"},
-  {value:"±10%", text:"Silver (±10%)", color:"silver"}
-];
+            <!-- Right Section: Visualization -->
+            <div class="card">
+                <div class="card-title">Resistor Value</div>
 
-function populateSelect(id, options, useColor=false) {
-  const sel = document.getElementById(id);
-  sel.innerHTML='';
-  options.forEach(opt=>{
-    const o = document.createElement('option');
-    o.value = useColor ? opt.color : opt.value;
-    o.textContent = opt.text;
-    sel.appendChild(o);
-  });
-}
-populateSelect('band1', bandOptions,true);
-populateSelect('band2', bandOptions,true);
-populateSelect('band3', bandOptions,true);
-populateSelect('multiplier', multiplierOptions);
-populateSelect('tolerance', toleranceOptions);
+                <div class="visualizer">
+                    <div class="resistor-container">
+                        <div class="resistor-visual">
+                            <div class="wire"></div>
+                            <div>
+                                <div class="resistor-body"></div>
+                                <div class="bands-visual" id="bandsDisplay"></div>
+                            </div>
+                            <div class="wire"></div>
+                        </div>
+                    </div>
 
-function updateUI() {
-  const type = parseInt(document.getElementById('type').value);
-  document.getElementById('label-band3').style.display = (type>=5)?"block":"none";
-  document.getElementById('label-tolerance').style.display = (type>=4)?"block":"none";
-  document.getElementById('label-tempco').style.display = (type===6)?"block":"none";
-  calculate();
-}
-['type','band1','band2','band3','multiplier','tolerance','tempco'].forEach(id=>{
-  document.getElementById(id).addEventListener('change',updateUI);
-});
+                    <div class="values-display" id="valuesDisplay">
+                        <div class="placeholder">Select bands and click calculate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-function calculate(){
-  const type = parseInt(document.getElementById('type').value);
-  const b1 = bandOptions.find(opt=>opt.color==document.getElementById('band1').value);
-  const b2 = bandOptions.find(opt=>opt.color==document.getElementById('band2').value);
-  const b3 = bandOptions.find(opt=>opt.color==document.getElementById('band3').value);
-  const multiplier = multiplierOptions.find(opt=>opt.value==document.getElementById('multiplier').value);
-  const tolerance = toleranceOptions.find(opt=>opt.value==document.getElementById('tolerance').value);
+    <script>
+        const colorMap = {
+            'black': '#1f1f1f',
+            'brown': '#8b6f47',
+            'red': '#d73025',
+            'orange': '#d97706',
+            'yellow': '#d4a574',
+            'green': '#2d8659',
+            'blue': '#1f5a96',
+            'violet': '#6d28d9',
+            'grey': '#616161',
+            'white': '#f5f5f5',
+            'gold': '#b8860b',
+            'silver': '#b0b0b0'
+        };
 
-  let ohms=0;
-  if(type<=4) ohms=((b1?bandOptions.indexOf(b1):0)*10+(b2?bandOptions.indexOf(b2):0))*(multiplier?.value||1);
-  else ohms=((b1?bandOptions.indexOf(b1):0)*100+(b2?bandOptions.indexOf(b2):0)*10+(b3?bandOptions.indexOf(b3):0))*(multiplier?.value||1);
+        const colorValues = {
+            'black': 0, 'brown': 1, 'red': 2, 'orange': 3, 'yellow': 4,
+            'green': 5, 'blue': 6, 'violet': 7, 'grey': 8, 'white': 9
+        };
 
-  let display = ohms>=1_000_000?(ohms/1_000_000).toFixed(2)+" MΩ":
-    ohms>=1000?(ohms/1000).toFixed(2)+" KΩ":ohms.toFixed(2)+" Ω";
+        const toleranceMap = {
+            'brown': '±1%', 'red': '±2%', 'green': '±0.5%', 'blue': '±0.25%',
+            'violet': '±0.1%', 'gold': '±5%', 'silver': '±10%'
+        };
 
-  let text="Resistance: "+display;
-  if(type>=4) text+=` ${tolerance?.value||""}`;
-  if(type==6) text+=` ${document.getElementById('tempco').value} ppm/K`;
+        const tempCoeffMap = {
+            'brown': '100', 'red': '50', 'orange': '15', 'yellow': '25',
+            'green': '20', 'blue': '10', 'violet': '5'
+        };
 
-  document.getElementById('result').textContent=text;
+        let currentBandCount = 3;
 
-  // build bands array for svg
-  let bands = [document.getElementById('band1').value,document.getElementById('band2').value];
-  if(type>=5) bands.push(document.getElementById('band3').value);
-  bands.push(multiplier?.color);
-  if(type>=4) bands.push(tolerance?.color);
-  if(type==6) bands.push("silver");
+        function setBandCount(count) {
+            currentBandCount = count;
+            document.querySelectorAll('.band-count-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', [3, 4, 5, 6][i] === count);
+            });
+            createBandSelectors();
+        }
 
-  // draw svg with bands equally spaced
-  let step=160/(bands.length+1), offset=20;
-  let stripes = bands.map(c=>`<rect x="${offset+=step}" y="20" width="6" height="40" fill="${colorMap[c]||"#000"}"/>`).join("");
-  document.getElementById('resistor-svg').innerHTML=
-    `<svg viewBox="0 0 200 80">
-      <rect x="10" y="30" width="180" height="20" rx="10" fill="#d4a373"/>
-      ${stripes}
-      <line x1="0" y1="40" x2="10" y2="40" stroke="#999" stroke-width="4"/>
-      <line x1="190" y1="40" x2="200" y2="40" stroke="#999" stroke-width="4"/>
-    </svg>`;
-}
-updateUI();
-</script>
+        function createBandSelectors() {
+            const container = document.getElementById('bandSelector');
+            container.innerHTML = '';
+
+            const digitColors = ['black', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'violet', 'grey', 'white'];
+            const multiplierColors = digitColors.concat(['gold', 'silver']);
+
+            for (let i = 0; i < currentBandCount; i++) {
+                let label = '';
+                let options = digitColors;
+
+                if (i < currentBandCount - 1) {
+                    label = i === 0 ? '1st Digit' : i === 1 ? '2nd Digit' : `${i + 1}th Digit`;
+                } else {
+                    label = 'Multiplier';
+                    options = multiplierColors;
+                }
+
+                const group = document.createElement('div');
+                group.className = 'band-group';
+                let selectHTML = `
+                    <label class="band-label">${label}</label>
+                    <select id="band${i}" onchange="autoCalculate()">
+                        <option value="">—</option>
+                `;
+                
+                options.forEach(c => {
+                    selectHTML += `<option value="${c}" style="background-color: ${colorMap[c]}; color: ${(c === 'white' || c === 'yellow' || c === 'gold' || c === 'silver') ? '#000' : '#fff'};">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                });
+                
+                selectHTML += `</select>`;
+                group.innerHTML = selectHTML;
+                container.appendChild(group);
+            }
+
+            // Tolerance Band
+            const toleranceGroup = document.createElement('div');
+            toleranceGroup.className = 'band-group';
+            let toleranceHTML = `
+                <label class="band-label">Tolerance</label>
+                <select id="tolerance" onchange="autoCalculate()">
+                    <option value="">—</option>
+                    <option value="brown" style="background-color: #8b6f47; color: #fff;">Brown (±1%)</option>
+                    <option value="red" style="background-color: #d73025; color: #fff;">Red (±2%)</option>
+                    <option value="green" style="background-color: #2d8659; color: #fff;">Green (±0.5%)</option>
+                    <option value="blue" style="background-color: #1f5a96; color: #fff;">Blue (±0.25%)</option>
+                    <option value="violet" style="background-color: #6d28d9; color: #fff;">Violet (±0.1%)</option>
+                    <option value="gold" style="background-color: #b8860b; color: #fff;">Gold (±5%)</option>
+                    <option value="silver" style="background-color: #b0b0b0; color: #000;">Silver (±10%)</option>
+                </select>
+            `;
+            toleranceGroup.innerHTML = toleranceHTML;
+            container.appendChild(toleranceGroup);
+
+            // Temp Coefficient (6-band only)
+            if (currentBandCount === 6) {
+                const tempGroup = document.createElement('div');
+                tempGroup.className = 'band-group';
+                let tempHTML = `
+                    <label class="band-label">Temp Coeff</label>
+                    <select id="tempCoeff" onchange="autoCalculate()">
+                        <option value="">—</option>
+                        <option value="brown" style="background-color: #8b6f47; color: #fff;">Brown (100)</option>
+                        <option value="red" style="background-color: #d73025; color: #fff;">Red (50)</option>
+                        <option value="orange" style="background-color: #d97706; color: #000;">Orange (15)</option>
+                        <option value="yellow" style="background-color: #d4a574; color: #000;">Yellow (25)</option>
+                        <option value="green" style="background-color: #2d8659; color: #fff;">Green (20)</option>
+                        <option value="blue" style="background-color: #1f5a96; color: #fff;">Blue (10)</option>
+                        <option value="violet" style="background-color: #6d28d9; color: #fff;">Violet (5)</option>
+                    </select>
+                `;
+                tempGroup.innerHTML = tempHTML;
+                container.appendChild(tempGroup);
+            }
+
+            updateVisualization();
+        }
+
+        function updateVisualization() {
+            const bandsDisplay = document.getElementById('bandsDisplay');
+            bandsDisplay.innerHTML = '';
+
+            for (let i = 0; i < currentBandCount; i++) {
+                const color = document.getElementById(`band${i}`)?.value;
+                if (color) {
+                    const band = document.createElement('div');
+                    band.className = 'band';
+                    band.style.backgroundColor = colorMap[color];
+                    bandsDisplay.appendChild(band);
+                }
+            }
+
+            const tolerance = document.getElementById('tolerance')?.value;
+            if (tolerance) {
+                const band = document.createElement('div');
+                band.className = 'band';
+                band.style.backgroundColor = colorMap[tolerance];
+                band.style.width = '10px';
+                band.style.marginLeft = '4px';
+                bandsDisplay.appendChild(band);
+            }
+
+            if (currentBandCount === 6) {
+                const tempCoeff = document.getElementById('tempCoeff')?.value;
+                if (tempCoeff) {
+                    const band = document.createElement('div');
+                    band.className = 'band';
+                    band.style.backgroundColor = colorMap[tempCoeff];
+                    band.style.width = '10px';
+                    bandsDisplay.appendChild(band);
+                }
+            }
+        }
+
+        function autoCalculate() {
+            updateVisualization();
+            let value = 0;
+            let multiplier = 1;
+
+            // Check if we have enough bands
+            let hasAllDigits = true;
+            for (let i = 0; i < currentBandCount - 1; i++) {
+                const band = document.getElementById(`band${i}`)?.value;
+                if (!band) {
+                    hasAllDigits = false;
+                    break;
+                }
+            }
+
+            if (!hasAllDigits) {
+                document.getElementById('valuesDisplay').innerHTML = '<div class="placeholder">Select bands to calculate</div>';
+                return;
+            }
+
+            // Get digit bands
+            for (let i = 0; i < currentBandCount - 1; i++) {
+                const band = document.getElementById(`band${i}`)?.value;
+                value = value * 10 + colorValues[band];
+            }
+
+            // Get multiplier band
+            const multiplierBand = document.getElementById(`band${currentBandCount - 1}`)?.value;
+            if (!multiplierBand) {
+                document.getElementById('valuesDisplay').innerHTML = '<div class="placeholder">Select bands to calculate</div>';
+                return;
+            }
+
+            if (multiplierBand === 'gold') {
+                multiplier = 0.1;
+            } else if (multiplierBand === 'silver') {
+                multiplier = 0.01;
+            } else {
+                multiplier = Math.pow(10, colorValues[multiplierBand]);
+            }
+
+            value = value * multiplier;
+
+            const tolerance = document.getElementById('tolerance')?.value || '';
+            const tempCoeff = currentBandCount === 6 ? document.getElementById('tempCoeff')?.value || '' : '';
+
+            displayResult(value, tolerance, tempCoeff);
+        }
+
+        function displayResult(ohms, tolerance, tempCoeff) {
+            let display = '';
+            let unit = 'Ω';
+
+            if (ohms >= 1000000) {
+                display = (ohms / 1000000).toFixed(2);
+                unit = 'MΩ';
+            } else if (ohms >= 1000) {
+                display = (ohms / 1000).toFixed(2);
+                unit = 'kΩ';
+            } else {
+                display = ohms.toFixed(2);
+            }
+
+            let html = `
+                <div class="value-box">
+                    <div class="value-label">Resistance</div>
+                    <div class="value-main">${display} <span class="value-unit">${unit}</span></div>
+                    <div class="value-sub">
+                        <div class="sub-item">
+                            <div class="sub-label">Tolerance</div>
+                            <div class="sub-value">${tolerance ? toleranceMap[tolerance] : '—'}</div>
+                        </div>
+                        <div class="sub-item">
+                            <div class="sub-label">Exact</div>
+                            <div class="sub-value">${ohms.toFixed(1)} Ω</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (currentBandCount === 6 && tempCoeff) {
+                html += `
+                    <div class="value-box">
+                        <div class="value-label">Temperature Coefficient</div>
+                        <div class="value-main">${tempCoeffMap[tempCoeff]} <span class="value-unit">ppm/K</span></div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('valuesDisplay').innerHTML = html;
+        }
+
+        function goHome() {
+            window.location.href = '../index.html';
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            createBandSelectors();
+        });
+    </script>
 </body>
 </html>
