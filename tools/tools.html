@@ -6,42 +6,60 @@
   <title>Tools</title>
   <style>
     :root {
-      --bg: #202124;
-      --fg: #e8eaed;
-      --card-bg: #303134;
-      --border: #5f6368;
-      --accent: #8ab4f8;
+      --bg: #181818;
+      --fg: #e6e6e6;
+      --card-bg: #1f1f1f;
+      --border: #2a2a2a;
+      --text-muted: #9aa0a6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       background-color: var(--bg);
       color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      flex: 1;
+      width: 100%;
     }
 
-    nav {
-      width: 100%;
-      max-width: 1000px;
-      margin-bottom: 2rem;
+    .tools-header {
+      text-align: center;
+      margin-bottom: 3rem;
     }
 
     h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
     }
 
     p.desc {
-      font-size: 0.9rem;
-      color: #9aa0a6;
-      text-align: center;
-      max-width: 500px;
-      line-height: 1.4;
-      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
     }
 
     .tool-list {
@@ -49,77 +67,132 @@
       flex-direction: column;
       gap: 1rem;
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
     }
 
     .tool {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.5rem;
-      transition: background 0.2s;
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .tool:hover {
-      background: #3c4043;
+      border-color: var(--fg);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    .tool a {
-      color: var(--accent);
-      font-size: 1.05rem;
-      text-decoration: none;
+    .tool-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--fg);
     }
 
-    .tool a:hover {
-      text-decoration: underline;
+    .tool-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
     }
 
-    .tool small {
-      display: block;
-      font-size: 0.8rem;
-      color: #9aa0a6;
-      margin-top: 0.3rem;
+    @media (max-width: 768px) {
+      main {
+        padding: 3rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .tool-list {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 2rem 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
     }
   </style>
 </head>
-<body>
 
-  <nav id="nav-placeholder"></nav>
+<body data-root="..">
+  <!-- HEADER -->
+  <div id="site-header"></div>
 
-  <h1>Toolbox</h1>
-  <p class="desc">
-    Quick, offline-friendly tools built for function over fluff. Fast to load, easy to use.
-  </p>
-
-  <div class="tool-list">
-    <div class="tool">
-      <a href="qr-generator.html">QR Code Generator</a>
-      <small>Create basic QR codes from text or URLs.</small>
+  <main>
+    <!-- PAGE HEADER -->
+    <div class="tools-header">
+      <h1>Toolbox</h1>
+      <p class="desc">
+        Quick, offline-friendly tools built for function over fluff. Fast to load, easy to use.
+      </p>
     </div>
 
-    <div class="tool">
-      <a href="vcard-qr.html">vCard QR Generator</a>
-      <small>Generate QR codes with contact details in vCard format.</small>
-    </div>
+    <!-- TOOLS LIST -->
+    <div class="tool-list">
+      <a href="qr-generator.html" class="tool">
+        <div class="tool-title">QR Code Generator</div>
+        <p class="tool-desc">Create basic QR codes from text or URLs.</p>
+      </a>
 
-    <div class="tool">
-      <a href="resistor.html">Resistor Value Calculator</a>
-      <small>Claculate the value of resistors with ease.</small>
-    </div>
+      <a href="vcard-qr.html" class="tool">
+        <div class="tool-title">vCard QR Generator</div>
+        <p class="tool-desc">Generate QR codes with contact details in vCard format.</p>
+      </a>
 
-    <div class="tool">
-      <a href="image-converter.html">Image Converter</a>
-      <small>Convert images to JPEG/PNG/WebP quickly, in-browser.</small>
+      <a href="resistor.html" class="tool">
+        <div class="tool-title">Resistor Value Calculator</div>
+        <p class="tool-desc">Calculate the value of resistors with ease.</p>
+      </a>
+
+      <a href="image-converter.html" class="tool">
+        <div class="tool-title">Image Converter</div>
+        <p class="tool-desc">Convert images to JPEG/PNG/WebP quickly, in-browser.</p>
+      </a>
     </div>
-  </div>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
 
   <script>
-    fetch('../nav.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('nav-placeholder').innerHTML = html;
-      });
-  </script>
+    // Load standalone components
+    async function loadComponent(targetId, filePath) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
 
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+        target.innerHTML = await response.text();
+        
+        // Execute any scripts in the loaded component
+        const scripts = target.querySelectorAll("script");
+        scripts.forEach((script) => {
+          const newScript = document.createElement("script");
+          newScript.textContent = script.textContent;
+          target.appendChild(newScript);
+        });
+      } catch (err) {
+        console.error("Component loading error:", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const root = document.body.dataset.root || "..";
+      loadComponent("site-header", `${root}/components/header.html`);
+      loadComponent("site-footer", `${root}/components/footer.html`);
+    });
+  </script>
 </body>
 </html>
