@@ -125,7 +125,7 @@
       width: var(--sidebar-w);
       background: var(--surface-low);
       /*border-right: 1px solid var(--outline-var);*/
-      display: flex;
+      isplay: flex;
       flex-direction: column;
       position: fixed;
       top: 0;
@@ -395,7 +395,7 @@
       gap: 6px;
       height: 32px;
       padding: 0 14px;
-      border-radius: 8px;
+      border-radius: 50px;
       background: transparent;
       border: 1px solid var(--outline-var);
       font-size: 13px;
@@ -426,12 +426,150 @@
       color: var(--fav)
     }
 
+    .chip-reset {
+      border-color: var(--outline-var);
+      color: var(--on-surface-var);
+      transition: all .15s;
+    }
+
+    .chip-reset:hover {
+      background: rgba(242, 184, 181, .12);
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .chip-reset .material-icons-round {
+      font-size: 15px;
+    }
+
     .chip-divider {
       width: 1px;
       height: 20px;
       background: var(--outline-var);
       margin: 0 2px
     }
+
+    /* ── FILTER GROUPS ── */
+    .filter-chip-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    /* ── DROPDOWN FILTER ── */
+    .filter-dropdown-wrap {
+      position: relative;
+    }
+
+    .filter-dd-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .filter-dd-trigger.has-selection {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-dd-trigger.has-selection .material-icons-round {
+      color: var(--primary);
+    }
+
+    .dd-caret {
+      font-size: 16px !important;
+      transition: transform .2s;
+      margin-left: -2px;
+    }
+
+    .filter-dd-trigger.open .dd-caret {
+      transform: rotate(180deg);
+    }
+
+    .filter-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 200px;
+      background: var(--surface-highest);
+      border: 1px solid var(--outline-var);
+      border-radius: 16px;
+      padding: 8px;
+      z-index: 300;
+      box-shadow: 0 4px 8px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.28);
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .filter-dropdown.open {
+      display: block;
+    }
+
+    .dd-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 44px;
+      padding: 0 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--on-surface);
+      transition: background .15s;
+    }
+
+    .dd-item:hover {
+      background: var(--surface-high);
+    }
+
+    .dd-item:active {
+      background: var(--surface-mid);
+    }
+
+    .dd-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--outline);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s, border-color .15s;
+    }
+
+    .dd-item.selected .dd-check {
+      background: var(--primary-container);
+      border-color: var(--primary);
+    }
+
+    .dd-item.selected .dd-check::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .dd-item-label {
+      flex: 1;
+    }
+
+    .dd-divider {
+      height: 1px;
+      background: var(--outline-var);
+      margin: 4px 6px;
+    }
+
+    /* show/hide by breakpoint */
+    .desktop-filter-only { display: flex; }
+    .mobile-filter-only  { display: none; }
 
     /* view-mode toggle group */
     #viewToggle {
@@ -440,14 +578,14 @@
       align-items: center;
       gap: 4px;
       background: var(--surface-mid);
-      border-radius: 10px;
+      border-radius: 50px;
       padding: 3px;
     }
 
     .view-btn {
       width: 34px;
       height: 28px;
-      border-radius: 7px;
+      border-radius: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -559,7 +697,7 @@
       font-size: 10px;
       font-weight: 500;
       padding: 2px 8px;
-      border-radius: 4px;
+      border-radius: 50px;
       font-family: 'Roboto Mono', monospace
     }
 
@@ -1206,6 +1344,14 @@
         display: none !important;
       }
 
+      .desktop-filter-only {
+        display: none !important;
+      }
+
+      .mobile-filter-only {
+        display: flex !important;
+      }
+
       #sidebar {
         transform: translateX(-100%)
       }
@@ -1296,26 +1442,6 @@
 
       <div class="nav-label">Display</div>
 
-      <!-- Font size — CSS stepper, no HTML input -->
-      <div class="nav-ctrl desktop-only">
-        <span class="material-icons-round">text_fields</span>
-        <span class="ctrl-label">Font Size</span>
-        <div class="ctrl-row">
-          <div class="ctrl-btn" onclick="changeFontSize(-1)">
-            <span class="material-icons-round">remove</span>
-          </div>
-          <span class="ctrl-val font-size-val" id="fontSizeVal">18</span>
-          <div class="ctrl-btn" onclick="changeFontSize(1)">
-            <span class="material-icons-round">add</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-item" onclick="toggleAlignment()">
-        <span class="material-icons-round align-icon" id="alignIcon">format_align_left</span>
-        <span class="nav-item-label">Text Alignment</span>
-      </div>
-
       <div class="nav-item" onclick="toggleTheme()">
         <span class="material-icons-round theme-icon" id="themeIcon">light_mode</span>
         <span class="nav-item-label theme-label" id="themeLabel">Light Mode</span>
@@ -1338,7 +1464,7 @@
       <div class="nav-label">About</div>
 
       <div class="nav-item" onclick="goHome()">
-        <span class="material-icons-round">public</span>
+        <span class="material-icons-round">home</span>
         <span class="nav-item-label">Back Home</span>
       </div>
 
@@ -1359,19 +1485,42 @@
     </div>
 
     <div id="filterBar">
-      <div class="chip active" id="chip-all" onclick="setLangFilter('all')">All</div>
-      <div class="chip" id="chip-Konk" onclick="setLangFilter('Konk')">
-        <span class="material-icons-round">language</span>Konkani
-      </div>
-      <div class="chip" id="chip-Eng" onclick="setLangFilter('Eng')">
-        <span class="material-icons-round">language</span>English
-      </div>
-      <div class="chip" id="chip-Hin" onclick="setLangFilter('Hin')">
-        <span class="material-icons-round">language</span>Hindi
-      </div>
-      <div class="chip-divider"></div>
+      <!-- Favourites chip — always visible -->
       <div class="chip chip-fav" id="chip-fav" onclick="toggleFavFilter()">
         <span class="material-icons-round">star</span>Favourites
+      </div>
+
+      <!-- DESKTOP: individual language chips (hidden on mobile) -->
+      <div id="langChipsDesktop" class="filter-chip-group desktop-filter-only"></div>
+
+      <!-- MOBILE: Language dropdown (hidden on desktop) -->
+      <div class="filter-dropdown-wrap mobile-filter-only" id="langDropWrap">
+        <div class="chip filter-dd-trigger" id="langDropTrigger" onclick="toggleDropdown('langDrop', event)">
+          <span class="material-icons-round">language</span>
+          <span id="langDropLabel">Language</span>
+          <span class="material-icons-round dd-caret">expand_more</span>
+        </div>
+        <div class="filter-dropdown" id="langDrop"></div>
+      </div>
+
+      <!-- Genre dropdown — both mobile & desktop -->
+      <div class="filter-dropdown-wrap" id="genreDropWrap">
+        <div class="chip filter-dd-trigger" id="genreDropTrigger" onclick="toggleDropdown('genreDrop', event)">
+          <span class="material-icons-round">queue_music</span>
+          <span id="genreDropLabel">Genre</span>
+          <span class="material-icons-round dd-caret">expand_more</span>
+        </div>
+        <div class="filter-dropdown" id="genreDrop"></div>
+      </div>
+
+      <!-- Artist dropdown — both mobile & desktop -->
+      <div class="filter-dropdown-wrap" id="artistDropWrap">
+        <div class="chip filter-dd-trigger" id="artistDropTrigger" onclick="toggleDropdown('artistDrop', event)">
+          <span class="material-icons-round">person</span>
+          <span id="artistDropLabel">Artist</span>
+          <span class="material-icons-round dd-caret">expand_more</span>
+        </div>
+        <div class="filter-dropdown" id="artistDrop"></div>
       </div>
 
       <!-- View mode toggle -->
@@ -1382,6 +1531,11 @@
         <div class="view-btn" id="viewLarge" onclick="setViewMode('large')" title="Large view">
           <span class="material-icons-round">grid_view</span>
         </div>
+      </div>
+
+      <!-- Reset filters — only shown when any filter is active -->
+      <div class="chip chip-reset" id="chip-reset" onclick="resetAllFilters()" style="display:none">
+        <span class="material-icons-round">filter_alt_off</span>Reset
       </div>
     </div>
 
@@ -1436,9 +1590,9 @@
               <span class="material-icons-round">edit</span>
               <span>Edit Song</span>
             </div>
-            <!-- Mobile-only menu items -->
-            <div class="mobile-only m-divider"></div>
-            <div class="mobile-only lpm-row">
+            <!-- Extra menu items -->
+            <div class="m-divider"></div>
+            <div class="lpm-row">
               <span class="material-icons-round">text_fields</span>
               <span class="lpm-label">Font Size</span>
               <div class="lpm-stepper">
@@ -1451,7 +1605,7 @@
                 </div>
               </div>
             </div>
-            <div class="mobile-only m-item" onclick="toggleAlignment();event.stopPropagation()">
+            <div class="m-item" onclick="toggleAlignment();event.stopPropagation()">
               <span class="material-icons-round align-icon">format_align_left</span>
               <span class="m-item-label">Text Alignment</span>
             </div>
@@ -1506,7 +1660,6 @@
     let fontSize = 18, alignLeft = true, isDark = true;
     let fileHandle = null;
     let activeSource = null; // 'online' | 'local'
-    let langFilter = 'all', favOnly = false;
     let viewMode = 'list'; // 'list' | 'large'
     let pendingConfirmCb = null;
 
@@ -1548,6 +1701,25 @@
     /* ── SIDEBAR ── */
     function openSideMenu() { haptic('light'); sidebar.classList.add('show'); backdrop.classList.add('show') }
     function closeSideMenu() { sidebar.classList.remove('show'); backdrop.classList.remove('show'); songMenu.style.display = 'none' }
+
+    /* ── RESPONSIVE SEARCH PLACEHOLDER ── */
+    function updateSearchPlaceholder() {
+      $('search').placeholder = window.innerWidth <= 900 ? 'Search Jhelo…' : 'Search songs or artists…';
+    }
+    updateSearchPlaceholder();
+    window.addEventListener('resize', updateSearchPlaceholder);
+
+    // Close sidebar when clicking/touching anywhere outside it
+    document.addEventListener('mousedown', e => {
+      if (sidebar.classList.contains('show') && !sidebar.contains(e.target)) {
+        closeSideMenu();
+      }
+    }, true); // capture phase so it fires before focus
+    document.addEventListener('touchstart', e => {
+      if (sidebar.classList.contains('show') && !sidebar.contains(e.target) && !backdrop.contains(e.target)) {
+        closeSideMenu();
+      }
+    }, { passive: true, capture: true });
 
     /* ── SOURCE HIGHLIGHT ── */
     function setSourceActive(src) {
@@ -1694,6 +1866,7 @@
           else if (L.startsWith('#LPM:')) meta.lpm = parseInt(L.replace('#LPM:', '').trim());
           else if (L.startsWith('#Fav:')) meta.fav = L.replace('#Fav:', '').trim().toUpperCase() === 'TRUE';
           else if (L.startsWith('#Lang:')) meta.lang = L.replace('#Lang:', '').trim();
+          else if (L.startsWith('#Genre:')) meta.genre = L.replace('#Genre:', '').trim();
           else if (L.startsWith('#YT Link:')) meta.yt = L.replace('#YT Link:', '').trim();
           else if (L.startsWith('#YTLink:')) meta.yt = L.replace('#YTLink:', '').trim();
           else if (L.startsWith('#AA Link:')) meta.aa = L.replace('#AA Link:', '').trim();
@@ -1705,8 +1878,10 @@
         });
         songs.push({ meta, lyrics: lyr, raw: block });
       });
+      songs.sort((a, b) => (a.meta.title || '').localeCompare(b.meta.title || ''));
       filtered = [...songs];
       if (persist) localStorage.setItem('kantaranchoSongs', text);
+      buildFilterUI();
       render();
     }
 
@@ -1716,6 +1891,7 @@
       if (m.title) lines.push('#Title: ' + m.title);
       if (m.artist) lines.push('#Artist: ' + m.artist);
       if (m.lang) lines.push('#Lang: ' + m.lang);
+      if (m.genre) lines.push('#Genre: ' + m.genre);
       if (m.fav) lines.push('#Fav: TRUE');
       if (m.lpm) lines.push('#LPM: ' + m.lpm);
       if (m.yt) lines.push('#YT Link: ' + m.yt);
@@ -1726,26 +1902,195 @@
     }
 
     /* ── FILTERS ── */
-    const LANG = { 'Konk': 'Konkani', 'Eng': 'English', 'Hin': 'Hindi' };
+    const LANG = { 'Konk': 'Konkani', 'Eng': 'English', 'Hin': 'Hindi', 'Port': 'Portuguese' };
 
-    function setLangFilter(lang) {
-      langFilter = lang;
-      ['all', 'Konk', 'Eng', 'Hin'].forEach(id => $('chip-' + id)?.classList.toggle('active', id === lang));
-      applyFilters();
+    // Filter state — Sets for multi-select; null/empty = "All"
+    let langFilter = new Set();   // empty = all
+    let genreFilter = new Set();
+    let artistFilter = new Set();
+    let favOnly = false;
+
+    /* Build filter UI from currently loaded songs */
+    function buildFilterUI() {
+      // Collect unique values
+      const langs   = [...new Set(songs.map(s => s.meta.lang).filter(Boolean))];
+      const genres  = [...new Set(songs.map(s => s.meta.genre).filter(Boolean))].sort();
+      const artists = [...new Set(songs.map(s => s.meta.artist).filter(Boolean))].sort();
+
+      // Reset filter state when library changes
+      langFilter.clear(); genreFilter.clear(); artistFilter.clear();
+
+      // Desktop language chips
+      const langDesktop = $('langChipsDesktop');
+      langDesktop.innerHTML = '';
+      // "All" chip
+      const allChip = document.createElement('div');
+      allChip.className = 'chip active'; allChip.id = 'langChipAll';
+      allChip.textContent = 'All';
+      allChip.onclick = () => { langFilter.clear(); updateLangChips(); applyFilters(); };
+      langDesktop.appendChild(allChip);
+      langs.forEach(code => {
+        const c = document.createElement('div');
+        c.className = 'chip'; c.dataset.lang = code;
+        c.innerHTML = `<span class="material-icons-round">language</span>${LANG[code] || code}`;
+        c.onclick = () => { toggleSetItem(langFilter, code); updateLangChips(); applyFilters(); };
+        langDesktop.appendChild(c);
+      });
+
+      // Mobile language dropdown
+      buildDropdown('langDrop', langs.map(c => ({ val: c, label: LANG[c] || c })), langFilter, () => {
+        updateLangChips(); updateDropdownLabel('langDrop', langFilter, 'Language', 'langDropLabel', 'langDropTrigger');
+        applyFilters();
+      }, true);
+
+      // Genre dropdown
+      buildDropdown('genreDrop', genres.map(g => ({ val: g, label: g })), genreFilter, () => {
+        updateDropdownLabel('genreDrop', genreFilter, 'Genre', 'genreDropLabel', 'genreDropTrigger');
+        applyFilters();
+      }, true);
+
+      // Artist dropdown
+      buildDropdown('artistDrop', artists.map(a => ({ val: a, label: a })), artistFilter, () => {
+        updateDropdownLabel('artistDrop', artistFilter, 'Artist', 'artistDropLabel', 'artistDropTrigger');
+        applyFilters();
+      }, true);
+
+      // Hide empty dropdowns
+      $('genreDropWrap').style.display  = genres.length  ? '' : 'none';
+      $('artistDropWrap').style.display = artists.length ? '' : 'none';
+      $('langDropWrap').style.display   = langs.length   ? '' : 'none';
     }
+
+    function buildDropdown(id, options, filterSet, onChange, hasAll) {
+      const dd = $(id); dd.innerHTML = '';
+      if (hasAll) {
+        const allItem = document.createElement('div');
+        allItem.className = 'dd-item selected'; allItem.dataset.val = '__all__';
+        allItem.innerHTML = `<span class="dd-check"></span><span class="dd-item-label">All</span>`;
+        allItem.onclick = (e) => { e.stopPropagation(); filterSet.clear(); refreshDropdown(id, filterSet, onChange); };
+        dd.appendChild(allItem);
+        const div = document.createElement('div'); div.className = 'dd-divider'; dd.appendChild(div);
+      }
+      options.forEach(({ val, label }) => {
+        const item = document.createElement('div');
+        item.className = 'dd-item'; item.dataset.val = val;
+        item.innerHTML = `<span class="dd-check"></span><span class="dd-item-label">${label}</span>`;
+        item.onclick = (e) => { e.stopPropagation(); toggleSetItem(filterSet, val); refreshDropdown(id, filterSet, onChange); };
+        dd.appendChild(item);
+      });
+    }
+
+    function refreshDropdown(id, filterSet, onChange) {
+      const dd = $(id);
+      const allItem = dd.querySelector('[data-val="__all__"]');
+      const isEmpty = filterSet.size === 0;
+      if (allItem) allItem.classList.toggle('selected', isEmpty);
+      dd.querySelectorAll('[data-val]').forEach(item => {
+        if (item.dataset.val === '__all__') return;
+        item.classList.toggle('selected', filterSet.has(item.dataset.val));
+      });
+      onChange();
+    }
+
+    function toggleSetItem(set, val) {
+      if (set.has(val)) set.delete(val); else set.add(val);
+    }
+
+    function updateLangChips() {
+      // Desktop chips
+      const isEmpty = langFilter.size === 0;
+      $('langChipAll')?.classList.toggle('active', isEmpty);
+      $('langChipsDesktop').querySelectorAll('[data-lang]').forEach(c => {
+        c.classList.toggle('active', langFilter.has(c.dataset.lang));
+      });
+      // Mobile dropdown "All" item
+      const langDd = $('langDrop');
+      if (langDd) {
+        const allItem = langDd.querySelector('[data-val="__all__"]');
+        if (allItem) allItem.classList.toggle('selected', isEmpty);
+        langDd.querySelectorAll('[data-val]').forEach(item => {
+          if (item.dataset.val === '__all__') return;
+          item.classList.toggle('selected', langFilter.has(item.dataset.val));
+        });
+      }
+      updateDropdownLabel('langDrop', langFilter, 'Language', 'langDropLabel', 'langDropTrigger');
+    }
+
+    function updateDropdownLabel(ddId, filterSet, defaultLabel, labelId, triggerId) {
+      const lbl = $(labelId), trigger = $(triggerId);
+      if (!lbl || !trigger) return;
+      if (filterSet.size === 0) {
+        lbl.textContent = defaultLabel;
+        trigger.classList.remove('has-selection');
+      } else if (filterSet.size === 1) {
+        const val = [...filterSet][0];
+        // For lang use LANG map; for others use the value directly
+        lbl.textContent = LANG[val] || val;
+        trigger.classList.add('has-selection');
+      } else {
+        lbl.textContent = `${filterSet.size} selected`;
+        trigger.classList.add('has-selection');
+      }
+    }
+
+    /* Dropdown open/close */
+    function toggleDropdown(id, e) {
+      e.stopPropagation();
+      const dd = $(id);
+      const trigger = dd.previousElementSibling;
+      const isOpen = dd.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) { dd.classList.add('open'); trigger.classList.add('open'); }
+    }
+    function closeAllDropdowns() {
+      document.querySelectorAll('.filter-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+        d.previousElementSibling?.classList.remove('open');
+      });
+    }
+    document.addEventListener('click', closeAllDropdowns);
+
     function toggleFavFilter() {
       favOnly = !favOnly;
       $('chip-fav').classList.toggle('active', favOnly);
       applyFilters();
     }
+
+    function resetAllFilters() {
+      favOnly = false;
+      langFilter.clear(); genreFilter.clear(); artistFilter.clear();
+      search.value = '';
+      $('chip-fav').classList.remove('active');
+      // rebuild dropdown visual state
+      updateLangChips();
+      ['genreDrop','artistDrop'].forEach(id => {
+        const dd = $(id); if (!dd) return;
+        dd.querySelectorAll('.dd-item').forEach(item => {
+          item.classList.toggle('selected', item.dataset.val === '__all__');
+        });
+      });
+      [$('genreDropTrigger'), $('artistDropTrigger'), $('langDropTrigger')].forEach(t => t?.classList.remove('has-selection'));
+      $('genreDropLabel') && ($('genreDropLabel').textContent = 'Genre');
+      $('artistDropLabel') && ($('artistDropLabel').textContent = 'Artist');
+      $('langDropLabel') && ($('langDropLabel').textContent = 'Language');
+      applyFilters();
+    }
+
     function applyFilters() {
       const q = search.value.toLowerCase();
       filtered = songs.filter(s => {
-        const tm = (s.meta.title || '').toLowerCase().includes(q) || (s.meta.artist || '').toLowerCase().includes(q);
-        const lm = langFilter === 'all' || s.meta.lang === langFilter;
+        const tm = (s.meta.title || '').toLowerCase().includes(q) ||
+                   (s.meta.artist || '').toLowerCase().includes(q);
+        const lm = langFilter.size === 0   || langFilter.has(s.meta.lang);
+        const gm = genreFilter.size === 0  || genreFilter.has(s.meta.genre);
+        const am = artistFilter.size === 0 || artistFilter.has(s.meta.artist);
         const fm = !favOnly || s.meta.fav === true;
-        return tm && lm && fm;
+        return tm && lm && gm && am && fm;
       });
+      filtered.sort((a, b) => (a.meta.title || '').localeCompare(b.meta.title || ''));
+      // Show reset button if any filter is active
+      const anyActive = favOnly || langFilter.size > 0 || genreFilter.size > 0 || artistFilter.size > 0 || search.value.length > 0;
+      $('chip-reset').style.display = anyActive ? '' : 'none';
       render();
     }
     function filterSongs() { applyFilters() }
@@ -1855,6 +2200,8 @@
       // Everything else → compact rounded chips
       if (song.meta.lang)
         metaContainer.innerHTML += `<span class="meta-chip mc-lang"><span class="material-icons-round">translate</span>${LANG[song.meta.lang] || song.meta.lang}</span>`;
+      if (song.meta.genre)
+        metaContainer.innerHTML += `<span class="meta-chip"><span class="material-icons-round">queue_music</span>${escHtml(song.meta.genre)}</span>`;
       if (song.meta.fav)
         metaContainer.innerHTML += `<span class="meta-chip mc-fav"><span class="material-icons-round">star</span>Favourite</span>`;
       if (song.meta.key)
@@ -2006,6 +2353,7 @@
         else if (L.startsWith('#LPM:')) meta.lpm = parseInt(L.replace('#LPM:', '').trim());
         else if (L.startsWith('#Fav:')) meta.fav = L.replace('#Fav:', '').trim().toUpperCase() === 'TRUE';
         else if (L.startsWith('#Lang:')) meta.lang = L.replace('#Lang:', '').trim();
+        else if (L.startsWith('#Genre:')) meta.genre = L.replace('#Genre:', '').trim();
         else if (L.startsWith('#YT Link:')) meta.yt = L.replace('#YT Link:', '').trim();
         else if (L.startsWith('#YTLink:')) meta.yt = L.replace('#YTLink:', '').trim();
         else if (L.startsWith('#AA Link:')) meta.aa = L.replace('#AA Link:', '').trim();
