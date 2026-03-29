@@ -573,7 +573,6 @@
 
     /* view-mode toggle group */
     #viewToggle {
-      margin-left: auto;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -1523,19 +1522,19 @@
         <div class="filter-dropdown" id="artistDrop"></div>
       </div>
 
-      <!-- View mode toggle -->
-      <div id="viewToggle">
-        <div class="view-btn active" id="viewList" onclick="setViewMode('list')" title="List view">
-          <span class="material-icons-round">view_list</span>
+      <!-- Right-side controls: reset + view toggle -->
+      <div style="display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0">
+        <div class="chip chip-reset" id="chip-reset" onclick="resetAllFilters()" style="display:none">
+          <span class="material-icons-round">filter_alt_off</span>Reset
         </div>
-        <div class="view-btn" id="viewLarge" onclick="setViewMode('large')" title="Large view">
-          <span class="material-icons-round">grid_view</span>
+        <div id="viewToggle">
+          <div class="view-btn active" id="viewList" onclick="setViewMode('list')" title="List view">
+            <span class="material-icons-round">view_list</span>
+          </div>
+          <div class="view-btn" id="viewLarge" onclick="setViewMode('large')" title="Large view">
+            <span class="material-icons-round">grid_view</span>
+          </div>
         </div>
-      </div>
-
-      <!-- Reset filters — only shown when any filter is active -->
-      <div class="chip chip-reset" id="chip-reset" onclick="resetAllFilters()" style="display:none">
-        <span class="material-icons-round">filter_alt_off</span>Reset
       </div>
     </div>
 
