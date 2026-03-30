@@ -1,9 +1,13 @@
 #Title: Aiz Thaun
 #Artist: Alison Gonsalves
+#AArtist: Black Sapphire
 #Lyrics, Arrangement & Composition: Alison Gonsalves
 #Mixed & Mastered by: Alison Gonsalves
 #AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c2/e3/31/c2e33162-3356-ea5d-b77d-807ba46f3a15/artwork.jpg/3000x3000bb.jpg
 #LPM: 10
+#Genre: Ballad
+#Release: 31-05-2025
+#Album: Aiz Thaun (feat. Black Sapphire) - Single
 #Lang: Konk
 #Fav: TRUE
 
@@ -105,8 +109,12 @@ Morossor hanv mog kortolom tuzo
 ===
 
 #Title: Rosalina
-#Artist: Alison
+#Artist: Alison Gonsalves
+#AArtist: Black Sapphire
 #AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
+#Release: 30-08-2025
+#Album: Rosalina (feat. Black Sapphire) - Single
+#Genre: Pop
 
 
 --Intro verse
