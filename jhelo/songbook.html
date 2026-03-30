@@ -389,25 +389,32 @@
       /*border-bottom: 1px solid var(--outline-var);*/
     }
 
-    .chip {
+    .chip,
+    .meta-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      height: 32px;
+      gap: 4px;
+      height: 28px;
       padding: 0 14px;
       border-radius: 50px;
-      background: transparent;
+      background: var(--surface-high);
       border: 1px solid var(--outline-var);
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 500;
+      font-family: 'Roboto Mono', monospace;
       color: var(--on-surface);
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .chip {
       cursor: pointer;
       transition: all .15s;
-      white-space: nowrap;
     }
 
     .chip:hover {
-      background: var(--surface-high)
+      background: var(--surface-highest)
     }
 
     .chip.active {
@@ -416,8 +423,15 @@
       color: var(--primary)
     }
 
-    .chip .material-icons-round {
-      font-size: 16px
+    .chip .material-icons-round,
+    .meta-chip .material-icons-round {
+      font-size: 13px;
+      color: var(--on-surface-var);
+      flex-shrink: 0;
+    }
+
+    .chip.active .material-icons-round {
+      color: var(--primary);
     }
 
     .chip-fav.active {
@@ -426,10 +440,12 @@
       color: var(--fav)
     }
 
+    .chip-fav.active .material-icons-round {
+      color: var(--fav);
+    }
+
     .chip-reset {
-      border-color: var(--outline-var);
       color: var(--on-surface-var);
-      transition: all .15s;
     }
 
     .chip-reset:hover {
@@ -438,8 +454,14 @@
       color: var(--error);
     }
 
-    .chip-reset .material-icons-round {
-      font-size: 15px;
+    .chip-artist {
+      color: var(--on-surface-var);
+    }
+
+    .chip-artist.has-selection {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
     .chip-divider {
@@ -894,6 +916,22 @@
       font-weight: 700;
       line-height: 1.25;
       margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    #songTitleFavStar {
+      font-size: 22px;
+      color: var(--fav);
+      flex-shrink: 0;
+      display: none;
+    }
+
+    #songTitleFavStar.show {
+      display: inline-block;
     }
 
     #songArtistDisplay {
@@ -907,37 +945,9 @@
     #metaContainer {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      /* uniform gap in all directions */
-      justify-content: flex-start;
+      gap: 8px;
+      justify-content: center;
       padding: 0;
-      /* no extra padding — gap handles spacing */
-    }
-
-    .meta-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      /* tighter height + padding so text sits snug in the box */
-      height: 28px;
-      padding: 0 14px;
-      border-radius: 50px;
-      /* pill shape — clearly a badge */
-      background: var(--surface-high);
-      border: 1px solid var(--outline-var);
-      font-size: 11px;
-      font-weight: 500;
-      font-family: 'Roboto Mono', monospace;
-      white-space: nowrap;
-      flex-shrink: 0;
-      line-height: 1;
-      /* prevent text from adding vertical space */
-    }
-
-    .meta-chip .material-icons-round {
-      font-size: 13px;
-      color: var(--on-surface-var);
-      flex-shrink: 0
     }
 
     .meta-chip a {
@@ -952,13 +962,7 @@
     }
 
     .mc-fav {
-      background: rgba(246, 189, 96, .12);
-      border-color: var(--fav);
-      color: var(--fav)
-    }
-
-    .mc-fav .material-icons-round {
-      color: var(--fav)
+      display: none; /* replaced by star next to title */
     }
 
     .mc-lang {
@@ -969,6 +973,16 @@
 
     .mc-lang .material-icons-round {
       color: var(--primary)
+    }
+
+    .mc-artist {
+      background: transparent;
+      border-color: var(--outline-var);
+      color: var(--on-surface-var);
+    }
+
+    .mc-artist .material-icons-round {
+      color: var(--on-surface-var);
     }
 
     .mc-yt {
@@ -1514,8 +1528,8 @@
 
       <!-- Artist dropdown — both mobile & desktop -->
       <div class="filter-dropdown-wrap" id="artistDropWrap">
-        <div class="chip filter-dd-trigger" id="artistDropTrigger" onclick="toggleDropdown('artistDrop', event)">
-          <span class="material-icons-round">person</span>
+        <div class="chip chip-artist filter-dd-trigger" id="artistDropTrigger" onclick="toggleDropdown('artistDrop', event)">
+          <span class="material-icons-round">mic</span>
           <span id="artistDropLabel">Artist</span>
           <span class="material-icons-round dd-caret">expand_more</span>
         </div>
@@ -1623,7 +1637,7 @@
 
       <div id="songBody">
         <div id="songHeadline">
-          <div id="songDisplayTitle" style="cursor: pointer;" onclick="back()"></div>
+          <div id="songDisplayTitle" style="cursor: pointer;" onclick="back()"><span id="songTitleText"></span><span class="material-icons-round" id="songTitleFavStar">star</span></div>
           <div id="songArtistDisplay"></div>
           <div id="metaContainer"></div>
         </div>
@@ -1860,6 +1874,7 @@
           const L = line.trim();
           // accept #Artist: or #Singer: as same field
           if (L.startsWith('#Title:')) meta.title = L.replace('#Title:', '').trim();
+          else if (L.startsWith('#AArtist:')) meta.aartist = L.replace('#AArtist:', '').trim();
           else if (L.startsWith('#Artist:')) meta.artist = L.replace('#Artist:', '').trim();
           else if (L.startsWith('#Singer:')) meta.artist = L.replace('#Singer:', '').trim();
           else if (L.startsWith('#LPM:')) meta.lpm = parseInt(L.replace('#LPM:', '').trim());
@@ -1872,6 +1887,7 @@
           else if (L.startsWith('Key:')) meta.key = L.replace('Key:', '').trim();
           else if (L.startsWith('Scroll speed:')) meta.speed = parseInt(L.replace('Scroll speed:', '').trim());
           else if (L.startsWith('Release year:')) meta.year = L.replace('Release year:', '').trim();
+          else if (L.startsWith('#Release:')) meta.year = L.replace('#Release:', '').trim();
           else if (L.startsWith('YTlink:')) meta.yt = L.replace('YTlink:', '').trim(); // legacy
           else lyr.push(line);
         });
@@ -1888,6 +1904,7 @@
     function rebuildRaw(song) {
       const m = song.meta, lines = [];
       if (m.title) lines.push('#Title: ' + m.title);
+      if (m.aartist) lines.push('#AArtist: ' + m.aartist);
       if (m.artist) lines.push('#Artist: ' + m.artist);
       if (m.lang) lines.push('#Lang: ' + m.lang);
       if (m.genre) lines.push('#Genre: ' + m.genre);
@@ -1903,6 +1920,18 @@
     /* ── FILTERS ── */
     const LANG = { 'Konk': 'Konkani', 'Eng': 'English', 'Hin': 'Hindi', 'Port': 'Portuguese' };
 
+    // Split artist string on commas, feat., ft. — returns array of trimmed names
+    function splitArtists(str) {
+      if (!str) return [];
+      return str.split(/,|feat\.|ft\.|\s&\s|\s\.\s/i).map(s => s.trim()).filter(Boolean);
+    }
+
+    // Split genre string on commas — returns array of trimmed genres
+    function splitGenres(str) {
+      if (!str) return [];
+      return str.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
     // Filter state — Sets for multi-select; null/empty = "All"
     let langFilter = new Set();   // empty = all
     let genreFilter = new Set();
@@ -1911,10 +1940,10 @@
 
     /* Build filter UI from currently loaded songs */
     function buildFilterUI() {
-      // Collect unique values
+      // Collect unique values — split artists and genres
       const langs   = [...new Set(songs.map(s => s.meta.lang).filter(Boolean))];
-      const genres  = [...new Set(songs.map(s => s.meta.genre).filter(Boolean))].sort();
-      const artists = [...new Set(songs.map(s => s.meta.artist).filter(Boolean))].sort();
+      const genres  = [...new Set(songs.flatMap(s => splitGenres(s.meta.genre)))].sort();
+      const artists = [...new Set(songs.flatMap(s => [...splitArtists(s.meta.artist), ...splitArtists(s.meta.aartist)]))].sort();
 
       // Reset filter state when library changes
       langFilter.clear(); genreFilter.clear(); artistFilter.clear();
@@ -2081,8 +2110,8 @@
         const tm = (s.meta.title || '').toLowerCase().includes(q) ||
                    (s.meta.artist || '').toLowerCase().includes(q);
         const lm = langFilter.size === 0   || langFilter.has(s.meta.lang);
-        const gm = genreFilter.size === 0  || genreFilter.has(s.meta.genre);
-        const am = artistFilter.size === 0 || artistFilter.has(s.meta.artist);
+        const gm = genreFilter.size === 0  || splitGenres(s.meta.genre).some(g => genreFilter.has(g));
+        const am = artistFilter.size === 0 || splitArtists(s.meta.artist).some(a => artistFilter.has(a)) || splitArtists(s.meta.aartist).some(a => artistFilter.has(a));
         const fm = !favOnly || s.meta.fav === true;
         return tm && lm && gm && am && fm;
       });
@@ -2171,7 +2200,9 @@
     function openSong(song) {
       currentSong = song; showSongScreen(); window.scrollTo(0, 0);
       $('songBarTitle').textContent = song.meta.title || '';
-      $('songDisplayTitle').textContent = song.meta.title || '';
+      $('songTitleText').textContent = song.meta.title || '';
+      // Fav star next to title
+      $('songTitleFavStar').classList.toggle('show', !!song.meta.fav);
 
       // Album art banner
       const artWrap = $('songArtWrap');
@@ -2187,28 +2218,45 @@
       updateFavMenuItem();
       metaContainer.innerHTML = '';
 
-      // Artist shown as plain styled text — NOT a chip
+      // AArtist shown as plain subline text
       const ad = $('songArtistDisplay');
-      if (song.meta.artist) {
-        ad.textContent = song.meta.artist;
+      if (song.meta.aartist) {
+        ad.textContent = song.meta.aartist;
         ad.style.display = 'block';
       } else {
         ad.textContent = ''; ad.style.display = 'none';
       }
 
-      // Everything else → compact rounded chips
+      if (song.meta.fav)
+        $('songTitleFavStar').classList.add('show');
+
+      // Artist → single mic pill (shows original string as-is)
+      if (song.meta.artist)
+        metaContainer.innerHTML += `<span class="meta-chip mc-artist"><span class="material-icons-round">mic</span>${escHtml(song.meta.artist)}</span>`;
+
+      // Language chip
       if (song.meta.lang)
         metaContainer.innerHTML += `<span class="meta-chip mc-lang"><span class="material-icons-round">translate</span>${LANG[song.meta.lang] || song.meta.lang}</span>`;
-      if (song.meta.genre)
-        metaContainer.innerHTML += `<span class="meta-chip"><span class="material-icons-round">queue_music</span>${escHtml(song.meta.genre)}</span>`;
-      if (song.meta.fav)
-        metaContainer.innerHTML += `<span class="meta-chip mc-fav"><span class="material-icons-round">star</span>Favourite</span>`;
+
+      // Genre — one pill per genre
+      splitGenres(song.meta.genre).forEach(g => {
+        metaContainer.innerHTML += `<span class="meta-chip"><span class="material-icons-round">queue_music</span>${escHtml(g)}</span>`;
+      });
+
       if (song.meta.key)
         metaContainer.innerHTML += `<span class="meta-chip"><span class="material-icons-round">music_note</span>Key: ${escHtml(song.meta.key)}</span>`;
       if (song.meta.year)
-        metaContainer.innerHTML += `<span class="meta-chip"><span class="material-icons-round">calendar_today</span>${escHtml(song.meta.year)}</span>`;
+        metaContainer.innerHTML += `<span class="meta-chip"><span class="material-icons-round">calendar_today</span>${escHtml(formatReleaseDate(song.meta.year))}</span>`;
       if (song.meta.yt)
         metaContainer.innerHTML += `<span class="meta-chip mc-yt"><span class="material-icons-round">play_circle</span><a href="${escHtml(song.meta.yt)}" target="_blank" rel="noopener noreferrer">YouTube ↗</a></span>`;
+
+      // Hashtag lines (#...) → extra meta chips, not rendered in lyrics
+      song.lyrics.forEach(line => {
+        if (line.trim().startsWith('#')) {
+          const text = line.trim().substring(1).trim();
+          if (text) metaContainer.innerHTML += `<span class="meta-chip">${escHtml(text)}</span>`;
+        }
+      });
 
       const lpm = song.meta.lpm || song.meta.speed || 60;
       setLPM(lpm);
@@ -2216,6 +2264,21 @@
     }
 
     function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }
+
+    function formatReleaseDate(raw) {
+      if (!raw) return '';
+      const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      // DD-MM-YYYY
+      const dmy = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+      if (dmy) return `${parseInt(dmy[1])} ${MONTHS[parseInt(dmy[2])-1]}, ${dmy[3]}`;
+      // "Month DD, YYYY" or "Month YYYY"
+      const mdy = raw.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+      if (mdy) return `${parseInt(mdy[2])} ${mdy[1]}, ${mdy[3]}`;
+      const my = raw.match(/^([A-Za-z]+)\s+(\d{4})$/);
+      if (my) return `${my[1]} ${my[2]}`;
+      // Year only or anything else — show as-is
+      return raw;
+    }
 
     function updateFavMenuItem() {
       const isFav = currentSong?.meta?.fav;
@@ -2236,7 +2299,7 @@
           const s = document.createElement('div'); s.className = 'section'; s.textContent = line.substring(2); lyricsEl.appendChild(s); return;
         }
         if (line.trim().startsWith('#')) {
-          const b = document.createElement('div'); b.className = 'hashtag'; b.textContent = line.trim().substring(1).trim(); lyricsEl.appendChild(b); return;
+          return; // hashtag lines shown as meta chips, not in lyrics
         }
         const row = document.createElement('div');
         line.split(' ').forEach(w => {
@@ -2347,6 +2410,7 @@
       txt.trim().split('\n').forEach(line => {
         const L = line.trim();
         if (L.startsWith('#Title:')) meta.title = L.replace('#Title:', '').trim();
+        else if (L.startsWith('#AArtist:')) meta.aartist = L.replace('#AArtist:', '').trim();
         else if (L.startsWith('#Artist:')) meta.artist = L.replace('#Artist:', '').trim();
         else if (L.startsWith('#Singer:')) meta.artist = L.replace('#Singer:', '').trim();
         else if (L.startsWith('#LPM:')) meta.lpm = parseInt(L.replace('#LPM:', '').trim());
@@ -2359,6 +2423,7 @@
         else if (L.startsWith('Key:')) meta.key = L.replace('Key:', '').trim();
         else if (L.startsWith('Scroll speed:')) meta.speed = parseInt(L.replace('Scroll speed:', '').trim());
         else if (L.startsWith('Release year:')) meta.year = L.replace('Release year:', '').trim();
+        else if (L.startsWith('#Release:')) meta.year = L.replace('#Release:', '').trim();
         else if (L.startsWith('YTlink:')) meta.yt = L.replace('YTlink:', '').trim();
         else lyr.push(line);
       });
