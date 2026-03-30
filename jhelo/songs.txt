@@ -112,7 +112,6 @@ Morossor hanv mog kortolom tuzo
 #Artist: Alison Gonsalves
 #AArtist: Black Sapphire
 #AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
-#Lang: Konk
 #Release: 30-08-2025
 #Album: Rosalina (feat. Black Sapphire) - Single
 #Genre: Pop
@@ -173,7 +172,7 @@ Oh Rosalina
 #Title: Cu-Cu-Ru-Cu
 #Music & Lyrics: Chris Perry
 #Re-arranged: Ronnie Monsorate & Jacob (Jackson) Pereira
-#Lead & Backing Vocals: Jackson
+#Artist: Jackson
 #Piano: Ronnie Monsorate
 #Bass: Bertie D’Silva
 #Drums: Franco Vaz
@@ -344,7 +343,7 @@ Lharalharachim aik tim kantaram
 
 
 #Title: Goenkarponn
-#AArtist: Goa Forgiving
+#Artist: Goa Forgiving
 #Music Director, Arranger & Conductor: Ronnie Monsorate
 #Lyricist: Roque Lazarus
 #Mixing: Tabun Sutradhar
@@ -464,10 +463,10 @@ thaame dil ko
 ===
 
 #Title: Choosin' Texas
-#AArtist: Ella Langley
+#Artist: Ella Langley
 #Album: Dandelion
 #Producers: Ella Langley, Ben West
-#Released:	October 17, 2025
+#Release: 17-10-2025
 #Genre: Country
 #AA Link: https://upload.wikimedia.org/wikipedia/en/thumb/2/23/Ella_Langley_-_Choosin%27_Texas.jpg/250px-Ella_Langley_-_Choosin%27_Texas.jpg
 #YT Link: https://youtu.be/hLOheGDwD_0
