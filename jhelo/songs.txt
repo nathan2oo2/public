@@ -112,6 +112,7 @@ Morossor hanv mog kortolom tuzo
 #Artist: Alison Gonsalves
 #AArtist: Black Sapphire
 #AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
+#Lang: Konk
 #Release: 30-08-2025
 #Album: Rosalina (feat. Black Sapphire) - Single
 #Genre: Pop
@@ -230,7 +231,7 @@ Cu cu ru cu, cu cu
 #Title: Surganchi Fati
 #Music & Instruments: Remo Fernandes
 #Lyrics: Saish Poi Palondikar
-#Lead Vocals: Remo Fernandes & Queenie Fernandes
+#Artist: Remo Fernandes & Queenie Fernandes
 #Mixing: San
 #Featured In: O Maria (2010)
 #Style: Dulpod Duet
@@ -291,7 +292,8 @@ Surganchi rass bhetai go
 
 
 #Title: Laranchim Cantaram
-#Music, Vocals & Instruments: Remo Fernandes
+#Artist: Remo Fernandes
+#Music & Instruments: Remo Fernandes
 #Mixing: San
 #Featured In: O Maria (2010)
 #Style: Ballad
@@ -342,7 +344,7 @@ Lharalharachim aik tim kantaram
 
 
 #Title: Goenkarponn
-#Artist: Goa Forgiving
+#AArtist: Goa Forgiving
 #Music Director, Arranger & Conductor: Ronnie Monsorate
 #Lyricist: Roque Lazarus
 #Mixing: Tabun Sutradhar
@@ -462,7 +464,7 @@ thaame dil ko
 ===
 
 #Title: Choosin' Texas
-#Artist: Ella Langley
+#AArtist: Ella Langley
 #Album: Dandelion
 #Producers: Ella Langley, Ben West
 #Released:	October 17, 2025
