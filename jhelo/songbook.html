@@ -2218,10 +2218,17 @@
       updateFavMenuItem();
       metaContainer.innerHTML = '';
 
-      // AArtist shown as plain subline text
+      // Subline & artist pill logic:
+      // - AArtist & Artist both exist and differ → subline=AArtist, mic pill=Artist
+      // - AArtist & Artist same → subline=Artist, no mic pill
+      // - No AArtist, Artist exists → subline=Artist, no mic pill
       const ad = $('songArtistDisplay');
-      if (song.meta.aartist) {
+      const hasBoth = song.meta.aartist && song.meta.artist && song.meta.aartist !== song.meta.artist;
+      if (hasBoth) {
         ad.textContent = song.meta.aartist;
+        ad.style.display = 'block';
+      } else if (song.meta.artist) {
+        ad.textContent = song.meta.artist;
         ad.style.display = 'block';
       } else {
         ad.textContent = ''; ad.style.display = 'none';
@@ -2230,8 +2237,8 @@
       if (song.meta.fav)
         $('songTitleFavStar').classList.add('show');
 
-      // Artist → single mic pill (shows original string as-is)
-      if (song.meta.artist)
+      // Mic pill only when AArtist and Artist both exist and differ
+      if (hasBoth)
         metaContainer.innerHTML += `<span class="meta-chip mc-artist"><span class="material-icons-round">mic</span>${escHtml(song.meta.artist)}</span>`;
 
       // Language chip
