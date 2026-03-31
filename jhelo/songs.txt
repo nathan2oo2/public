@@ -698,6 +698,7 @@ Ami pavo-sor tuje sorxi
 #Lang: Konk
 #Book: Gaionacho Jhelo (1995)
 #GJID: E-1, 76
+#AA Link: https://i.ibb.co/PzCzkKYf/HANNA-201223-JHELO13.jpg
 
 --Refrain
 Amchê bori rav Tum, Somia,
@@ -737,6 +738,7 @@ dukhest kallzant sukha-jinnem.
 #Lang: Konk
 #Book: Gaionacho Jhelo (1995)
 #GJID: W-1, 261
+#AA Link: https://i.ibb.co/PzCzkKYf/HANNA-201223-JHELO13.jpg
 
 Adlem Voros sorun gelem, mogall Bapa;
 --eng- The Old Year is over, loving Father;
@@ -769,6 +771,7 @@ Tujê-oslo Bapui amkam mellnam!
 #Lang: Konk
 #Book: Gaionacho Jhelo (1995)
 #GJID: H-1, 106
+#AA Link: https://i.ibb.co/PzCzkKYf/HANNA-201223-JHELO13.jpg
 
 Amam patkiank az denvun aili
 --eng- All sinners have received today,
@@ -797,8 +800,3 @@ Novea tar’nnacho dis udelo,
 
 Sasnnik sukhacho dis porzoll’lo !
 --eng- the eternal light of happiness has shone !
-
-
-
-
-
