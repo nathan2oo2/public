@@ -115,6 +115,7 @@ Morossor hanv mog kortolom tuzo
 #Release: 30-08-2025
 #Album: Rosalina (feat. Black Sapphire) - Single
 #Genre: Pop
+#Lang: Konk
 
 
 --Intro verse
