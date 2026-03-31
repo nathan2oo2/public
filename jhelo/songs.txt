@@ -606,10 +606,13 @@ I'm drunk and I'm ready to leave
 And you look like you love me
 I'm drunk and I'm ready to leave
 And you look like you love me"
+
 ===
+
 #Title: Maiye Kakutin Bhorlele
 #Genre: Worship
 #AA Link: https://daijiworld.ap-south-1.linodeobjects.com/Linode/images3/HANNA_201223_JHELO13.jpg
+#Lang: Konk
 
 Maiye kakutin bhorlele
 Rannie sorga sounsarache
@@ -671,6 +674,7 @@ Ghe amkam tujea gopant
 #Title: Sam Francis Xaviera
 #Genre: Worship
 #AA Link: https://daijiworld.ap-south-1.linodeobjects.com/Linode/images3/HANNA_201223_JHELO13.jpg
+#Lang: Konk
 
 Sam Francis Xaviera, vodda kunvra
 Raat dis amchea mogan lastolea
