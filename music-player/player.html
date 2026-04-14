@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kantarancho Jhelo - Music Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B4513;
+            --secondary: #D4A574;
+            --accent: #C9302C;
+            --bg-dark: #1a1410;
+            --bg-light: #f5f1ed;
+            --text-dark: #2b2520;
+            --text-light: #f5f1ed;
+            --border: #d4a574;
+            --success: #6b8e23;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* Sidebar - Playlist */
+        .sidebar {
+            flex: 0 0 380px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(139, 69, 19, 0.15);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .playlist {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .song-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .song-item:hover {
+            background: rgba(139, 69, 19, 0.2);
+            border-left-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .song-item.active {
+            background: rgba(139, 69, 19, 0.35);
+            border-left-color: var(--accent);
+        }
+
+        .song-item-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .song-item-artist {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            opacity: 0.8;
+        }
+
+        /* Main Player */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Album Art & Metadata */
+        .album-section {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .album-art {
+            flex: 0 0 280px;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            overflow: hidden;
+            background: linear-gradient(135deg, #8B4513 0%, #6b3410 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--secondary);
+            opacity: 0.4;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .metadata {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .song-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .song-artist {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .song-details {
+            display: grid;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            color: rgba(245, 241, 237, 0.7);
+        }
+
+        .detail-item {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .detail-label {
+            color: var(--secondary);
+            min-width: 80px;
+            font-weight: 600;
+        }
+
+        /* Lyrics Section */
+        .lyrics-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 2;
+        }
+
+        .lyric-line {
+            padding: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+            padding-left: 1rem;
+        }
+
+        .lyric-line:hover {
+            color: var(--accent);
+            background: rgba(139, 69, 19, 0.1);
+        }
+
+        .lyric-line.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            background: rgba(139, 69, 19, 0.15);
+            font-weight: 600;
+        }
+
+        .section-header {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Player Controls */
+        .player-controls {
+            background: rgba(139, 69, 19, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        button {
+            background: var(--primary);
+            border: 2px solid var(--border);
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: var(--accent);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.play-btn {
+            padding: 0.75rem 3rem;
+            font-size: 1.1rem;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .volume-control label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-width: 70px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .container {
+                flex-direction: column-reverse;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                flex: 0 0 200px;
+            }
+
+            .album-section {
+                gap: 1rem;
+            }
+
+            .album-art {
+                flex: 0 0 180px;
+            }
+
+            .song-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Playlist -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Playlist</h2>
+            </div>
+            <div class="playlist" id="playlist"></div>
+        </div>
+
+        <!-- Main Player -->
+        <div class="main">
+            <!-- Album & Metadata -->
+            <div class="album-section">
+                <div class="album-art">
+                    <img id="albumArt" src="" alt="Album Art" style="display: none;">
+                    <span id="albumPlaceholder">♪</span>
+                </div>
+                <div class="metadata">
+                    <h1 class="song-title" id="songTitle">Select a song</h1>
+                    <div class="song-artist" id="songArtist">Artist</div>
+                    <div class="song-details" id="songDetails"></div>
+                </div>
+            </div>
+
+            <!-- Lyrics -->
+            <div class="lyrics-section" id="lyricsSection"></div>
+
+            <!-- Controls -->
+            <div class="player-controls">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+                <div class="controls">
+                    <button id="prevBtn">← Previous</button>
+                    <button id="playBtn" class="play-btn">▶ Play</button>
+                    <button id="nextBtn">Next →</button>
+                </div>
+                <div class="volume-control">
+                    <label for="volumeSlider">Volume</label>
+                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" crossorigin="anonymous"></audio>
+
+    <script>
+        // Parser for songs.txt format
+        class SongParser {
+            static parse(content) {
+                const songs = [];
+                const songBlocks = content.split('===').filter(block => block.trim());
+
+                for (const block of songBlocks) {
+                    const lines = block.trim().split('\n');
+                    const song = {
+                        metadata: {},
+                        lyrics: [],
+                        sections: []
+                    };
+
+                    let currentSection = null;
+
+                    for (const line of lines) {
+                        if (line.startsWith('#')) {
+                            const [key, ...valueParts] = line.substring(1).split(':');
+                            const value = valueParts.join(':').trim();
+                            song.metadata[key] = value;
+                        } else if (line.startsWith('--')) {
+                            currentSection = line.substring(2).trim();
+                            song.sections.push({ name: currentSection, startIndex: song.lyrics.length });
+                        } else if (line.trim()) {
+                            song.lyrics.push({
+                                text: line,
+                                section: currentSection
+                            });
+                        }
+                    }
+
+                    if (Object.keys(song.metadata).length > 0) {
+                        songs.push(song);
+                    }
+                }
+
+                return songs;
+            }
+        }
+
+        // Parse songs from text
+        const songsText = `#Title: Aiz Thaun
+#Artist: Alison Gonsalves
+#AArtist: Black Sapphire
+#Lyrics, Arrangement & Composition: Alison Gonsalves
+#Mixed & Mastered by: Alison Gonsalves
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c2/e3/31/c2e33162-3356-ea5d-b77d-807ba46f3a15/artwork.jpg/3000x3000bb.jpg
+#LPM: 10
+#Genre: Ballad
+#Release: 31-05-2025
+#Album: Aiz Thaun (feat. Black Sapphire) - Single
+#Lang: Konk
+#Fav: TRUE
+#File: aiz-taun.opus
+#Timing: line
+
+--Verse 1
+[00:12.34]Dollean tujea dista mhaka amcho ghorabo
+[00:16.20]Vengen tujea mevta mhaka mog ani asro
+[00:20.10]Kallzam amchi oshim khoshim guspovlim
+[00:24.00]Don aslim punn mogachea taaranim ekthaim zoddlim
+
+--Chorus
+[00:29.50]Aiz thaun hanv zatam tuzo
+[00:32.80]Tum mhojem, mhozo mog tuzo
+[00:36.10]Mevcho na tau konnak
+[00:38.90]Amchea mogacho
+[00:41.20]Khoro mog amcho
+
+--Verse 2
+[00:48.00]Poilech nodren mog zalo tujea hastea mukhamolacho
+[00:52.40]Soglim chintnam pois tum kortai dhortoch hath mhozo
+[00:56.80]Surya zoso uzzvadaita soglo sonvsar
+[01:00.60]Tossoch mog amcho uzzvadaitolo amcho fudar
+
+--Chorus
+[01:06.00]Aiz thaun hanv zatam tuzo
+[01:09.30]Tum mhojem, mhozo mog tuzo
+[01:12.60]Mevcho na tau konnak
+[01:15.40]Amchea mogacho
+[01:17.70]Khoro mog amcho
+
+--Bridge
+[01:24.00]Vhell kadinaka
+[01:27.50]Soglem sodd ani dhavun ieo
+[01:31.20]Bhandlam tuka ghor mhojea gopant
+
+--Chorus
+[01:37.00]Aiz thaun hanv zatam tuzo
+[01:40.30]Tum mhojem, mhozo mog tuzo
+[01:43.60]Mevcho na tau konnak
+[01:46.40]Amchea mogacho
+[01:48.70]Khoro mog amcho
+
+===
+
+#Title: Rosalina
+#Artist: Alison Gonsalves
+#AArtist: Black Sapphire
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
+#Release: 30-08-2025
+#Album: Rosalina (feat. Black Sapphire) - Single
+#Genre: Pop
+#Lang: Konk
+#Timing: word
+#File: rosa.opus
+
+--Intro verse
+[00:04.10]Bolcãovan [00:04.80]boson [00:05.40]aslo [00:05.90]hanv
+[00:06.80]Kadtalo [00:07.50]ekloch [00:08.10]pikasão
+[00:09.00]Gherani [00:09.70]mhoje [00:10.20]poixe [00:10.80]vibaddle
+[00:11.70]Tea [00:12.00]Caituchea [00:12.80]padpodlelea [00:13.60]rediyan
+
+===
+
+#Title: Omor Mog
+#Artist: Carey Fernandes & Cielda Pereira
+#Composer/Lyrics: Carey Fernandes
+#Music Director/Mixing & Mastering: Devesh Dias
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/54/27/81/5427810d-c7b4-8e22-c8ce-82730bdf251e/artwork.jpg/3000x3000bb.jpg
+#LPM: 10
+#Lang: Konk
+#Fav: TRUE
+#Timing: syllable
+#File: omor.opus
+
+--Verse 1
+[00:08.00]Dollean mellun dollo, dogainnin niz mog ami kelo
+[00:12.00]Tum mujem anic hanv tuzo, jurement dillo
+[00:15.00]Chondri man kupvannim vengoimlo, dogainncho mog amcho suru zalo
+[00:19.50]Tum muzo fullancho jello, tuka sambutolom
+
+===`;
+
+        let songs = SongParser.parse(songsText);
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const playlist = document.getElementById('playlist');
+        const lyricsSection = document.getElementById('lyricsSection');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        // Format time
+        function formatTime(seconds) {
+            if (!isFinite(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Load song
+        function loadSong(index) {
+            if (index < 0 || index >= songs.length) return;
+            
+            currentSongIndex = index;
+            const song = songs[index];
+            
+            // Update UI
+            document.getElementById('songTitle').textContent = song.metadata['Title'] || 'Unknown';
+            document.getElementById('songArtist').textContent = song.metadata['Artist'] || 'Unknown Artist';
+            
+            // Album art
+            const img = document.getElementById('albumArt');
+            if (song.metadata['AA Link']) {
+                img.src = song.metadata['AA Link'];
+                img.style.display = 'block';
+                document.getElementById('albumPlaceholder').style.display = 'none';
+            } else {
+                img.style.display = 'none';
+                document.getElementById('albumPlaceholder').style.display = 'flex';
+            }
+
+            // Details
+            const details = [];
+            if (song.metadata['Genre']) details.push(['Genre', song.metadata['Genre']]);
+            if (song.metadata['Album']) details.push(['Album', song.metadata['Album']]);
+            if (song.metadata['Release']) details.push(['Release', song.metadata['Release']]);
+            if (song.metadata['Lang']) details.push(['Language', song.metadata['Lang']]);
+
+            document.getElementById('songDetails').innerHTML = details
+                .map(([label, value]) => `<div class="detail-item"><div class="detail-label">${label}</div><div>${value}</div></div>`)
+                .join('');
+
+            // Lyrics
+            renderLyrics(song);
+
+            // Audio
+            const audioFile = song.metadata['File'];
+            if (audioFile) {
+                audio.src = `./audios/${audioFile}`;
+            }
+
+            // Update playlist UI
+            document.querySelectorAll('.song-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            audio.load();
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+
+        // Render lyrics
+        function renderLyrics(song) {
+            let html = '';
+            let currentSection = null;
+
+            for (const lyric of song.lyrics) {
+                if (lyric.section !== currentSection) {
+                    currentSection = lyric.section;
+                    html += `<div class="section-header">${currentSection}</div>`;
+                }
+                html += `<div class="lyric-line">${lyric.text.replace(/\[\d{2}:\d{2}\.\d{2}\]/g, '').trim()}</div>`;
+            }
+
+            lyricsSection.innerHTML = html;
+        }
+
+        // Populate playlist
+        function populatePlaylist() {
+            playlist.innerHTML = songs.map((song, index) => `
+                <div class="song-item ${index === 0 ? 'active' : ''}" onclick="loadSong(${index})">
+                    <div class="song-item-title">${song.metadata['Title']}</div>
+                    <div class="song-item-artist">${song.metadata['Artist']}</div>
+                </div>
+            `).join('');
+        }
+
+        // Play/Pause
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '▶ Play';
+                isPlaying = false;
+            } else {
+                audio.play();
+                playBtn.textContent = '⏸ Pause';
+                isPlaying = true;
+            }
+        });
+
+        // Next/Prev
+        nextBtn.addEventListener('click', () => {
+            loadSong((currentSongIndex + 1) % songs.length);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            loadSong((currentSongIndex - 1 + songs.length) % songs.length);
+        });
+
+        // Progress bar
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        });
+
+        // Update progress
+        audio.addEventListener('timeupdate', () => {
+            progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+
+        // Duration
+        audio.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audio.duration);
+        });
+
+        // Volume
+        volumeSlider.addEventListener('change', (e) => {
+            audio.volume = e.target.value / 100;
+        });
+
+        // Auto play next
+        audio.addEventListener('ended', () => {
+            loadSong((currentSongIndex + 1) % songs.length);
+        });
+
+        // Initialize
+        populatePlaylist();
+        loadSong(0);
+        audio.volume = 0.7;
+    </script>
+</body>
+</html>
