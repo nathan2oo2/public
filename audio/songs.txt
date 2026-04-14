@@ -1,0 +1,153 @@
+#Title: Aiz Thaun
+#Artist: Alison Gonsalves
+#AArtist: Black Sapphire
+#Lyrics, Arrangement & Composition: Alison Gonsalves
+#Mixed & Mastered by: Alison Gonsalves
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c2/e3/31/c2e33162-3356-ea5d-b77d-807ba46f3a15/artwork.jpg/3000x3000bb.jpg
+#LPM: 10
+#Genre: Ballad
+#Release: 31-05-2025
+#Album: Aiz Thaun (feat. Black Sapphire) - Single
+#Lang: Konk
+#Fav: TRUE
+#File: aiz-taun.opus
+#Timing: line
+
+--Verse 1
+[00:12.34]Dollean tujea dista [A]mhaka amcho ghorabo
+[00:16.20]Vengen tujea mevta mhaka [F#]mog ani asro
+[00:20.10]Kallzam amchi oshim khoshim guspovlim
+[00:24.00]Don aslim punn mogachea taaranim ekthaim zoddlim
+
+--Chorus
+[00:29.50]Aiz thaun hanv zatam tuzo
+[00:32.80]Tum mhojem, mhozo [F#]mog tuzo
+[00:36.10]Mevcho na tau konnak
+[00:38.90]Amchea mogacho
+[00:41.20]Khoro mog amcho
+
+--Verse 2
+[00:48.00]Poilech nodren mog zalo tujea hastea mukhamolacho
+[00:52.40]Soglim chintnam pois tum kortai dhortoch hath mhozo
+[00:56.80]Surya zoso uzzvadaita soglo sonvsar
+[01:00.60]Tossoch mog amcho uzzvadaitolo amcho fudar
+
+--Chorus
+[01:06.00]Aiz thaun hanv zatam tuzo
+[01:09.30]Tum mhojem, mhozo mog tuzo
+[01:12.60]Mevcho na tau konnak
+[01:15.40]Amchea mogacho
+[01:17.70]Khoro mog amcho
+
+--Bridge
+[01:24.00]Vhell kadinaka
+[01:27.50]Soglem sodd ani dhavun ieo
+[01:31.20]Bhandlam tuka ghor mhojea gopant
+
+--Chorus
+[01:37.00]Aiz thaun hanv zatam tuzo
+[01:40.30]Tum mhojem, mhozo mog tuzo
+[01:43.60]Mevcho na tau konnak
+[01:46.40]Amchea mogacho
+[01:48.70]Khoro mog amcho
+
+===
+
+#Title: Rosalina
+#Artist: Alison Gonsalves
+#AArtist: Black Sapphire
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/ca/1b/e1ca1b0e-27d5-2be6-27f7-498e660ad361/artwork.jpg/3000x3000bb.jpg
+#Release: 30-08-2025
+#Album: Rosalina (feat. Black Sapphire) - Single
+#Genre: Pop
+#Lang: Konk
+#Timing: word
+#File: rosa.opus
+
+--Intro verse
+[00:04.10]Bolcãovan [00:04.80]boson [00:05.40]aslo [00:05.90]hanv
+[00:06.80]Kadtalo [00:07.50]ekloch [00:08.10]pikasão
+[00:09.00]Gherani [00:09.70]mhoje [00:10.20]poixe [00:10.80]vibaddle
+[00:11.70]Tea [00:12.00]Caituchea [00:12.80]padpodlelea [00:13.60]rediyan
+
+--Verse 1
+[00:16.20]Upashi [00:16.90]hanv [00:17.30]bhonvta [00:17.90]kallchean
+[00:18.80]Bollsan [00:19.40]attane [00:20.00]passun [00:20.50]na
+[00:21.40]Rostear [00:22.10]choltana [00:22.80]teka [00:23.20]poitoch
+[00:24.10]Sogle [00:24.60]dukh [00:25.00]ghelem [00:25.50]uddon
+[00:26.40]Mogan [00:26.90]hanv [00:27.30]ghelom [00:27.80]buddon
+
+--Chorus
+[00:30.00]Rosalina [00:31.20]Rosalina
+[00:32.80]Kiteak [00:33.30]maka [00:33.70]tu [00:34.00]go [00:34.40]pollena
+[00:35.60]Sopnam [00:36.20]Tujim [00:36.80]nidonk [00:37.40]dina
+[00:38.60]Oshem [00:39.10]korinaka
+[00:40.20]Maka [00:40.70]marinaka
+[00:42.00]Oh [00:42.60]Rosalina
+
+--Verse 2
+[00:46.00]Modghovam [00:46.90]bazarant [00:47.70]ghelo [00:48.20]hav
+[00:49.10]Margai [00:49.80]pollevun [00:50.50]sutli [00:51.00]mhaka [00:51.40]gham
+[00:52.30]Nustem [00:53.00]ghetana [00:53.70]teka [00:54.10]poitoch
+[00:55.00]Sogle [00:55.50]dukh [00:55.90]ghelem [00:56.40]uddon
+[00:57.30]Mogan [00:57.80]hanv [00:58.20]ghelom [00:58.70]buddon
+
+--Chorus
+[01:01.00]Rosalina [01:02.20]Rosalina
+[01:03.80]Kiteak [01:04.30]maka [01:04.70]tu [01:05.00]go [01:05.40]pollena
+[01:06.60]Sopnam [01:07.20]Tujim [01:07.80]nidonk [01:08.40]dina
+[01:09.60]Oshem [01:10.10]korinaka
+[01:11.20]Maka [01:11.70]marinaka
+[01:13.00]Oh [01:13.60]Rosalina
+
+--Verse 3
+[01:16.00]Kaamak [01:16.70]vochonch [01:17.30]bus [01:17.70]haven [01:18.20]dhorli
+[01:19.10]Driveran [01:19.90]Alfredachi [01:20.80]Kantaram [01:21.50]ghatlim
+[01:22.40]Fattlea [01:23.00]seatar [01:23.60]taka [01:24.00]poin
+[01:25.00]Havenui [01:25.60]mhullem
+[01:26.50]Aago [01:27.00]"Tu [01:27.40]mhojem [01:27.90]sukh"
+[01:28.80]Mhaka [01:29.20]"Divnakai [01:29.90]dukh"
+
+--Outro Chorus
+[01:32.00]Rosalina [01:33.20]Rosalina
+[01:34.80]Kiteak [01:35.30]maka [01:35.70]tu [01:36.00]go [01:36.40]pollena
+[01:37.60]Rosalina [01:38.80]Rosalina
+[01:40.40]Sopnam [01:41.00]tujim [01:41.60]nidonk [01:42.20]passun [01:42.80]dina
+[01:44.00]Oshem [01:44.50]korinaka
+[01:45.60]Maka [01:46.10]marinaka
+[01:47.40]Oh [01:48.00]Rosalina
+
+===
+
+#Title: Omor Mog
+#Artist: Carey Fernandes & Cielda Pereira
+#Composer/Lyrics: Carey Fernandes
+#Music Director/Mixing & Mastering: Devesh Dias
+#AA Link: https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/54/27/81/5427810d-c7b4-8e22-c8ce-82730bdf251e/artwork.jpg/3000x3000bb.jpg
+#LPM: 10
+#Lang: Konk
+#Fav: TRUE
+#Timing: syllable
+#File:omor.opus
+
+--Verse 1
+[00:08.00]Dol[00:08.18]le[00:08.34]an [00:08.70]mel[00:08.85]lun [00:09.10]dol[00:09.25]lo, [00:09.60]do[00:09.75]gainn[00:10.00]in [00:10.30]niz [00:10.55]mog [00:10.80]a[00:10.95]mi [00:11.20]ke[00:11.35]lo
+[00:12.00]Tum [00:12.20]mu[00:12.35]jem [00:12.60]a[00:12.75]nic [00:13.00]hanv [00:13.20]tu[00:13.35]zo, [00:13.70]ju[00:13.85]ra[00:14.00]ment [00:14.30]dil[00:14.45]lo
+[00:15.00]Chon[00:15.18]dri[00:15.34]man [00:15.70]kup[00:15.85]pann[00:16.05]nim [00:16.40]ven[00:16.55]goi[00:16.72]lo, [00:17.00]do[00:17.15]gainn[00:17.40]cho [00:17.70]mog [00:17.90]am[00:18.05]cho [00:18.30]su[00:18.45]ru [00:18.70]za[00:18.85]lo
+[00:19.50]Tum [00:19.70]mu[00:19.85]zo [00:20.10]full[00:20.28]an[00:20.44]cho [00:20.80]jel[00:20.95]lo, [00:21.30]tu[00:21.45]ka [00:21.70]sam[00:21.88]bau[00:22.06]to[00:22.22]lom
+
+--Verse 2
+[00:23.00]Monn [00:23.30]mu[00:23.45]jem [00:23.70]tu[00:23.85]je[00:24.00]ruch [00:24.40]as[00:24.55]lem
+[00:25.20]Tum [00:25.40]munn [00:25.70]mo[00:25.85]ga [00:26.10]kunn[00:26.28]a[00:26.44]nim [00:26.80]bo[00:26.95]ro
+[00:27.60]Satt [00:27.90]vor[00:28.05]sam [00:28.40]mo[00:28.55]gan [00:28.90]as[00:29.05]lim
+[00:29.80]Mog [00:30.10]mo[00:30.25]zo [00:30.50]tu[00:30.65]vem [00:31.00]ke[00:31.15]lo [00:31.40]ko[00:31.55]ro
+
+--Chorus
+[00:32.50]Tum [00:32.70]mu[00:32.85]jem [00:33.10]a[00:33.25]nic [00:33.50]hanv [00:33.70]tu[00:33.85]zo
+[00:34.60]Mo[00:34.75]ga[00:34.90]cho [00:35.20]pet[00:35.35]la [00:35.60]u[00:35.75]zo
+[00:36.40]Tu[00:36.55]jea [00:36.80]vi[00:36.95]reth [00:37.20]mo[00:37.35]jean [00:37.60]ra[00:37.75]vonk [00:38.00]ne[00:38.15]zo
+[00:38.80]Mog [00:39.10]am[00:39.25]cho [00:39.60]do[00:39.75]gainn[00:40.00]cho
+[00:40.70]So[00:40.85]dan[00:41.00]kall [00:41.40]o[00:41.55]mor [00:41.80]u[00:41.95]rom
+[00:42.60]Mo[00:42.75]ros[00:42.92]sor [00:43.20]hanv [00:43.50]mog [00:43.80]kor[00:43.95]to[00:44.12]lom [00:44.50]tu[00:44.65]zo
+
+===
