@@ -85,7 +85,7 @@
         .view-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Greetings & Mood Pills */
+        /* Greetings & Mood Pills (Mobile Touch Scroll Optimized) */
         .greeting-header { font-size: 36px; font-weight: 900; letter-spacing: -1px; margin: 24px 0 16px 0; }
         .mood-container { display: flex; gap: 12px; margin-bottom: 32px; overflow-x: auto; padding: 6px 4px 12px 4px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .mood-container::-webkit-scrollbar { display: none; }
@@ -103,224 +103,280 @@
         .play-circle .material-symbols-rounded { font-size: 32px; font-variation-settings: 'FILL' 1; }
         .now-playing-title { font-weight: 700; font-size: 15px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* 3. RIGHT PLAYER SIDEBAR */
-        .player-sidebar { width: var(--player-width); background-color: var(--surface-color); flex-direction: column; display: flex; border-left: 1px solid var(--border-color); }
-        .player-header { padding: 16px; border-bottom: 1px solid var(--border-color); }
-        .player-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; }
-        .now-playing-card { background: var(--bg-color); border-radius: 8px; overflow: hidden; }
-        .now-playing-img { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--surface-color); }
-        .now-playing-img-ph { width: 100%; aspect-ratio: 1; background: var(--surface-color); display: flex; align-items: center; justify-content: center; font-size: 48px; color: var(--text-secondary); }
-        .now-playing-info { padding: 16px; }
-        .now-playing-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
-        .now-playing-artist { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        /* 3. RIGHT PLAYER SIDEBAR (Desktop Base) */
+        .player-panel { width: var(--player-width); background-color: var(--bg-color); display: flex; flex-direction: column; align-items: center; padding: 32px 24px 24px 24px; border-left: 1px solid var(--border-color); flex-shrink: 0; z-index: 1000; transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), height 0.3s cubic-bezier(0.2, 0, 0, 1); }
+        
+        /* Hidden mobile toggle button */
+        .close-player-btn { display: none; position: absolute; top: 16px; left: 16px; background: transparent; border: none; color: white; padding: 12px; cursor: pointer; border-radius: 50%; }
+        
+        .player-info-container { display: flex; flex-direction: column; width: 100%; margin-bottom: 24px; }
+        .now-playing-img { width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);}
+        .track-metadata { display: flex; flex-direction: column; width: 100%; text-align: left; overflow: hidden; }
+        .player-title { font-weight: 800; font-size: 24px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;}
+        .player-artist { font-size: 16px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .yt-action-btns { display: flex; gap: 8px; margin-top: 20px; width: 100%; justify-content: space-between;}
+        .action-btn { background: transparent; border: none; color: var(--text-primary); cursor: pointer; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
+        .action-btn .material-symbols-rounded { font-size: 24px; }
 
-        .player-controls { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-        .progress-bar-wrapper { display: flex; flex-direction: column; gap: 6px; }
-        .progress-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; cursor: pointer; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--yt-red); width: 0%; }
-        .time-display { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); font-family: monospace; }
+        .progress-container { display: flex; align-items: center; width: 100%; gap: 12px; font-size: 12px; color: var(--text-secondary); margin-bottom: 24px; font-weight: 500;}
+        .progress-bar-wrapper { flex: 1; height: 24px; display: flex; align-items: center; cursor: pointer; border-radius: 4px; }
+        .progress-bar { width: 100%; height: 3px; background-color: rgba(255,255,255,0.2); position: relative; border-radius: 2px;}
+        .progress-fill { height: 100%; background-color: var(--yt-red); width: 0%; position: relative; border-radius: 2px;}
+        .progress-fill::after { content: ''; position: absolute; right: -6px; top: -4.5px; width: 12px; height: 12px; background-color: var(--yt-red); border-radius: 50%; opacity: 0; transition: opacity 0.2s; }
+        .progress-bar-wrapper:hover .progress-fill::after { opacity: 1; }
 
-        .action-buttons { display: flex; gap: 8px; justify-content: center; }
-        .action-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .action-btn:hover { background: rgba(255,0,0,0.2); border-color: rgba(255,0,0,0.3); }
-        .action-btn.play-pause-btn { width: 56px; height: 56px; background: var(--yt-red); border: none; }
-        .action-btn.play-pause-btn:hover { background: #ff3333; }
+        .player-controls { display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center; }
+        .control-btn { flex-shrink: 0; background: transparent; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 48px; height: 48px; }
+        .play-btn { background-color: var(--text-primary); color: var(--bg-color); width: 68px; height: 68px; }
+        .play-btn .material-symbols-rounded { font-size: 40px; font-variation-settings: 'FILL' 1; }
 
-        .volume-wrapper { display: flex; align-items: center; gap: 8px; }
-        .volume-icon { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .volume-bar { height: 4px; flex: 1; background: rgba(255,255,255,0.1); border-radius: 2px; cursor: pointer; overflow: hidden; }
-        .volume-fill { height: 100%; background: var(--yt-red); width: 70%; }
+        .volume-container { display: flex; align-items: center; width: 100%; gap: 12px; margin-top: auto; padding-top: 20px; }
+        .volume-bar-wrapper { flex: 1; height: 20px; display: flex; align-items: center; cursor: pointer; border-radius: 4px;}
+        .volume-bar { width: 100%; height: 3px; background-color: rgba(255,255,255,0.2); border-radius: 2px;}
+        .volume-fill { height: 100%; background-color: var(--text-primary); width: 100%; transition: width 0.1s; border-radius: 2px;}
 
-        @media (max-width: 1400px) {
-            .player-sidebar { width: 280px; --player-width: 280px; }
-        }
-        @media (max-width: 1200px) {
-            .player-sidebar { display: none; }
+        /* 4. MOBILE BOTTOM NAV */
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--surface-color); z-index: 100; border-top: 1px solid #000; padding-bottom: env(safe-area-inset-bottom); }
+        .mobile-nav-list { display: flex; justify-content: space-around; list-style: none; padding: 6px 0; margin: 0; }
+        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-secondary); font-size: 11px; gap: 4px; cursor: pointer; border-radius: 4px; padding: 4px 12px; font-weight: 500;}
+        .mobile-nav-item.active { color: var(--text-primary); }
+        .mobile-nav-item.active .material-symbols-rounded { font-variation-settings: 'FILL' 1; }
+
+        /* =========================================
+           MOBILE & TABLET RESPONSIVE RULES
+           ========================================= */
+        @media (max-width: 850px) {
+            .nav-sidebar { display: none; }
+            .mobile-nav { display: block; }
+            .view-content { padding: 16px 16px 120px 16px; } 
+            .top-bar { padding: 12px 16px; }
+            .grid-container { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+            .greeting-header { font-size: 28px; }
+
+            /* * MINI-PLAYER STATE (Default on Mobile) */
+            .player-panel {
+                position: fixed; 
+                bottom: calc(54px + env(safe-area-inset-bottom)); 
+                left: 0; width: 100%; height: 60px;
+                flex-direction: row; padding: 0 16px; justify-content: space-between;
+                border-left: none; background: var(--surface-hover); 
+                cursor: pointer; border-radius: 8px 8px 0 0;
+            }
+            .player-info-container { flex-direction: row; align-items: center; margin-bottom: 0; flex: 1; overflow: hidden; pointer-events: none; }
+            .now-playing-img { width: 44px; height: 44px; margin-bottom: 0; margin-right: 12px; border-radius: 4px; box-shadow: none; pointer-events: none; }
+            .track-metadata { justify-content: center; pointer-events: none; }
+            .player-title { font-size: 15px; margin-bottom: 2px; }
+            .player-artist { font-size: 13px; }
+            
+            .player-controls { margin-bottom: 0; width: auto; gap: 4px; justify-content: flex-end; }
+            .play-btn { width: 44px; height: 44px; background: transparent; color: var(--text-primary); }
+            .play-btn .material-symbols-rounded { font-size: 34px; }
+            .control-btn { width: 40px; height: 40px; }
+            
+            /* Hide full-screen elements in mini mode */
+            .hide-on-mobile, .yt-action-btns, .volume-container { display: none; }
+            
+            /* Mini Progress Bar hugging the bottom edge */
+            .progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; margin: 0; gap: 0; pointer-events: none;}
+            .progress-bar-wrapper { height: 2px; border-radius: 0; }
+            .progress-bar { height: 2px; border-radius: 0; background: rgba(255,255,255,0.1); }
+            .progress-fill { border-radius: 0; }
+            #currentTimeDisplay, #durationDisplay, .progress-fill::after { display: none; }
+
+            /* * FULL-SCREEN PLAYER STATE */
+            .player-panel.fullscreen {
+                height: 100dvh; bottom: 0; padding: 48px 24px;
+                flex-direction: column; justify-content: flex-start;
+                background: var(--bg-color); cursor: default; border-radius: 0;
+            }
+            .player-panel.fullscreen .close-player-btn { display: block; }
+            .player-panel.fullscreen .player-info-container { flex-direction: column; align-items: flex-start; margin-top: 6vh; pointer-events: auto; }
+            .player-panel.fullscreen .now-playing-img { width: 100%; height: auto; max-height: 45vh; aspect-ratio: 1; border-radius: 8px; margin-bottom: 32px; pointer-events: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5);}
+            .player-panel.fullscreen .track-metadata { pointer-events: auto; }
+            .player-panel.fullscreen .player-title { font-size: 28px; margin-bottom: 8px;}
+            .player-panel.fullscreen .player-artist { font-size: 18px; }
+            
+            .player-panel.fullscreen .hide-on-mobile { display: flex; }
+            .player-panel.fullscreen .yt-action-btns { display: flex; margin-top: 24px; }
+            .player-panel.fullscreen .volume-container { display: flex; }
+            
+            .player-panel.fullscreen .progress-container { position: relative; top: auto; bottom: auto; height: auto; margin: 32px 0; pointer-events: auto;}
+            .player-panel.fullscreen .progress-bar-wrapper { height: 24px; border-radius: 4px; }
+            .player-panel.fullscreen .progress-bar { height: 4px; border-radius: 2px; }
+            .player-panel.fullscreen .progress-fill { border-radius: 2px; }
+            .player-panel.fullscreen #currentTimeDisplay, .player-panel.fullscreen #durationDisplay { display: block; font-size: 13px; }
+            .player-panel.fullscreen .progress-fill::after { display: block; }
+
+            .player-panel.fullscreen .player-controls { width: 100%; justify-content: space-between; margin-bottom: 24px; }
+            .player-panel.fullscreen .play-btn { width: 72px; height: 72px; background: var(--text-primary); color: var(--bg-color); }
+            .player-panel.fullscreen .play-btn .material-symbols-rounded { font-size: 40px; }
+            .player-panel.fullscreen .control-btn { width: 48px; height: 48px; }
         }
     </style>
 </head>
 <body>
-    <!-- LEFT SIDEBAR NAV -->
-    <nav class="nav-sidebar" data-section="left">
-        <div class="logo">
-            <span class="material-symbols-rounded">music_note</span>
-            Jhelo
-        </div>
-        <ul class="nav-links">
-            <li class="nav-link active focusable" id="nav-home" data-section="left" data-view="home">
-                <span class="material-symbols-rounded">home</span>
-                <span>Home</span>
-            </li>
-            <li class="nav-link focusable" id="nav-explore" data-section="left" data-view="explore">
-                <span class="material-symbols-rounded">explore</span>
-                <span>Explore</span>
-            </li>
-            <li class="nav-link focusable" id="nav-library" data-section="left" data-view="library">
-                <span class="material-symbols-rounded">library_music</span>
-                <span>Library</span>
-            </li>
-        </ul>
-    </nav>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content" data-section="middle">
+    <aside class="nav-sidebar">
+        <div class="logo"><span class="material-symbols-rounded">play_circle</span> Jhelo</div>
+        <ul class="nav-links">
+            <li class="nav-link active focusable" tabindex="0" onclick="switchTab('home')" data-section="left" id="nav-home"><span class="material-symbols-rounded">home</span> Home</li>
+            <li class="nav-link focusable" tabindex="0" onclick="switchTab('radio')" data-section="left"><span class="material-symbols-rounded">explore</span> Radio</li>
+            <li class="nav-link focusable" tabindex="0" onclick="switchTab('library')" data-section="left"><span class="material-symbols-rounded">library_music</span> Library</li>
+            <li class="nav-link focusable" tabindex="0" onclick="switchTab('settings')" data-section="left"><span class="material-symbols-rounded">settings</span> Settings</li>
+        </ul>
+    </aside>
+
+    <main class="main-content" data-section="middle">
         <div class="top-bar">
-            <div class="search-bar focusable" id="searchBar" data-section="middle">
+            <div class="search-bar focusable" id="searchBar" data-section="middle" tabindex="0">
                 <span class="material-symbols-rounded">search</span>
                 <input type="text" placeholder="Search songs, artists...">
             </div>
-            <div class="profile-icon focusable" id="profileIcon" data-section="middle">
+            <div class="profile-icon focusable" id="profileIcon" data-section="middle" tabindex="0">
                 <span id="userInitial">J</span>
             </div>
         </div>
 
-        <!-- HOME VIEW -->
         <div class="view-content active" id="view-home">
             <div class="greeting-header" id="greeting">Good morning</div>
             <div class="mood-container">
-                <div class="mood-pill focusable" data-section="middle">All Songs</div>
-                <div class="mood-pill focusable" data-section="middle">Favorites</div>
-                <div class="mood-pill focusable" data-section="middle">Recent</div>
+                <div class="mood-pill focusable" data-section="middle" tabindex="0">All Songs</div>
+                <div class="mood-pill focusable" data-section="middle" tabindex="0">Favorites</div>
+                <div class="mood-pill focusable" data-section="middle" tabindex="0">Recent</div>
             </div>
             <div class="section-title">Your Playlist</div>
             <div class="grid-container" id="songsGrid"></div>
         </div>
 
-        <!-- LIBRARY VIEW -->
         <div class="view-content" id="view-library">
             <div class="section-title">Your Library</div>
             <div id="library-grid"></div>
         </div>
 
-        <!-- EXPLORE VIEW -->
-        <div class="view-content" id="view-explore">
-            <div class="section-title">Explore</div>
-            <div class="grid-container" id="exploreGrid"></div>
+        <div class="view-content" id="view-radio">
+            <div class="section-title">Radio</div>
+            <div class="grid-container" id="radioGrid"></div>
         </div>
-    </div>
 
-    <!-- RIGHT PLAYER SIDEBAR -->
-    <aside class="player-sidebar" data-section="right">
-        <div class="player-header">
-            <div class="player-label">Now Playing</div>
-            <div class="now-playing-card">
-                <img id="nowPlayingImg" class="now-playing-img" style="display:none;">
-                <div id="nowPlayingImgPh" class="now-playing-img-ph">♪</div>
+        <div class="view-content" id="view-settings">
+            <div class="section-title">Settings</div>
+            <div style="padding: 20px; background: var(--surface-color); border-radius: 8px; margin-bottom: 20px;">
+                <p style="margin-bottom: 12px;">User Name</p>
+                <input type="text" id="userNameInput" placeholder="Enter your name" style="width: 100%; padding: 8px; background: var(--bg-color); border: 1px solid var(--border-color); color: white; border-radius: 4px;">
             </div>
-            <div class="now-playing-info">
-                <div class="now-playing-sub" id="nowPlayingSub">—</div>
-                <div class="now-playing-title" id="nowPlayingTitle">Select a song</div>
-                <div class="now-playing-artist" id="nowPlayingArtist">—</div>
+        </div>
+    </main>
+
+    <div class="player-panel" data-section="right">
+        <button class="close-player-btn" id="closePlayerBtn" onclick="togglePlayerFullscreen()">
+            <span class="material-symbols-rounded">close</span>
+        </button>
+        
+        <div class="player-info-container" onclick="togglePlayerFullscreen()">
+            <img id="nowPlayingImg" class="now-playing-img" style="display:none;">
+            <div id="nowPlayingImgPh" class="now-playing-img" style="background: var(--surface-color); display: flex; align-items: center; justify-content: center; font-size: 48px; color: var(--text-secondary);">♪</div>
+            <div class="track-metadata">
+                <div class="player-title" id="playerTitle">Select a song</div>
+                <div class="player-artist" id="playerArtist">—</div>
             </div>
+        </div>
+
+        <div class="yt-action-btns hide-on-mobile">
+            <button class="action-btn focusable" id="likeBtn" data-section="right" tabindex="0" title="Like">
+                <span class="material-symbols-rounded">favorite</span>
+            </button>
+            <button class="action-btn focusable" id="moreBtn" data-section="right" tabindex="0" title="More">
+                <span class="material-symbols-rounded">more_vert</span>
+            </button>
+        </div>
+
+        <div class="progress-container">
+            <span id="currentTimeDisplay">0:00</span>
+            <div class="progress-bar-wrapper focusable" id="progressWrapper" data-section="right" tabindex="0">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <span id="durationDisplay">0:00</span>
         </div>
 
         <div class="player-controls">
-            <div class="progress-bar-wrapper">
-                <div class="progress-bar focusable" id="progressWrapper" data-section="right">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="time-display">
-                    <span id="currentTime">0:00</span>
-                    <span id="duration">0:00</span>
-                </div>
-            </div>
+            <button class="control-btn focusable" id="prevBtn" data-section="right" tabindex="0" title="Previous">
+                <span class="material-symbols-rounded">skip_previous</span>
+            </button>
+            <button class="play-btn focusable" id="playBtn" data-section="right" tabindex="0" title="Play">
+                <span class="material-symbols-rounded" id="playIcon">play_arrow</span>
+            </button>
+            <button class="control-btn focusable" id="nextBtn" data-section="right" tabindex="0" title="Next">
+                <span class="material-symbols-rounded">skip_next</span>
+            </button>
+        </div>
 
-            <div class="action-buttons">
-                <button class="action-btn focusable" id="prevBtn" data-section="right" title="Previous">
-                    <span class="material-symbols-rounded">skip_previous</span>
-                </button>
-                <button class="action-btn play-pause-btn focusable" id="playPauseBtn" data-section="right" title="Play">
-                    <span class="material-symbols-rounded" id="playPauseIcon">play_arrow</span>
-                </button>
-                <button class="action-btn focusable" id="nextBtn" data-section="right" title="Next">
-                    <span class="material-symbols-rounded">skip_next</span>
-                </button>
-            </div>
-
-            <div class="volume-wrapper">
-                <div class="volume-icon">
-                    <span class="material-symbols-rounded" id="volumeIcon">volume_up</span>
-                </div>
-                <div class="volume-bar focusable" id="volumeWrapper" data-section="right">
+        <div class="volume-container hide-on-mobile">
+            <span class="material-symbols-rounded" id="volumeIcon">volume_up</span>
+            <div class="volume-bar-wrapper focusable" id="volumeWrapper" data-section="right" tabindex="0">
+                <div class="volume-bar">
                     <div class="volume-fill" id="volumeFill"></div>
                 </div>
             </div>
         </div>
 
-        <div class="up-next-panel">
+        <div class="up-next-panel hide-on-mobile">
             <div class="up-next-title">Up Next</div>
             <div class="up-next-list" id="upNextList"></div>
         </div>
-    </aside>
+    </div>
+
+    <nav class="mobile-nav">
+        <ul class="mobile-nav-list">
+            <li class="mobile-nav-item active" onclick="switchTab('home')"><span class="material-symbols-rounded">home</span> Home</li>
+            <li class="mobile-nav-item" onclick="switchTab('radio')"><span class="material-symbols-rounded">explore</span> Radio</li>
+            <li class="mobile-nav-item" onclick="switchTab('library')"><span class="material-symbols-rounded">library_music</span> Library</li>
+            <li class="mobile-nav-item" onclick="switchTab('settings')"><span class="material-symbols-rounded">settings</span> Settings</li>
+        </ul>
+    </nav>
 
     <audio id="audioPlayer"></audio>
 
     <script>
-        // ==========================================
-        // SONG PARSER
-        // ==========================================
+        // Song Parser
         class SongParser {
             static parse(content) {
                 const songs = [];
                 const songBlocks = content.split('===').filter(block => block.trim());
-
                 for (const block of songBlocks) {
                     const lines = block.trim().split('\n');
-                    const song = {
-                        metadata: {},
-                        lyrics: []
-                    };
-
+                    const song = { metadata: {}, lyrics: [] };
                     let currentSection = null;
-
                     for (const line of lines) {
                         if (line.startsWith('#')) {
                             const [key, ...valueParts] = line.substring(1).split(':');
-                            const value = valueParts.join(':').trim();
-                            song.metadata[key] = value;
+                            song.metadata[key] = valueParts.join(':').trim();
                         } else if (line.startsWith('--')) {
                             currentSection = line.substring(2).trim();
                         } else if (line.trim()) {
-                            song.lyrics.push({
-                                text: line,
-                                section: currentSection
-                            });
+                            song.lyrics.push({ text: line, section: currentSection });
                         }
                     }
-
-                    if (Object.keys(song.metadata).length > 0) {
-                        songs.push(song);
-                    }
+                    if (Object.keys(song.metadata).length > 0) songs.push(song);
                 }
-
                 return songs;
             }
         }
 
-        // ==========================================
-        // PLAYER STATE
-        // ==========================================
         let songs = [];
         let currentSongIndex = 0;
         let isPlaying = false;
         const audio = document.getElementById('audioPlayer');
 
-        // ==========================================
-        // LOAD SONGS FROM FILE
-        // ==========================================
         async function loadSongs() {
             try {
                 const response = await fetch('../audio/songs.txt');
                 if (!response.ok) throw new Error('Failed to load songs');
-                
                 const text = await response.text();
                 songs = SongParser.parse(text);
-                
-                if (songs.length === 0) {
-                    console.error('No songs parsed');
-                    return;
-                }
-
+                if (songs.length === 0) { console.error('No songs parsed'); return; }
                 renderSongsGrid();
                 renderLibrary();
                 renderUpNext();
@@ -330,39 +386,27 @@
             }
         }
 
-        // ==========================================
-        // RENDER GRID & UI
-        // ==========================================
         function renderSongsGrid() {
             const grid = document.getElementById('songsGrid');
             grid.innerHTML = songs.map((song, index) => `
-                <div class="card focusable" data-section="middle" data-index="${index}">
+                <div class="card focusable" data-section="middle" data-index="${index}" tabindex="0">
                     <div class="card-img-wrapper">
                         ${song.metadata['AA Link'] ? `<img src="${song.metadata['AA Link']}" class="card-img">` : `<div style="width:100%;height:100%;background:var(--surface-color);display:flex;align-items:center;justify-content:center;font-size:48px">♪</div>`}
-                        <div class="play-overlay">
-                            <div class="play-circle">
-                                <span class="material-symbols-rounded">play_arrow</span>
-                            </div>
-                        </div>
+                        <div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div>
                     </div>
                     <div class="now-playing-title">${song.metadata['Title'] || 'Unknown'}</div>
                     <div class="text-sub">${song.metadata['Artist'] || 'Unknown'}</div>
                 </div>
             `).join('');
-
-            // Add click handlers
             document.querySelectorAll('#songsGrid .card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const index = parseInt(card.dataset.index);
-                    loadSong(index);
-                });
+                card.addEventListener('click', () => loadSong(parseInt(card.dataset.index)));
             });
         }
 
         function renderLibrary() {
             const lib = document.getElementById('library-grid');
             lib.innerHTML = songs.map((song, index) => `
-                <div class="lib-item focusable" data-section="middle" data-index="${index}">
+                <div class="lib-item focusable" data-section="middle" data-index="${index}" tabindex="0">
                     ${song.metadata['AA Link'] ? `<img src="${song.metadata['AA Link']}" class="lib-art">` : `<div class="lib-art-ph">♪</div>`}
                     <div class="lib-info">
                         <div class="lib-title">${song.metadata['Title'] || 'Unknown'}</div>
@@ -370,26 +414,19 @@
                     </div>
                 </div>
             `).join('');
-
             document.querySelectorAll('#library-grid .lib-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const index = parseInt(item.dataset.index);
-                    loadSong(index);
-                });
+                item.addEventListener('click', () => loadSong(parseInt(item.dataset.index)));
             });
         }
 
         function renderUpNext() {
             const list = document.getElementById('upNextList');
-            const nextIndex = (currentSongIndex + 1) % songs.length;
-            
             let html = '';
             for (let i = 0; i < Math.min(5, songs.length - 1); i++) {
                 const idx = (currentSongIndex + 1 + i) % songs.length;
                 const song = songs[idx];
-                const isActive = idx === nextIndex;
                 html += `
-                    <div class="up-next-item ${isActive ? 'active-next' : ''}" data-index="${idx}">
+                    <div class="up-next-item" data-index="${idx}">
                         ${song.metadata['AA Link'] ? `<img src="${song.metadata['AA Link']}" class="un-art">` : `<div class="un-art-ph">♪</div>`}
                         <div class="un-info">
                             <div class="un-title">${song.metadata['Title'] || 'Unknown'}</div>
@@ -399,29 +436,17 @@
                 `;
             }
             list.innerHTML = html;
-
             document.querySelectorAll('#upNextList .up-next-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const index = parseInt(item.dataset.index);
-                    loadSong(index);
-                });
+                item.addEventListener('click', () => loadSong(parseInt(item.dataset.index)));
             });
         }
 
-        // ==========================================
-        // LOAD SONG
-        // ==========================================
         function loadSong(index) {
             if (index < 0 || index >= songs.length) return;
-            
             currentSongIndex = index;
             const song = songs[index];
-
-            // Update UI
-            document.getElementById('nowPlayingTitle').textContent = song.metadata['Title'] || 'Unknown';
-            document.getElementById('nowPlayingArtist').textContent = song.metadata['Artist'] || 'Unknown';
-            document.getElementById('nowPlayingSub').textContent = song.metadata['Genre'] || '';
-
+            document.getElementById('playerTitle').textContent = song.metadata['Title'] || 'Unknown';
+            document.getElementById('playerArtist').textContent = song.metadata['Artist'] || 'Unknown';
             const img = document.getElementById('nowPlayingImg');
             const imPh = document.getElementById('nowPlayingImgPh');
             if (song.metadata['AA Link']) {
@@ -432,22 +457,13 @@
                 img.style.display = 'none';
                 imPh.style.display = 'flex';
             }
-
-            // Load audio
             const audioFile = song.metadata['File'];
-            if (audioFile) {
-                audio.src = '../audio/' + audioFile;
-            }
-
+            if (audioFile) audio.src = '../audio/' + audioFile;
             audio.load();
             if (isPlaying) audio.play();
-
             renderUpNext();
         }
 
-        // ==========================================
-        // PLAYBACK CONTROLS
-        // ==========================================
         function formatTime(seconds) {
             if (!isFinite(seconds)) return '0:00';
             const mins = Math.floor(seconds / 60);
@@ -455,26 +471,26 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const playPauseIcon = document.getElementById('playPauseIcon');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const progressWrapper = document.getElementById('progressWrapper');
         const progressFill = document.getElementById('progressFill');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
+        const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+        const durationDisplay = document.getElementById('durationDisplay');
         const volumeWrapper = document.getElementById('volumeWrapper');
         const volumeFill = document.getElementById('volumeFill');
         const volumeIcon = document.getElementById('volumeIcon');
 
-        playPauseBtn.addEventListener('click', () => {
+        playBtn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
-                playPauseIcon.textContent = 'play_arrow';
+                playIcon.textContent = 'play_arrow';
                 isPlaying = false;
             } else {
                 audio.play();
-                playPauseIcon.textContent = 'pause';
+                playIcon.textContent = 'pause';
                 isPlaying = true;
             }
         });
@@ -513,12 +529,12 @@
         audio.addEventListener('timeupdate', () => {
             if (audio.duration) {
                 progressFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-                currentTimeEl.textContent = formatTime(audio.currentTime);
+                currentTimeDisplay.textContent = formatTime(audio.currentTime);
             }
         });
 
         audio.addEventListener('loadedmetadata', () => {
-            durationEl.textContent = formatTime(audio.duration);
+            durationDisplay.textContent = formatTime(audio.duration);
         });
 
         audio.addEventListener('ended', () => {
@@ -526,23 +542,19 @@
             audio.play();
         });
 
-        // ==========================================
-        // NAVIGATION & VIEW SWITCHING
-        // ==========================================
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                const viewId = link.dataset.view;
-                document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active'));
-                document.getElementById(`view-${viewId}`).classList.add('active');
-            });
-        });
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+            document.getElementById(`view-${tabName}`).classList.add('active');
+            document.querySelectorAll('.nav-link, .mobile-nav-item').forEach(l => l.classList.remove('active'));
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+        }
 
-        // ==========================================
-        // GREETING
-        // ==========================================
+        function togglePlayerFullscreen() {
+            if (window.innerWidth <= 850) {
+                document.querySelector('.player-panel').classList.toggle('fullscreen');
+            }
+        }
+
         function updateGreeting() {
             const hour = new Date().getHours();
             let greeting = 'Good morning';
@@ -551,106 +563,45 @@
             document.getElementById('greeting').textContent = greeting;
         }
 
-        // ==========================================
-        // SPATIAL NAVIGATION
-        // ==========================================
-        document.addEventListener('keydown', (e) => {
-            if (window.innerWidth <= 850) return;
-            const allowedKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
-            if (!allowedKeys.includes(e.key)) return;
-
-            const current = document.activeElement;
-
-            if (current && current.id === 'volumeWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-                e.preventDefault();
-                let vol = audio.volume;
-                vol += (e.key === 'ArrowRight') ? 0.1 : -0.1;
-                vol = Math.max(0, Math.min(1, vol));
-                audio.volume = vol;
-                updateVolumeUI();
-                return;
-            }
-
-            if (current && current.id === 'progressWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-                e.preventDefault();
-                if(audio.duration) {
-                    let percent = audio.currentTime / audio.duration;
-                    percent += (e.key === 'ArrowRight') ? 0.05 : -0.05;
-                    percent = Math.max(0, Math.min(1, percent));
-                    audio.currentTime = percent * audio.duration;
-                }
-                return;
-            }
-
-            if (current && current.classList.contains('action-btn') && e.key === 'ArrowUp') { e.preventDefault(); return; }
-
-            if (e.key === 'Enter') {
-                if (current && current.classList.contains('focusable')) {
-                    current.click();
-                    if(current.id === 'searchBar') current.querySelector('input').focus();
-                }
-                return;
-            }
-
-            e.preventDefault();
-
-            let explicitMatch = null;
-            if (current && current.classList.contains('mood-pill') && e.key === 'ArrowUp') explicitMatch = document.getElementById('searchBar');
-            else if (current && current.id === 'searchBar' && e.key === 'ArrowRight') explicitMatch = document.getElementById('profileIcon');
-            else if (current && current.id === 'profileIcon' && e.key === 'ArrowLeft') explicitMatch = document.getElementById('searchBar');
-            else if (current && current.id === 'profileIcon' && e.key === 'ArrowRight') explicitMatch = document.getElementById('playPauseBtn');
-
-            if (explicitMatch) { explicitMatch.focus(); explicitMatch.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' }); return; }
-
-            const focusables = Array.from(document.querySelectorAll('.focusable')).filter(el => {
-                const rect = el.getBoundingClientRect();
-                return rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== 'none';
-            });
-
-            if (!focusables.includes(current)) { if (focusables.length > 0) focusables[0].focus(); return; }
-
-            const currentRect = current.getBoundingClientRect();
-            const currentCenter = { x: currentRect.left + currentRect.width / 2, y: currentRect.top + currentRect.height / 2 };
-
-            let bestMatchSame = null, shortestDistSame = Infinity, bestMatchOther = null, shortestDistOther = Infinity;
-            const currentSection = current.dataset.section;
-
-            focusables.forEach(target => {
-                if (target === current) return;
-                const targetRect = target.getBoundingClientRect();
-                const targetCenter = { x: targetRect.left + targetRect.width / 2, y: targetRect.top + targetRect.height / 2 };
-                const dx = targetCenter.x - currentCenter.x, dy = targetCenter.y - currentCenter.y;
-                let isDirectionMatch = false;
-                if (e.key === 'ArrowRight' && dx > Math.abs(dy)) isDirectionMatch = true;
-                if (e.key === 'ArrowLeft' && -dx > Math.abs(dy)) isDirectionMatch = true;
-                if (e.key === 'ArrowDown' && dy > Math.abs(dx)) isDirectionMatch = true;
-                if (e.key === 'ArrowUp' && -dy > Math.abs(dx)) isDirectionMatch = true;
-                if (isDirectionMatch) {
-                    const distance = Math.hypot(dx, dy);
-                    if (target.dataset.section === currentSection) { if (distance < shortestDistSame) { shortestDistSame = distance; bestMatchSame = target; } }
-                    else { if (distance < shortestDistOther) { shortestDistOther = distance; bestMatchOther = target; } }
-                }
-            });
-
-            let finalMatch = bestMatchSame;
-            if (!finalMatch && bestMatchOther) {
-                const targetSection = bestMatchOther.dataset.section;
-                if (targetSection === 'left') finalMatch = document.getElementById('nav-home');
-                else if (targetSection === 'right') finalMatch = document.getElementById('playPauseBtn');
-                else if (targetSection === 'middle') { if (currentSection === 'left') finalMatch = document.querySelector('.card.focusable'); else finalMatch = bestMatchOther; }
-            }
-            if (finalMatch) { finalMatch.focus(); finalMatch.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' }); }
+        document.getElementById('userNameInput').addEventListener('change', (e) => {
+            const userName = e.target.value || 'J';
+            localStorage.setItem('jheloUserName', userName);
+            document.getElementById('userInitial').textContent = userName.charAt(0).toUpperCase();
         });
 
-        // ==========================================
-        // INIT
-        // ==========================================
         window.addEventListener('load', () => {
             updateGreeting();
             loadSongs();
             audio.volume = 0.7;
             updateVolumeUI();
+            const savedName = localStorage.getItem('jheloUserName') || 'J';
+            document.getElementById('userInitial').textContent = savedName.charAt(0).toUpperCase();
+            document.getElementById('userNameInput').value = savedName;
             if (window.innerWidth > 850) document.getElementById('nav-home').focus();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (window.innerWidth <= 850) return;
+            const allowedKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
+            if (!allowedKeys.includes(e.key)) return;
+            const current = document.activeElement;
+            if (current && current.id === 'volumeWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                let vol = audio.volume;
+                vol += (e.key === 'ArrowRight') ? 0.1 : -0.1;
+                audio.volume = Math.max(0, Math.min(1, vol));
+                updateVolumeUI();
+                return;
+            }
+            if (current && current.id === 'progressWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                if(audio.duration) {
+                    let percent = audio.currentTime / audio.duration;
+                    percent += (e.key === 'ArrowRight') ? 0.05 : -0.05;
+                    audio.currentTime = Math.max(0, Math.min(1, percent)) * audio.duration;
+                }
+                return;
+            }
         });
     </script>
 </body>
