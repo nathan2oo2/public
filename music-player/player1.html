@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kantarancho Jhelo</title>
+    <title>MyPlayer</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
     <style>
@@ -79,7 +79,7 @@
         .search-bar { display: flex; align-items: center; background-color: var(--surface-color); padding: 8px 16px; border-radius: 24px; width: 100%; max-width: 480px; gap: 12px; border: 1px solid transparent; }
         .search-bar:focus-within { border-color: #555; background-color: var(--bg-color); }
         .search-bar input { background: transparent; border: none; color: white; outline: none; width: 100%; font-size: 16px; font-weight: 400; }
-        .profile-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background-color: #00bcd4; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 500; font-size: 14px; }
+        .profile-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background-color: #666; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 500; font-size: 14px; }
 
         .view-content { display: none; padding: 0 32px 32px 32px; animation: fadeIn 0.3s ease; }
         .view-content.active { display: block; }
@@ -126,10 +126,10 @@
         .progress-fill::after { content: ''; position: absolute; right: -6px; top: -4.5px; width: 12px; height: 12px; background-color: var(--yt-red); border-radius: 50%; opacity: 0; transition: opacity 0.2s; }
         .progress-bar-wrapper:hover .progress-fill::after { opacity: 1; }
 
-        .player-controls { display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center; }
+        .player-controls { display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center; }
         .control-btn { flex-shrink: 0; background: transparent; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 48px; height: 48px; }
-        .play-btn { background-color: var(--text-primary); color: var(--bg-color); width: 68px; height: 68px; }
-        .play-btn .material-symbols-rounded { font-size: 40px; font-variation-settings: 'FILL' 1; }
+        .play-btn { background-color: var(--text-primary); color: var(--bg-color); width: 56px; height: 56px; border-radius: 50%; }
+        .play-btn .material-symbols-rounded { font-size: 32px; font-variation-settings: 'FILL' 1; }
 
         .volume-container { display: flex; align-items: center; width: 100%; gap: 12px; margin-top: auto; padding-top: 20px; }
         .volume-bar-wrapper { flex: 1; height: 20px; display: flex; align-items: center; cursor: pointer; border-radius: 4px;}
@@ -171,7 +171,7 @@
             
             .player-controls { margin-bottom: 0; width: auto; gap: 4px; justify-content: flex-end; }
             .play-btn { width: 44px; height: 44px; background: transparent; color: var(--text-primary); }
-            .play-btn .material-symbols-rounded { font-size: 34px; }
+            .play-btn .material-symbols-rounded { font-size: 32px; }
             .control-btn { width: 40px; height: 40px; }
             
             /* Hide full-screen elements in mini mode */
@@ -209,8 +209,8 @@
             .player-panel.fullscreen .progress-fill::after { display: block; }
 
             .player-panel.fullscreen .player-controls { width: 100%; justify-content: space-between; margin-bottom: 24px; }
-            .player-panel.fullscreen .play-btn { width: 72px; height: 72px; background: var(--text-primary); color: var(--bg-color); }
-            .player-panel.fullscreen .play-btn .material-symbols-rounded { font-size: 40px; }
+            .player-panel.fullscreen .play-btn { width: 64px; height: 64px; background: var(--text-primary); color: var(--bg-color); }
+            .player-panel.fullscreen .play-btn .material-symbols-rounded { font-size: 36px; }
             .player-panel.fullscreen .control-btn { width: 48px; height: 48px; }
         }
     </style>
@@ -218,7 +218,7 @@
 <body>
 
     <aside class="nav-sidebar">
-        <div class="logo"><span class="material-symbols-rounded">play_circle</span> Jhelo</div>
+        <div class="logo"><span class="material-symbols-rounded">music</span> MyPlayer</div>
         <ul class="nav-links">
             <li class="nav-link active focusable" tabindex="0" onclick="switchTab('home')" data-section="left" id="nav-home"><span class="material-symbols-rounded">home</span> Home</li>
             <li class="nav-link focusable" tabindex="0" onclick="switchTab('radio')" data-section="left"><span class="material-symbols-rounded">explore</span> Radio</li>
@@ -234,7 +234,7 @@
                 <input type="text" placeholder="Search songs, artists...">
             </div>
             <div class="profile-icon focusable" id="profileIcon" data-section="middle" tabindex="0">
-                <span id="userInitial">J</span>
+                <span class="material-symbols-rounded">account_circle</span>
             </div>
         </div>
 
@@ -245,8 +245,15 @@
                 <div class="mood-pill focusable" data-section="middle" tabindex="0">Favorites</div>
                 <div class="mood-pill focusable" data-section="middle" tabindex="0">Recent</div>
             </div>
-            <div class="section-title">Your Playlist</div>
-            <div class="grid-container" id="songsGrid"></div>
+            
+            <div class="section-title">Random Tracks</div>
+            <div class="grid-container" id="randomTracksGrid"></div>
+            
+            <div class="section-title">Random Albums</div>
+            <div class="grid-container" id="randomAlbumsGrid"></div>
+            
+            <div class="section-title">Random Artists</div>
+            <div class="grid-container" id="randomArtistsGrid"></div>
         </div>
 
         <div class="view-content" id="view-library">
@@ -255,14 +262,14 @@
         </div>
 
         <div class="view-content" id="view-radio">
-            <div class="section-title">Radio</div>
+            <div class="section-title">Radio Stations</div>
             <div class="grid-container" id="radioGrid"></div>
         </div>
 
         <div class="view-content" id="view-settings">
             <div class="section-title">Settings</div>
             <div style="padding: 20px; background: var(--surface-color); border-radius: 8px; margin-bottom: 20px;">
-                <p style="margin-bottom: 12px;">User Name</p>
+                <p style="margin-bottom: 12px;">Your Name</p>
                 <input type="text" id="userNameInput" placeholder="Enter your name" style="width: 100%; padding: 8px; background: var(--bg-color); border: 1px solid var(--border-color); color: white; border-radius: 4px;">
             </div>
         </div>
@@ -302,6 +309,9 @@
         </div>
 
         <div class="player-controls">
+            <button class="control-btn focusable" id="shuffleBtn" data-section="right" tabindex="0" title="Shuffle">
+                <span class="material-symbols-rounded" id="shuffleIcon">shuffle</span>
+            </button>
             <button class="control-btn focusable" id="prevBtn" data-section="right" tabindex="0" title="Previous">
                 <span class="material-symbols-rounded">skip_previous</span>
             </button>
@@ -310,6 +320,9 @@
             </button>
             <button class="control-btn focusable" id="nextBtn" data-section="right" tabindex="0" title="Next">
                 <span class="material-symbols-rounded">skip_next</span>
+            </button>
+            <button class="control-btn focusable" id="repeatBtn" data-section="right" tabindex="0" title="Repeat">
+                <span class="material-symbols-rounded" id="repeatIcon">repeat</span>
             </button>
         </div>
 
@@ -340,6 +353,52 @@
     <audio id="audioPlayer"></audio>
 
     <script>
+        // Radio Stations Data
+        const radioStations = [
+            {
+                name: "AIR FM Rainbow",
+                tagline: "Musically Yours",
+                frequency: "105.4 FM",
+                stream: "https://air.pc.cdn.bitgravity.com/air/live/pbaudio048/playlist.m3u8",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlf058gXuF_uYPzppTWJ4kQ_gsRAVs7fzrqw&s"
+            },
+            {
+                name: "Indigo",
+                tagline: "Radio Station for a Fun Young Goa",
+                frequency: "91.9 FM",
+                stream: "https://cast5.asurahosting.com/proxy/spooler/stream",
+                image: "https://onlineradiofm.in/assets/image/radio/180/Indigo_91.9_FM_Official_LOGO.jpg"
+            },
+            {
+                name: "Radio Mirchi",
+                tagline: "Mirchi Sunne Waale Always Khush!",
+                frequency: "98.3 FM",
+                stream: "https://eu8.fastcast4u.com/proxy/clyedupq?mp=%2F1?aw_0_req_lsid=2c0fae177108c9a42a7cf24878625444",
+                image: "https://onlineradiofm.in/assets/image/radio/180/radio-mirchi.webp"
+            },
+            {
+                name: "Big FM",
+                tagline: "Dhun Badal Ke Toh Dekho",
+                frequency: "92.7 FM",
+                stream: "https://stream.zeno.fm/dbstwo3dvhhtv",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw5-iWyUF8zCz9VY8vMkWCRwQYTs0NN9XmOg&s"
+            },
+            {
+                name: "Radio Goa",
+                tagline: "Feel Goa, feel good",
+                frequency: "N/A",
+                stream: "https://radio.faleiro.uk/radio/8000/radio.mp3",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgloY-5k6wEp1hop9dlUb1XcEqNjJVU2GLWA&s"
+            },
+            {
+                name: "4Lobo (Konkani)",
+                tagline: "",
+                frequency: "Online",
+                stream: "https://puma.streemlion.com:4465/stream",
+                image: "https://i.pinimg.com/564x/18/07/ac/1807ac843c79afe6477868f93d11b95c.jpg"
+            }
+        ];
+
         // Song Parser
         class SongParser {
             static parse(content) {
@@ -368,6 +427,8 @@
         let songs = [];
         let currentSongIndex = 0;
         let isPlaying = false;
+        let shuffleOn = false;
+        let repeatMode = 0; // 0: no repeat, 1: repeat all, 2: repeat one
         const audio = document.getElementById('audioPlayer');
 
         async function loadSongs() {
@@ -377,8 +438,9 @@
                 const text = await response.text();
                 songs = SongParser.parse(text);
                 if (songs.length === 0) { console.error('No songs parsed'); return; }
-                renderSongsGrid();
+                renderRandomSections();
                 renderLibrary();
+                renderRadioStations();
                 renderUpNext();
                 loadSong(0);
             } catch (error) {
@@ -386,21 +448,35 @@
             }
         }
 
-        function renderSongsGrid() {
-            const grid = document.getElementById('songsGrid');
-            grid.innerHTML = songs.map((song, index) => `
-                <div class="card focusable" data-section="middle" data-index="${index}" tabindex="0">
-                    <div class="card-img-wrapper">
-                        ${song.metadata['AA Link'] ? `<img src="${song.metadata['AA Link']}" class="card-img">` : `<div style="width:100%;height:100%;background:var(--surface-color);display:flex;align-items:center;justify-content:center;font-size:48px">♪</div>`}
-                        <div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div>
-                    </div>
-                    <div class="now-playing-title">${song.metadata['Title'] || 'Unknown'}</div>
-                    <div class="text-sub">${song.metadata['Artist'] || 'Unknown'}</div>
-                </div>
-            `).join('');
-            document.querySelectorAll('#songsGrid .card').forEach(card => {
-                card.addEventListener('click', () => loadSong(parseInt(card.dataset.index)));
-            });
+        function getRandomSongs(count) {
+            const shuffled = [...songs].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, Math.min(count, songs.length));
+        }
+
+        function renderRandomSections() {
+            const renderGrid = (gridId, songs) => {
+                const grid = document.getElementById(gridId);
+                grid.innerHTML = songs.map((song, idx) => {
+                    const actualIndex = songs.indexOf(song);
+                    return `
+                        <div class="card focusable" data-section="middle" data-index="${actualIndex}" tabindex="0">
+                            <div class="card-img-wrapper">
+                                ${song.metadata['AA Link'] ? `<img src="${song.metadata['AA Link']}" class="card-img">` : `<div style="width:100%;height:100%;background:var(--surface-color);display:flex;align-items:center;justify-content:center;font-size:48px">♪</div>`}
+                                <div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div>
+                            </div>
+                            <div class="now-playing-title">${song.metadata['Title'] || 'Unknown'}</div>
+                            <div class="text-sub">${song.metadata['Artist'] || 'Unknown'}</div>
+                        </div>
+                    `;
+                }).join('');
+                document.querySelectorAll(`#${gridId} .card`).forEach(card => {
+                    card.addEventListener('click', () => loadSong(parseInt(card.dataset.index)));
+                });
+            };
+
+            renderGrid('randomTracksGrid', getRandomSongs(6));
+            renderGrid('randomAlbumsGrid', getRandomSongs(6));
+            renderGrid('randomArtistsGrid', getRandomSongs(6));
         }
 
         function renderLibrary() {
@@ -417,6 +493,37 @@
             document.querySelectorAll('#library-grid .lib-item').forEach(item => {
                 item.addEventListener('click', () => loadSong(parseInt(item.dataset.index)));
             });
+        }
+
+        function renderRadioStations() {
+            const grid = document.getElementById('radioGrid');
+            grid.innerHTML = radioStations.map((station, index) => `
+                <div class="card focusable radio-station" data-section="middle" data-index="${index}" tabindex="0">
+                    <div class="card-img-wrapper">
+                        <img src="${station.image}" class="card-img">
+                        <div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div>
+                    </div>
+                    <div class="now-playing-title">${station.name}</div>
+                    <div class="text-sub">${station.frequency}</div>
+                </div>
+            `).join('');
+            document.querySelectorAll('#radioGrid .card').forEach((card, idx) => {
+                card.addEventListener('click', () => playRadioStation(idx));
+            });
+        }
+
+        function playRadioStation(index) {
+            const station = radioStations[index];
+            audio.src = station.stream;
+            document.getElementById('playerTitle').textContent = station.name;
+            document.getElementById('playerArtist').textContent = station.tagline || station.frequency;
+            const img = document.getElementById('nowPlayingImg');
+            img.src = station.image;
+            img.style.display = 'block';
+            document.getElementById('nowPlayingImgPh').style.display = 'none';
+            audio.play();
+            document.getElementById('playIcon').textContent = 'pause';
+            isPlaying = true;
         }
 
         function renderUpNext() {
@@ -475,6 +582,10 @@
         const playIcon = document.getElementById('playIcon');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const shuffleIcon = document.getElementById('shuffleIcon');
+        const repeatBtn = document.getElementById('repeatBtn');
+        const repeatIcon = document.getElementById('repeatIcon');
         const progressWrapper = document.getElementById('progressWrapper');
         const progressFill = document.getElementById('progressFill');
         const currentTimeDisplay = document.getElementById('currentTimeDisplay');
@@ -495,13 +606,38 @@
             }
         });
 
+        shuffleBtn.addEventListener('click', () => {
+            shuffleOn = !shuffleOn;
+            shuffleIcon.style.color = shuffleOn ? 'var(--yt-red)' : 'var(--text-primary)';
+        });
+
+        repeatBtn.addEventListener('click', () => {
+            repeatMode = (repeatMode + 1) % 3;
+            if (repeatMode === 0) {
+                repeatIcon.textContent = 'repeat';
+                repeatIcon.style.color = 'var(--text-primary)';
+            } else if (repeatMode === 1) {
+                repeatIcon.textContent = 'repeat';
+                repeatIcon.style.color = 'var(--yt-red)';
+            } else {
+                repeatIcon.textContent = 'repeat_one';
+                repeatIcon.style.color = 'var(--yt-red)';
+            }
+        });
+
         prevBtn.addEventListener('click', () => {
             loadSong((currentSongIndex - 1 + songs.length) % songs.length);
             if (isPlaying) audio.play();
         });
 
         nextBtn.addEventListener('click', () => {
-            loadSong((currentSongIndex + 1) % songs.length);
+            let nextIndex = currentSongIndex + 1;
+            if (shuffleOn) {
+                nextIndex = Math.floor(Math.random() * songs.length);
+            } else {
+                nextIndex = nextIndex % songs.length;
+            }
+            loadSong(nextIndex);
             if (isPlaying) audio.play();
         });
 
@@ -538,8 +674,17 @@
         });
 
         audio.addEventListener('ended', () => {
-            loadSong((currentSongIndex + 1) % songs.length);
-            audio.play();
+            if (repeatMode === 2) {
+                audio.currentTime = 0;
+                audio.play();
+            } else {
+                let nextIndex = (currentSongIndex + 1) % songs.length;
+                if (shuffleOn) {
+                    nextIndex = Math.floor(Math.random() * songs.length);
+                }
+                loadSong(nextIndex);
+                audio.play();
+            }
         });
 
         function switchTab(tabName) {
@@ -557,16 +702,17 @@
 
         function updateGreeting() {
             const hour = new Date().getHours();
-            let greeting = 'Good morning';
-            if (hour >= 12 && hour < 18) greeting = 'Good afternoon';
-            else if (hour >= 18) greeting = 'Good evening';
+            const userName = localStorage.getItem('jheloUserName') || 'Guest';
+            let greeting = `Good morning, ${userName}`;
+            if (hour >= 12 && hour < 18) greeting = `Good afternoon, ${userName}`;
+            else if (hour >= 18) greeting = `Good evening, ${userName}`;
             document.getElementById('greeting').textContent = greeting;
         }
 
         document.getElementById('userNameInput').addEventListener('change', (e) => {
-            const userName = e.target.value || 'J';
+            const userName = e.target.value || 'Guest';
             localStorage.setItem('jheloUserName', userName);
-            document.getElementById('userInitial').textContent = userName.charAt(0).toUpperCase();
+            updateGreeting();
         });
 
         window.addEventListener('load', () => {
@@ -574,8 +720,7 @@
             loadSongs();
             audio.volume = 0.7;
             updateVolumeUI();
-            const savedName = localStorage.getItem('jheloUserName') || 'J';
-            document.getElementById('userInitial').textContent = savedName.charAt(0).toUpperCase();
+            const savedName = localStorage.getItem('jheloUserName') || 'Guest';
             document.getElementById('userNameInput').value = savedName;
             if (window.innerWidth > 850) document.getElementById('nav-home').focus();
         });
