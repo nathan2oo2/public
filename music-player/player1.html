@@ -75,19 +75,20 @@
         .card:hover .play-circle { transform: scale(1.1); }
         .play-circle .material-symbols-rounded { font-size: 32px; font-variation-settings: 'FILL' 1; }
         .now-playing-title { font-weight: 700; font-size: 15px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
+        .radio-meta { color: var(--text-secondary); font-size: 13px; margin-top: 4px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-weight: 400; }
+
         /* 3. RIGHT PLAYER SIDEBAR (Desktop Base) */
         .player-panel { width: var(--player-width); background-color: var(--bg-color); display: flex; flex-direction: column; align-items: center; padding: 32px 24px 24px 24px; border-left: 1px solid var(--border-color); flex-shrink: 0; z-index: 1000; transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), height 0.3s cubic-bezier(0.2, 0, 0, 1); }
-        
+
         /* Hidden mobile toggle button */
         .close-player-btn { display: none; position: absolute; top: 16px; left: 16px; background: transparent; border: none; color: white; padding: 12px; cursor: pointer; border-radius: 50%; }
-        
+
         .player-info-container { display: flex; flex-direction: column; width: 100%; margin-bottom: 24px; }
         .now-playing-img { width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);}
         .track-metadata { display: flex; flex-direction: column; width: 100%; text-align: left; overflow: hidden; }
         .player-title { font-weight: 800; font-size: 24px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;}
         .player-artist { font-size: 16px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
+
         .yt-action-btns { display: flex; gap: 8px; margin-top: 20px; width: 100%; justify-content: space-between;}
         .action-btn { background: transparent; border: none; color: var(--text-primary); cursor: pointer; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
         .action-btn .material-symbols-rounded { font-size: 24px; }
@@ -122,18 +123,18 @@
         @media (max-width: 850px) {
             .nav-sidebar { display: none; }
             .mobile-nav { display: block; }
-            .view-content { padding: 16px 16px 120px 16px; } 
+            .view-content { padding: 16px 16px 120px 16px; }
             .top-bar { padding: 12px 16px; }
             .grid-container { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
             .greeting-header { font-size: 28px; }
 
             /* * MINI-PLAYER STATE (Default on Mobile) */
             .player-panel {
-                position: fixed; 
-                bottom: calc(54px + env(safe-area-inset-bottom)); 
+                position: fixed;
+                bottom: calc(54px + env(safe-area-inset-bottom));
                 left: 0; width: 100%; height: 60px;
                 flex-direction: row; padding: 0 16px; justify-content: space-between;
-                border-left: none; background: var(--surface-hover); 
+                border-left: none; background: var(--surface-hover);
                 cursor: pointer; border-radius: 8px 8px 0 0;
             }
             .player-info-container { flex-direction: row; align-items: center; margin-bottom: 0; flex: 1; overflow: hidden; pointer-events: none; }
@@ -141,15 +142,15 @@
             .track-metadata { justify-content: center; pointer-events: none; }
             .player-title { font-size: 15px; margin-bottom: 2px; }
             .player-artist { font-size: 13px; }
-            
+
             .player-controls { margin-bottom: 0; width: auto; gap: 4px; justify-content: flex-end; }
             .play-btn { width: 44px; height: 44px; background: transparent; color: var(--text-primary); }
             .play-btn .material-symbols-rounded { font-size: 34px; }
             .control-btn { width: 40px; height: 40px; }
-            
+
             /* Hide full-screen elements in mini mode */
             .hide-on-mobile, .yt-action-btns, .volume-container { display: none; }
-            
+
             /* Mini Progress Bar hugging the bottom edge */
             .progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; margin: 0; gap: 0; pointer-events: none;}
             .progress-bar-wrapper { height: 2px; border-radius: 0; }
@@ -169,11 +170,11 @@
             .player-panel.fullscreen .track-metadata { pointer-events: auto; }
             .player-panel.fullscreen .player-title { font-size: 28px; margin-bottom: 8px;}
             .player-panel.fullscreen .player-artist { font-size: 18px; }
-            
+
             .player-panel.fullscreen .hide-on-mobile { display: flex; }
             .player-panel.fullscreen .yt-action-btns { display: flex; margin-top: 24px; }
             .player-panel.fullscreen .volume-container { display: flex; }
-            
+
             .player-panel.fullscreen .progress-container { position: relative; top: auto; bottom: auto; height: auto; margin: 32px 0; pointer-events: auto;}
             .player-panel.fullscreen .progress-bar-wrapper { height: 24px; border-radius: 4px; }
             .player-panel.fullscreen .progress-bar { height: 4px; border-radius: 2px; }
@@ -211,7 +212,7 @@
 
         <div id="view-home" class="view-content active">
             <h1 class="greeting-header">Good morning, Alex</h1>
-            
+
             <div class="mood-container">
                 <button class="mood-pill focusable" tabindex="0" data-section="middle">Relax</button>
                 <button class="mood-pill focusable" tabindex="0" data-section="middle">Workout</button>
@@ -222,43 +223,32 @@
             </div>
 
             <h2 class="section-title">Listen again</h2>
-            <div class="grid-container">
-                <div class="card focusable" tabindex="0" data-section="middle" id="first-listen-card" onclick="playMockAudio('Synthwave Mix', 'Various Artists', 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&q=80')">
-                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&q=80" class="card-img"><div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div></div>
-                    <h3 class="now-playing-title">Synthwave Mix</h3>
-                </div>
-                <div class="card focusable" tabindex="0" data-section="middle" onclick="playMockAudio('Deep Focus', 'Ambient, Electronic', 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&q=80')">
-                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&q=80" class="card-img"><div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div></div>
-                    <h3 class="now-playing-title">Deep Focus</h3>
-                </div>
-                 <div class="card focusable" tabindex="0" data-section="middle" onclick="playMockAudio('Rock Classics', 'The Legends', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&q=80')">
-                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&q=80" class="card-img"><div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div></div>
-                    <h3 class="now-playing-title">Rock Classics</h3>
-                </div>
-                <div class="card focusable" tabindex="0" data-section="middle" onclick="playMockAudio('Lofi Beats', 'Chillhop', 'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=300&q=80')">
-                    <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=300&q=80" class="card-img"><div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div></div>
-                    <h3 class="now-playing-title">Lofi Beats to Study to</h3>
-                </div>
-            </div>
+            <div class="grid-container" id="listenAgainGrid"></div>
         </div>
 
-        <div id="view-radio" class="view-content"><h2 class="section-title">Radio</h2></div>
-        <div id="view-library" class="view-content"><h2 class="section-title">Library</h2></div>
+        <div id="view-radio" class="view-content">
+            <h2 class="section-title">Radio</h2>
+            <div class="grid-container" id="radioGrid"></div>
+        </div>
+        <div id="view-library" class="view-content">
+            <h2 class="section-title">Library</h2>
+            <div class="grid-container" id="libraryGrid"></div>
+        </div>
         <div id="view-settings" class="view-content"><h2 class="section-title">Settings</h2></div>
     </main>
 
     <aside class="player-panel" id="playerPanel">
         <button class="close-player-btn" id="closePlayerBtn"><span class="material-symbols-rounded">expand_more</span></button>
-        
-        <audio id="audioEngine" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+        <audio id="audioEngine" preload="metadata"></audio>
 
         <div class="player-info-container">
-            <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&q=80" class="now-playing-img" id="playerImg">
+            <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&q=80" class="now-playing-img" id="playerImg" alt="">
             <div class="track-metadata">
-                <h3 class="player-title" id="playerTitle">Synthwave Mix</h3>
-                <p class="player-artist" id="playerArtist">Various Artists</p>
+                <h3 class="player-title" id="playerTitle">—</h3>
+                <p class="player-artist" id="playerArtist">—</p>
             </div>
-            
+
             <div class="yt-action-btns">
                 <button class="action-btn focusable" tabindex="0" data-section="right"><span class="material-symbols-rounded">thumb_up</span></button>
                 <button class="action-btn focusable" tabindex="0" data-section="right"><span class="material-symbols-rounded">thumb_down</span></button>
@@ -279,11 +269,11 @@
         <div class="player-controls">
             <button class="control-btn focusable hide-on-mobile" tabindex="0" data-section="right"><span class="material-symbols-rounded">shuffle</span></button>
             <button class="control-btn focusable hide-on-mobile" tabindex="0" data-section="right"><span class="material-symbols-rounded" font-variation-settings="'FILL' 1">skip_previous</span></button>
-            
+
             <button class="control-btn play-btn focusable prevent-expand" tabindex="0" id="playPauseBtn" data-section="right">
                 <span class="material-symbols-rounded" id="playIcon" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
             </button>
-            
+
             <button class="control-btn focusable prevent-expand" tabindex="0" data-section="right"><span class="material-symbols-rounded" font-variation-settings="'FILL' 1">skip_next</span></button>
             <button class="control-btn focusable hide-on-mobile" tabindex="0" data-section="right"><span class="material-symbols-rounded">repeat</span></button>
         </div>
@@ -305,17 +295,241 @@
         </ul>
     </nav>
 
-    <audio id="audioPlayer"></audio>
-
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
     <script>
+        const SONGS_TXT_URL = '../audio/songs.txt';
+        const AUDIO_FOLDER = '../audio/';
+
+        const RADIO_STATIONS = [
+            {
+                name: "AIR FM Rainbow",
+                tagline: "Musically Yours",
+                frequency: "105.4 FM",
+                stream: "https://air.pc.cdn.bitgravity.com/air/live/pbaudio048/playlist.m3u8",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlf058gXuF_uYPzppTWJ4kQ_gsRAVs7fzrqw&s"
+            },
+            {
+                name: "Indigo",
+                tagline: "Radio Station for a Fun Young Goa",
+                frequency: "91.9 FM",
+                stream: "https://cast5.asurahosting.com/proxy/spooler/stream",
+                image: "https://onlineradiofm.in/assets/image/radio/180/Indigo_91.9_FM_Official_LOGO.jpg"
+            },
+            {
+                name: "Radio Mirchi",
+                tagline: "Mirchi Sunne Waale Always Khush!",
+                frequency: "98.3 FM",
+                stream: "https://eu8.fastcast4u.com/proxy/clyedupq?mp=%2F1?aw_0_req_lsid=2c0fae177108c9a42a7cf24878625444",
+                image: "https://onlineradiofm.in/assets/image/radio/180/radio-mirchi.webp"
+            },
+            {
+                name: "Big FM",
+                tagline: "Dhun Badal Ke Toh Dekho",
+                frequency: "92.7 FM",
+                stream: "https://stream.zeno.fm/dbstwo3dvhhtv",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw5-iWyUF8zCz9VY8vMkWCRwQYTs0NN9XmOg&s"
+            },
+            {
+                name: "Radio Goa",
+                tagline: "Feel Goa, feel good",
+                frequency: "N/A",
+                stream: "https://radio.faleiro.uk/radio/8000/radio.mp3",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgloY-5k6wEp1hop9dlUb1XcEqNjJVU2GLWA&s"
+            },
+            {
+                name: "4Lobo (Konkani)",
+                tagline: "",
+                frequency: "Online",
+                stream: "https://puma.streemlion.com:4465/stream",
+                image: "https://i.pinimg.com/564x/18/07/ac/1807ac843c79afe6477868f93d11b95c.jpg"
+            }
+        ];
+
+        let catalog = [];
+        let hlsPlayer = null;
+
+        function detachHls() {
+            if (hlsPlayer) {
+                hlsPlayer.destroy();
+                hlsPlayer = null;
+            }
+        }
+
+        function setAudioSource(url) {
+            detachHls();
+            if (!url) return;
+            const isHls = /\.m3u8(\?|$)/i.test(url);
+            if (isHls && typeof Hls !== 'undefined' && Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(audio);
+                hlsPlayer = hls;
+            } else {
+                audio.src = url;
+            }
+        }
+
+        function parseSongBlock(block) {
+            const meta = {};
+            for (const line of block.split(/\r?\n/)) {
+                if (!line.startsWith('#')) continue;
+                const m = line.match(/^#([^:]+):\s*(.*)$/);
+                if (m) meta[m[1].trim().toLowerCase()] = m[2].trim();
+            }
+            const file = meta.file;
+            if (!file) return null;
+            const title = meta.title || 'Untitled';
+            const artist = meta.artist || 'Unknown artist';
+            const cover = meta['aa link'] || '';
+            const src = AUDIO_FOLDER + file.replace(/^\/+/, '');
+            return { title, artist, cover, src, file };
+        }
+
+        function parseSongsCatalog(text) {
+            return text
+                .split(/\r?\n={3,}\r?\n/)
+                .map((s) => s.trim())
+                .filter(Boolean)
+                .map(parseSongBlock)
+                .filter(Boolean);
+        }
+
+        async function loadCatalog() {
+            const res = await fetch(SONGS_TXT_URL, { cache: 'no-store' });
+            if (!res.ok) throw new Error('songs.txt HTTP ' + res.status);
+            return parseSongsCatalog(await res.text());
+        }
+
+        function makePlayOverlay() {
+            const overlay = document.createElement('div');
+            overlay.className = 'play-overlay';
+            const circle = document.createElement('div');
+            circle.className = 'play-circle';
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-rounded';
+            icon.textContent = 'play_arrow';
+            circle.appendChild(icon);
+            overlay.appendChild(circle);
+            return overlay;
+        }
+
+        function renderSongCards(container, songs, { markFirst } = {}) {
+            container.innerHTML = '';
+            songs.forEach((song, i) => {
+                const card = document.createElement('div');
+                card.className = 'card focusable';
+                card.tabIndex = 0;
+                card.dataset.section = 'middle';
+                if (markFirst && i === 0) card.id = 'first-listen-card';
+                card.addEventListener('click', () => playTrack(song));
+
+                const wrap = document.createElement('div');
+                wrap.className = 'card-img-wrapper';
+                const img = document.createElement('img');
+                img.className = 'card-img';
+                img.src = song.cover || '';
+                img.alt = '';
+                img.loading = 'lazy';
+                wrap.appendChild(img);
+                wrap.appendChild(makePlayOverlay());
+
+                const h3 = document.createElement('h3');
+                h3.className = 'now-playing-title';
+                h3.textContent = song.title;
+
+                card.appendChild(wrap);
+                card.appendChild(h3);
+                container.appendChild(card);
+            });
+        }
+
+        function renderRadioStations() {
+            const container = document.getElementById('radioGrid');
+            container.innerHTML = '';
+            RADIO_STATIONS.forEach((st) => {
+                const card = document.createElement('div');
+                card.className = 'card focusable';
+                card.tabIndex = 0;
+                card.dataset.section = 'middle';
+                const subtitle = [st.frequency, st.tagline].filter(Boolean).join(' · ');
+                card.addEventListener('click', () => playTrack({
+                    title: st.name,
+                    artist: st.tagline || st.frequency || 'Radio',
+                    cover: st.image,
+                    src: st.stream
+                }));
+
+                const wrap = document.createElement('div');
+                wrap.className = 'card-img-wrapper';
+                const img = document.createElement('img');
+                img.className = 'card-img';
+                img.src = st.image || '';
+                img.alt = '';
+                img.loading = 'lazy';
+                wrap.appendChild(img);
+                wrap.appendChild(makePlayOverlay());
+
+                const h3 = document.createElement('h3');
+                h3.className = 'now-playing-title';
+                h3.textContent = st.name;
+                const meta = document.createElement('p');
+                meta.className = 'radio-meta';
+                meta.textContent = subtitle;
+
+                card.appendChild(wrap);
+                card.appendChild(h3);
+                card.appendChild(meta);
+                container.appendChild(card);
+            });
+        }
+
+        function playTrack(track) {
+            document.getElementById('playerTitle').textContent = track.title;
+            document.getElementById('playerArtist').textContent = track.artist;
+            if (track.cover) document.getElementById('playerImg').src = track.cover;
+            audio.pause();
+            audio.currentTime = 0;
+            setAudioSource(track.src);
+            audio.play().catch((err) => console.log('Media waiting...', err));
+            playIcon.textContent = 'pause';
+        }
+
+        function showLoadError(message) {
+            const html = '<p class="text-sub" style="padding:16px;">' + message + '</p>';
+            document.getElementById('listenAgainGrid').innerHTML = html;
+            document.getElementById('libraryGrid').innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            renderRadioStations();
+            try {
+                catalog = await loadCatalog();
+                if (!catalog.length) {
+                    showLoadError('No songs found in songs.txt (missing #File: entries).');
+                    return;
+                }
+                renderSongCards(document.getElementById('listenAgainGrid'), catalog, { markFirst: true });
+                renderSongCards(document.getElementById('libraryGrid'), catalog, { markFirst: false });
+                const first = catalog[0];
+                document.getElementById('playerTitle').textContent = first.title;
+                document.getElementById('playerArtist').textContent = first.artist;
+                if (first.cover) document.getElementById('playerImg').src = first.cover;
+                setAudioSource(first.src);
+                playIcon.textContent = 'play_arrow';
+            } catch (err) {
+                console.error(err);
+                showLoadError('Could not load <code>../audio/songs.txt</code>. Serve this page over HTTP(S) with <code>audio/songs.txt</code> beside <code>music-player/player.html</code> (opening as file:// will block fetch).');
+            }
+        });
+
         // ==========================================
         // UI & MOBILE PLAYER LOGIC
         // ==========================================
         function switchTab(tabId) {
-            document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active'));
-            document.querySelectorAll('.nav-link, .mobile-nav-item').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.view-content').forEach((view) => view.classList.remove('active'));
+            document.querySelectorAll('.nav-link, .mobile-nav-item').forEach((link) => link.classList.remove('active'));
             document.getElementById('view-' + tabId).classList.add('active');
-            document.querySelectorAll(`[onclick="switchTab('${tabId}')"]`).forEach(link => link.classList.add('active'));
+            document.querySelectorAll(`[onclick="switchTab('${tabId}')"]`).forEach((link) => link.classList.add('active'));
             document.querySelector('.main-content').scrollTo(0, 0);
         }
 
@@ -344,7 +558,7 @@
         const durationDisplay = document.getElementById('durationDisplay');
 
         function formatTime(seconds) {
-            if (isNaN(seconds)) return "0:00";
+            if (!isFinite(seconds) || isNaN(seconds)) return '0:00';
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
@@ -352,24 +566,27 @@
 
         playBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (audio.paused) { audio.play().catch(e => console.log("Media waiting...", e)); playIcon.textContent = 'pause'; } 
-            else { audio.pause(); playIcon.textContent = 'play_arrow'; }
+            if (audio.paused) {
+                audio.play().catch((err) => console.log('Media waiting...', err));
+                playIcon.textContent = 'pause';
+            } else {
+                audio.pause();
+                playIcon.textContent = 'play_arrow';
+            }
         });
 
-        function playMockAudio(title, artist, imgSrc) {
-            document.getElementById('playerTitle').innerText = title;
-            document.getElementById('playerArtist').innerText = artist;
-            if(imgSrc) document.getElementById('playerImg').src = imgSrc;
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Media waiting...", e));
-            playIcon.textContent = 'pause';
-        }
+        audio.addEventListener('pause', () => { playIcon.textContent = 'play_arrow'; });
+        audio.addEventListener('play', () => { playIcon.textContent = 'pause'; });
 
         audio.addEventListener('timeupdate', () => {
             currentTimeDisplay.textContent = formatTime(audio.currentTime);
-            if (audio.duration) {
-                durationDisplay.textContent = formatTime(audio.duration);
-                progressFill.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+            const dur = audio.duration;
+            if (isFinite(dur) && dur > 0) {
+                durationDisplay.textContent = formatTime(dur);
+                progressFill.style.width = `${(audio.currentTime / dur) * 100}%`;
+            } else {
+                durationDisplay.textContent = '—';
+                progressFill.style.width = '0%';
             }
         });
 
@@ -378,14 +595,14 @@
         document.getElementById('progressWrapper').addEventListener('click', (e) => {
             e.stopPropagation();
             const rect = e.currentTarget.getBoundingClientRect();
-            audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+            const dur = audio.duration;
+            if (isFinite(dur) && dur > 0) audio.currentTime = ((e.clientX - rect.left) / rect.width) * dur;
         });
 
         // ==========================================
         // ADVANCED SPATIAL (TV) NAVIGATION ENGINE
         // ==========================================
         document.addEventListener('keydown', (e) => {
-            // Disable spatial navigation entirely on Mobile/Tablet modes
             if (window.innerWidth <= 850) return;
 
             const allowedKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
@@ -401,19 +618,20 @@
                 audio.volume = vol;
                 document.getElementById('volumeFill').style.width = (vol * 100) + '%';
                 const volIcon = document.getElementById('volumeIcon');
-                if(vol === 0) volIcon.innerText = 'volume_off';
-                else if(vol < 0.5) volIcon.innerText = 'volume_down';
+                if (vol === 0) volIcon.innerText = 'volume_off';
+                else if (vol < 0.5) volIcon.innerText = 'volume_down';
                 else volIcon.innerText = 'volume_up';
                 return;
             }
 
             if (current && current.id === 'progressWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
                 e.preventDefault();
-                if(audio.duration) {
-                    let percent = audio.currentTime / audio.duration;
-                    percent += (e.key === 'ArrowRight') ? 0.05 : -0.05; 
+                const dur = audio.duration;
+                if (isFinite(dur) && dur > 0) {
+                    let percent = audio.currentTime / dur;
+                    percent += (e.key === 'ArrowRight') ? 0.05 : -0.05;
                     percent = Math.max(0, Math.min(1, percent));
-                    audio.currentTime = percent * audio.duration;
+                    audio.currentTime = percent * dur;
                 }
                 return;
             }
@@ -423,7 +641,7 @@
             if (e.key === 'Enter') {
                 if (current && current.classList.contains('focusable')) {
                     current.click();
-                    if(current.id === 'searchBar') current.querySelector('input').focus();
+                    if (current.id === 'searchBar') current.querySelector('input').focus();
                 }
                 return;
             }
@@ -442,7 +660,7 @@
                 return;
             }
 
-            const focusables = Array.from(document.querySelectorAll('.focusable')).filter(el => {
+            const focusables = Array.from(document.querySelectorAll('.focusable')).filter((el) => {
                 const rect = el.getBoundingClientRect();
                 return rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== 'none';
             });
@@ -456,14 +674,14 @@
             let bestMatchOther = null, shortestDistOther = Infinity;
             const currentSection = current.dataset.section;
 
-            focusables.forEach(target => {
+            focusables.forEach((target) => {
                 if (target === current) return;
                 const targetRect = target.getBoundingClientRect();
                 const targetCenter = { x: targetRect.left + targetRect.width / 2, y: targetRect.top + targetRect.height / 2 };
 
                 const dx = targetCenter.x - currentCenter.x;
                 const dy = targetCenter.y - currentCenter.y;
-                
+
                 let isDirectionMatch = false;
                 if (e.key === 'ArrowRight' && dx > Math.abs(dy)) isDirectionMatch = true;
                 if (e.key === 'ArrowLeft' && -dx > Math.abs(dy)) isDirectionMatch = true;
@@ -487,7 +705,7 @@
                 if (targetSection === 'left') finalMatch = document.getElementById('nav-home');
                 else if (targetSection === 'right') finalMatch = document.getElementById('playPauseBtn');
                 else if (targetSection === 'middle') {
-                    if (currentSection === 'left') finalMatch = document.getElementById('first-listen-card');
+                    if (currentSection === 'left') finalMatch = document.getElementById('first-listen-card') || focusables.find((el) => el.classList.contains('card'));
                     else finalMatch = bestMatchOther;
                 }
             }
@@ -498,176 +716,7 @@
             }
         });
 
-        // ==========================================
-        // SONG PARSER & MUSIC LOADING
-        // ==========================================
-        class SongParser {
-            static parse(content) {
-                const songs = [];
-                const songBlocks = content.split('===').filter(block => block.trim());
-                for (const block of songBlocks) {
-                    const lines = block.trim().split('\n');
-                    const song = { metadata: {}, lyrics: [] };
-                    let currentSection = null;
-                    for (const line of lines) {
-                        if (line.startsWith('#')) {
-                            const [key, ...valueParts] = line.substring(1).split(':');
-                            song.metadata[key] = valueParts.join(':').trim();
-                        } else if (line.startsWith('--')) {
-                            currentSection = line.substring(2).trim();
-                        } else if (line.trim()) {
-                            song.lyrics.push({ text: line, section: currentSection });
-                        }
-                    }
-                    if (Object.keys(song.metadata).length > 0) songs.push(song);
-                }
-                return songs;
-            }
-        }
-
-        let songs = [];
-        let currentSongIndex = 0;
-        let isPlaying = false;
-        const audio = document.getElementById('audioPlayer');
-
-        async function loadSongsFromFile() {
-            try {
-                const response = await fetch('../audio/songs.txt');
-                if (!response.ok) throw new Error('Failed to load songs');
-                const text = await response.text();
-                songs = SongParser.parse(text);
-                if (songs.length === 0) { console.error('No songs parsed'); return; }
-                renderSongCards();
-                if (songs.length > 0) loadSong(0);
-            } catch (error) {
-                console.error('Error loading songs:', error);
-            }
-        }
-
-        function renderSongCards() {
-            const container = document.getElementById('first-listen-container');
-            if (!container) return;
-            
-            container.innerHTML = songs.map((song, index) => `
-                <div class="card focusable" id="first-listen-card" data-section="middle" data-index="${index}" tabindex="0">
-                    <div class="card-img-wrapper">
-                        ${song.metadata['AA Link'] ? `<img src="${song.metadata['AA Link']}" class="card-img">` : `<div style="width:100%;height:100%;background:var(--surface-color);display:flex;align-items:center;justify-content:center;font-size:48px">♪</div>`}
-                        <div class="play-overlay"><div class="play-circle"><span class="material-symbols-rounded">play_arrow</span></div></div>
-                    </div>
-                    <h3 class="now-playing-title">${song.metadata['Title'] || 'Unknown'}</h3>
-                    <p class="text-sub">${song.metadata['Artist'] || 'Unknown'}</p>
-                </div>
-            `).join('');
-
-            document.querySelectorAll('#first-listen-container .card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const index = parseInt(card.dataset.index);
-                    loadSong(index);
-                });
-            });
-        }
-
-        function loadSong(index) {
-            if (index < 0 || index >= songs.length) return;
-            currentSongIndex = index;
-            const song = songs[index];
-
-            document.getElementById('playPauseBtn').innerText = 'pause';
-            isPlaying = true;
-
-            document.getElementById('player-title').textContent = song.metadata['Title'] || 'Unknown';
-            document.getElementById('player-artist').textContent = song.metadata['Artist'] || 'Unknown';
-
-            const img = document.getElementById('now-playing-img');
-            const imgPh = document.getElementById('now-playing-img-placeholder');
-            if (song.metadata['AA Link']) {
-                img.src = song.metadata['AA Link'];
-                img.style.display = 'block';
-                imgPh.style.display = 'none';
-            } else {
-                img.style.display = 'none';
-                imgPh.style.display = 'flex';
-            }
-
-            const audioFile = song.metadata['File'];
-            if (audioFile) {
-                audio.src = '../audio/' + audioFile;
-            }
-
-            audio.load();
-            audio.play();
-        }
-
-        function formatTime(seconds) {
-            if (!isFinite(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressWrapper = document.getElementById('progressWrapper');
-        const progressFill = document.getElementById('progressFill');
-        const currentTimeDisplay = document.getElementById('currentTimeDisplay');
-        const durationDisplay = document.getElementById('durationDisplay');
-        const volumeWrapper = document.getElementById('volumeWrapper');
-        const volumeFill = document.getElementById('volumeFill');
-
-        playPauseBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                playPauseBtn.innerText = 'play_arrow';
-                isPlaying = false;
-            } else {
-                audio.play();
-                playPauseBtn.innerText = 'pause';
-                isPlaying = true;
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            loadSong((currentSongIndex - 1 + songs.length) % songs.length);
-        });
-
-        nextBtn.addEventListener('click', () => {
-            loadSong((currentSongIndex + 1) % songs.length);
-        });
-
-        progressWrapper.addEventListener('click', (e) => {
-            const rect = progressWrapper.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            audio.currentTime = percent * audio.duration;
-        });
-
-        volumeWrapper.addEventListener('click', (e) => {
-            const rect = volumeWrapper.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            audio.volume = Math.max(0, Math.min(1, percent));
-        });
-
-        audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                progressFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-                currentTimeDisplay.textContent = formatTime(audio.currentTime);
-            }
-        });
-
-        audio.addEventListener('loadedmetadata', () => {
-            durationDisplay.textContent = formatTime(audio.duration);
-        });
-
-        audio.addEventListener('ended', () => {
-            loadSong((currentSongIndex + 1) % songs.length);
-        });
-
-        window.onload = () => {
-            loadSongsFromFile();
-            audio.volume = 0.7;
-            document.getElementById('volumeFill').style.width = '70%';
-            if (window.innerWidth > 850) document.getElementById('nav-home').focus();
-        };
+        window.onload = () => { if (window.innerWidth > 850) document.getElementById('nav-home').focus(); };
     </script>
 </body>
 </html>
