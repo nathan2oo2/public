@@ -36,7 +36,8 @@
         .card-offline { position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;color:#4caf50; }
         .up-next-panel { width:100%;margin-top:auto;padding-top:16px;border-top:1px solid var(--border-color); }
         .up-next-title { font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-secondary);margin-bottom:10px; }
-        .up-next-list { display:flex;flex-direction:column;gap:6px;max-height:160px;overflow-y:auto;scrollbar-width:thin; }
+        .up-next-list { display:flex;flex-direction:column;gap:6px;max-height:160px;overflow-y:auto;scrollbar-width:none; }
+        .up-next-list::-webkit-scrollbar { display: none; }
         .up-next-item { display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:background .1s; }
         .up-next-item:hover { background:var(--surface-hover); }
         .up-next-item.active-next { background:rgba(255,0,0,0.1); }
@@ -79,7 +80,7 @@
         .search-bar { display: flex; align-items: center; background-color: var(--surface-color); padding: 8px 16px; border-radius: 24px; width: 100%; max-width: 480px; gap: 12px; border: 1px solid transparent; }
         .search-bar:focus-within { border-color: #555; background-color: var(--bg-color); }
         .search-bar input { background: transparent; border: none; color: white; outline: none; width: 100%; font-size: 16px; font-weight: 400; }
-        .profile-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background-color: #666; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 500; font-size: 14px; }
+        .profile-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background-color: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 500; font-size: 14px; }
 
         .view-content { display: none; padding: 0 32px 32px 32px; animation: fadeIn 0.3s ease; }
         .view-content.active { display: block; }
@@ -218,7 +219,7 @@
 <body>
 
     <aside class="nav-sidebar">
-        <div class="logo"><span class="material-symbols-rounded">music</span> MyPlayer</div>
+        <div class="logo">MyPlayer</div>
         <ul class="nav-links">
             <li class="nav-link active focusable" tabindex="0" onclick="switchTab('home')" data-section="left" id="nav-home"><span class="material-symbols-rounded">home</span> Home</li>
             <li class="nav-link focusable" tabindex="0" onclick="switchTab('radio')" data-section="left"><span class="material-symbols-rounded">explore</span> Radio</li>
