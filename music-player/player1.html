@@ -176,38 +176,174 @@
         /* =========================================
            MOBILE & TABLET RESPONSIVE RULES
            ========================================= */
+        /* Dimmed overlay when mobile player is expanded */
+        .mobile-player-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 120;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .mobile-player-backdrop.is-visible { display: block; }
+        body.theme-light .mobile-player-backdrop { background: rgba(0, 0, 0, 0.35); }
+
+        .mobile-player-collapse {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 4px 0 2px;
+            margin: 0 0 4px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .mobile-player-collapse .material-symbols-rounded { font-size: 28px; }
+
         @media (max-width: 850px) {
             .nav-sidebar { display: none; }
-            .mobile-nav { display: block; }
-            .view-content { padding: 16px 16px 200px 16px; }
+            .mobile-nav { display: block; z-index: 130; }
+            .view-content { padding: 16px 16px calc(118px + env(safe-area-inset-bottom)) 16px; }
+            body.mobile-player-expanded .view-content { padding-bottom: calc(300px + env(safe-area-inset-bottom)); }
             .top-bar { padding: 12px 16px; gap: 14px; }
             .search-results { margin: 0 16px 12px; }
             .grid-container { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
             .greeting-header { font-size: 28px; }
 
-            /* Mobile player: fixed dock (no fullscreen) */
+            /* Mobile player shell */
             .player-panel {
                 position: fixed;
                 bottom: calc(54px + env(safe-area-inset-bottom));
                 left: 0;
                 width: 100%;
                 height: auto;
-                max-height: none;
+                max-height: min(72vh, calc(100vh - 120px));
                 flex-direction: column;
-                padding: 10px 12px 12px;
                 border-left: none;
                 border-top: 1px solid var(--border-color);
                 background: var(--surface-color);
-                z-index: 99;
                 align-items: stretch;
+                overflow: hidden;
+                -webkit-overflow-scrolling: touch;
+                transition: box-shadow 0.25s ease, max-height 0.3s cubic-bezier(0.2, 0, 0, 1);
             }
-            .player-panel .player-info-container {
+
+            /* —— Compact (YouTube-style mini bar) —— */
+            .player-panel.mobile-compact {
+                z-index: 99;
+                max-height: none;
+                padding: 0 56px 0 12px;
+                box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.35);
+            }
+            .player-panel.mobile-compact .mobile-player-collapse { display: none !important; }
+
+            .player-panel.mobile-compact .progress-container {
+                order: -1;
+                margin: 0 -12px 0 -12px;
+                padding: 0;
+                width: calc(100% + 24px);
+                max-width: none;
+                gap: 0;
+                height: 3px;
+                align-items: stretch;
+                margin-bottom: 0;
+            }
+            .player-panel.mobile-compact .time-display { display: none; }
+            .player-panel.mobile-compact .progress-bar-wrapper {
+                flex: 1;
+                height: 3px;
+                padding: 0;
+                margin: 0;
+            }
+            .player-panel.mobile-compact .progress-bar { height: 3px; border-radius: 0; }
+            .player-panel.mobile-compact .progress-fill::after { display: none; }
+
+            .player-panel.mobile-compact .player-info-container {
                 flex-direction: row;
                 align-items: center;
-                margin-bottom: 8px;
-                flex: 0 0 auto;
+                margin: 0;
+                padding: 8px 0 10px;
+                min-height: 56px;
+                cursor: pointer;
             }
-            .player-panel .now-playing-img {
+            .player-panel.mobile-compact .now-playing-img {
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+                margin: 0 10px 0 0;
+                border-radius: 6px;
+                box-shadow: none;
+            }
+            .player-panel.mobile-compact .track-metadata { min-width: 0; flex: 1; }
+            .player-panel.mobile-compact .player-title {
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 1.25;
+                white-space: normal;
+                overflow: hidden;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                display: -webkit-box;
+            }
+            .player-panel.mobile-compact .player-artist {
+                font-size: 12px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .player-panel.mobile-compact .yt-action-btns { display: none !important; }
+
+            .player-panel.mobile-compact .player-controls {
+                position: absolute;
+                right: 6px;
+                top: 50%;
+                transform: translateY(calc(-50% + 2px));
+                width: auto;
+                margin: 0;
+                padding: 0;
+            }
+            .player-panel.mobile-compact .player-controls .control-btn:not(.play-btn) { display: none !important; }
+            .player-panel.mobile-compact .play-btn {
+                width: 46px;
+                height: 46px;
+            }
+            .player-panel.mobile-compact .play-btn .material-symbols-rounded { font-size: 32px; }
+
+            .player-panel.mobile-compact .volume-container { display: none !important; }
+
+            /* —— Expanded sheet —— */
+            .player-panel.mobile-expanded {
+                z-index: 125;
+                max-height: min(78vh, calc(100vh - 100px));
+                overflow-y: auto;
+                padding: 4px 12px 14px;
+                box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.45);
+            }
+            .player-panel.mobile-expanded .mobile-player-collapse { display: flex; }
+
+            .player-panel.mobile-expanded .progress-container {
+                order: 0;
+                margin: 0 0 10px;
+                height: auto;
+                gap: 8px;
+                pointer-events: auto;
+            }
+            .player-panel.mobile-expanded .time-display { display: inline; font-size: 10px; min-width: 2.2rem; }
+            .player-panel.mobile-expanded .progress-bar-wrapper { height: 22px; }
+            .player-panel.mobile-expanded .progress-bar { height: 4px; }
+            .player-panel.mobile-expanded .progress-fill::after { display: none; }
+
+            .player-panel.mobile-expanded .player-info-container {
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 10px;
+                flex: 0 0 auto;
+                cursor: default;
+            }
+            .player-panel.mobile-expanded .now-playing-img {
                 width: 52px;
                 height: 52px;
                 min-width: 52px;
@@ -215,41 +351,39 @@
                 border-radius: 8px;
                 box-shadow: none;
             }
-            .player-panel .track-metadata { min-width: 0; }
-            .player-panel .player-title { font-size: 15px; white-space: normal; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; display: -webkit-box; }
-            .player-panel .player-artist { font-size: 13px; white-space: nowrap; }
-
-            .player-panel .yt-action-btns { display: none; }
-
-            .player-panel .progress-container {
-                position: relative;
-                margin: 0 0 8px;
-                height: auto;
-                pointer-events: auto;
-                gap: 8px;
+            .player-panel.mobile-expanded .track-metadata { min-width: 0; }
+            .player-panel.mobile-expanded .player-title {
+                font-size: 15px;
+                white-space: normal;
+                overflow: hidden;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                display: -webkit-box;
             }
-            .player-panel .progress-bar-wrapper { height: 22px; }
-            .player-panel .progress-bar { height: 4px; }
-            .player-panel .time-display { font-size: 10px; min-width: 2.2rem; }
-            .player-panel .progress-fill::after { display: none; }
+            .player-panel.mobile-expanded .player-artist { font-size: 13px; white-space: nowrap; }
 
-            .player-panel .player-controls {
+            .player-panel.mobile-expanded .yt-action-btns { display: none; }
+
+            .player-panel.mobile-expanded .player-controls {
+                position: static;
+                transform: none;
                 width: 100%;
                 justify-content: center;
                 gap: 10px;
                 margin: 0 0 8px;
                 flex-wrap: wrap;
             }
-            .player-panel .play-btn { width: 52px; height: 52px; }
-            .player-panel .play-btn .material-symbols-rounded { font-size: 36px; }
-            .player-panel .control-btn { width: 44px; height: 44px; }
+            .player-panel.mobile-expanded .player-controls .control-btn:not(.play-btn) { display: flex !important; }
+            .player-panel.mobile-expanded .play-btn { width: 52px; height: 52px; }
+            .player-panel.mobile-expanded .play-btn .material-symbols-rounded { font-size: 36px; }
+            .player-panel.mobile-expanded .control-btn { width: 44px; height: 44px; }
 
-            .player-panel .volume-container {
+            .player-panel.mobile-expanded .volume-container {
                 display: flex;
                 padding-top: 0;
                 margin-top: 0;
             }
-            .player-panel .volume-bar-wrapper { min-height: 36px; }
+            .player-panel.mobile-expanded .volume-bar-wrapper { min-height: 36px; }
         }
     </style>
 </head>
@@ -324,7 +458,12 @@
         </div>
     </main>
 
-    <aside class="player-panel" id="playerPanel">
+    <div id="mobilePlayerBackdrop" class="mobile-player-backdrop" aria-hidden="true"></div>
+
+    <aside class="player-panel mobile-compact" id="playerPanel">
+        <button type="button" class="mobile-player-collapse focusable prevent-expand" id="mobilePlayerCollapseBtn" aria-label="Minimize player">
+            <span class="material-symbols-rounded">expand_more</span>
+        </button>
         <audio id="audioEngine" preload="metadata"></audio>
 
         <div class="player-info-container">
@@ -875,6 +1014,63 @@
         // ==========================================
         // UI & MOBILE PLAYER LOGIC
         // ==========================================
+        function syncMobilePlayerLayout() {
+            const panel = document.getElementById('playerPanel');
+            const bd = document.getElementById('mobilePlayerBackdrop');
+            if (!panel || !bd) return;
+            if (window.innerWidth > 850) {
+                panel.classList.remove('mobile-compact', 'mobile-expanded');
+                document.body.classList.remove('mobile-player-expanded');
+                bd.classList.remove('is-visible');
+                bd.setAttribute('aria-hidden', 'true');
+                return;
+            }
+        }
+
+        function expandMobilePlayer() {
+            const panel = document.getElementById('playerPanel');
+            const bd = document.getElementById('mobilePlayerBackdrop');
+            if (window.innerWidth > 850 || !panel || !bd) return;
+            panel.classList.remove('mobile-compact');
+            panel.classList.add('mobile-expanded');
+            document.body.classList.add('mobile-player-expanded');
+            bd.classList.add('is-visible');
+            bd.setAttribute('aria-hidden', 'false');
+        }
+
+        function collapseMobilePlayer() {
+            const panel = document.getElementById('playerPanel');
+            const bd = document.getElementById('mobilePlayerBackdrop');
+            if (!panel || !bd) return;
+            panel.classList.remove('mobile-expanded');
+            panel.classList.add('mobile-compact');
+            document.body.classList.remove('mobile-player-expanded');
+            bd.classList.remove('is-visible');
+            bd.setAttribute('aria-hidden', 'true');
+        }
+
+        (function initMobilePlayerChrome() {
+            const panel = document.getElementById('playerPanel');
+            const bd = document.getElementById('mobilePlayerBackdrop');
+            const collapseBtn = document.getElementById('mobilePlayerCollapseBtn');
+            if (!panel || !bd) return;
+            panel.addEventListener('click', (e) => {
+                if (window.innerWidth > 850) return;
+                if (!panel.classList.contains('mobile-compact')) return;
+                if (e.target.closest('.prevent-expand')) return;
+                expandMobilePlayer();
+            });
+            bd.addEventListener('click', () => { collapseMobilePlayer(); });
+            if (collapseBtn) {
+                collapseBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    collapseMobilePlayer();
+                });
+            }
+            window.addEventListener('resize', syncMobilePlayerLayout);
+            syncMobilePlayerLayout();
+        })();
+
         function switchTab(tabId) {
             document.querySelectorAll('.view-content').forEach((view) => view.classList.remove('active'));
             document.querySelectorAll('.nav-link, .mobile-nav-item').forEach((link) => link.classList.remove('active'));
@@ -1145,6 +1341,11 @@
 
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Escape') return;
+            const mp = document.getElementById('playerPanel');
+            if (window.innerWidth <= 850 && mp && mp.classList.contains('mobile-expanded')) {
+                collapseMobilePlayer();
+                return;
+            }
             if (searchResultsEl.classList.contains('active')) {
                 searchResultsEl.classList.remove('active');
                 searchResultsEl.innerHTML = '';
