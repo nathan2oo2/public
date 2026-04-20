@@ -1355,6 +1355,26 @@
         // ==========================================
         // ADVANCED SPATIAL (TV) NAVIGATION ENGINE
         // ==========================================
+        function getPrimaryMiddleFocusable() {
+            const radio = document.getElementById('view-radio');
+            const library = document.getElementById('view-library');
+            const settings = document.getElementById('view-settings');
+            if (radio && radio.classList.contains('active')) {
+                return document.querySelector('#radioGrid .focusable');
+            }
+            if (library && library.classList.contains('active')) {
+                return document.querySelector('#libraryGrid .focusable');
+            }
+            if (settings && settings.classList.contains('active')) {
+                return settings.querySelector('.focusable');
+            }
+            return document.getElementById('first-home-card') || document.querySelector('#view-home .card.focusable');
+        }
+
+        function getActiveNavLink() {
+            return document.querySelector('.nav-sidebar .nav-link.active.focusable') || document.getElementById('nav-home');
+        }
+
         document.addEventListener('keydown', (e) => {
             if (window.innerWidth <= 850) return;
 
@@ -1375,21 +1395,10 @@
             if (radioViewActive && current && current.closest('#radioGrid')) {
                 const cards = [...document.querySelectorAll('#radioGrid .focusable')];
                 const idx = cards.indexOf(current);
-                if (idx >= 0) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        current.click();
-                        return;
-                    }
-                    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-                        e.preventDefault();
-                        let n = idx;
-                        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = Math.max(0, idx - 1);
-                        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = Math.min(cards.length - 1, idx + 1);
-                        cards[n].focus();
-                        cards[n].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                        return;
-                    }
+                if (idx >= 0 && e.key === 'Enter') {
+                    e.preventDefault();
+                    current.click();
+                    return;
                 }
             }
 
@@ -1485,11 +1494,12 @@
 
             if (!finalMatch && bestMatchOther) {
                 const targetSection = bestMatchOther.dataset.section;
-                if (targetSection === 'left') finalMatch = document.getElementById('nav-home');
+                if (targetSection === 'left') finalMatch = getActiveNavLink();
                 else if (targetSection === 'right') finalMatch = document.getElementById('playPauseBtn');
                 else if (targetSection === 'middle') {
-                    if (currentSection === 'left') finalMatch = document.getElementById('first-home-card') || focusables.find((el) => el.classList.contains('card'));
-                    else finalMatch = bestMatchOther;
+                    if (currentSection === 'left') {
+                        finalMatch = getPrimaryMiddleFocusable() || bestMatchOther;
+                    } else finalMatch = bestMatchOther;
                 }
             }
 
