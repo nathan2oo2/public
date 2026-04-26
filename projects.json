@@ -20,7 +20,7 @@
       "status": "Active",
       "category": "Cultural",
       "description": "A personal catalog and guide to the places, designs, foods, and memories that make Goa unique. Discover hidden gems and cultural treasures.",
-      "link": "/mogache-goa/mogache-goa.html"
+      "link": "https://nathan2oo2.github.io/public/mogache-goa.html"
     },
     {
       "id": 3,
@@ -31,7 +31,7 @@
       "status": "Active",
       "category": "Web",
       "description": "A collection of fast-loading, offline-capable tools for everyday tasks. No internet required, works seamlessly in your browser.",
-      "link": "/tools/tools.html"
+      "link": "/public/tools/tools.html"
     },
     {
       "id": 4,
@@ -53,7 +53,7 @@
       "status": "In Progress",
       "category": "Music",
       "description": "My own remake of YouTube Music",
-      "link": "/music-player/player1.html"
+      "link": "public/music-player/player1.html"
     },
     {
       "id": 6,
