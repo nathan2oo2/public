@@ -17,7 +17,7 @@
       "popular": 1,
       "image": "../images/tiles.webp",
       "tags": ["Heritage", "Travel", "Culture"],
-      "status": "Active",
+      "status": "In Progress",
       "category": "Cultural",
       "description": "A personal catalog and guide to the places, designs, foods, and memories that make Goa unique. Discover hidden gems and cultural treasures.",
       "link": "/public/mogache-goa.html"
