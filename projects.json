@@ -9,7 +9,7 @@
       "status": "Active",
       "category": "Cultural",
       "description": "A digital rendition of a Konkani songbook featuring traditional and modern songs. Explore, learn, and preserve Goan musical heritage.",
-      "link": "https://nathan2oo2.github.io/public/jhelo/songbook.html"
+      "link": "/public/jhelo/songbook.html"
     },
     {
       "id": 2,
@@ -20,7 +20,7 @@
       "status": "Active",
       "category": "Cultural",
       "description": "A personal catalog and guide to the places, designs, foods, and memories that make Goa unique. Discover hidden gems and cultural treasures.",
-      "link": "https://nathan2oo2.github.io/public/mogache-goa.html"
+      "link": "/public/mogache-goa.html"
     },
     {
       "id": 3,
@@ -53,7 +53,7 @@
       "status": "In Progress",
       "category": "Music",
       "description": "My own remake of YouTube Music",
-      "link": "public/music-player/player1.html"
+      "link": "/public/music-player/player1.html"
     },
     {
       "id": 6,
