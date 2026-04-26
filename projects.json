@@ -47,7 +47,7 @@
     {
       "id": 5,
       "title": "Online Music Player",
-      "popular": 0,
+      "popular": 1,
       "image": "https://static0.anpoimages.com/wordpress/wp-content/uploads/2022/12/youtube-music-2023-ap-hero.jpg",
       "tags": ["Web", "Player", "App"],
       "status": "In Progress",
