@@ -616,6 +616,7 @@
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'desktop-card-menu-btn focusable';
+            btn.dataset.section = 'middle';
             btn.setAttribute('aria-label', 'Song options');
             btn.innerHTML = '<span class="material-symbols-rounded">more_vert</span>';
 
@@ -1089,6 +1090,172 @@
             if (e.target.closest('#searchBar') || e.target.closest('#searchResults')) return;
             searchResultsEl.classList.remove('active');
         });
+
+        function getPrimaryMiddleFocusable() {
+            const radio = document.getElementById('view-radio');
+            const library = document.getElementById('view-library');
+            const settings = document.getElementById('view-settings');
+            if (radio && radio.classList.contains('active')) {
+                return document.querySelector('#radioGrid .focusable');
+            }
+            if (library && library.classList.contains('active')) {
+                return document.querySelector('#libraryGrid .focusable');
+            }
+            if (settings && settings.classList.contains('active')) {
+                return settings.querySelector('.focusable');
+            }
+            return document.getElementById('first-home-card') || document.querySelector('#view-home .card.focusable');
+        }
+
+        function getActiveNavLink() {
+            return document.querySelector('.nav-sidebar .nav-link.active.focusable') || document.getElementById('nav-home');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (window.innerWidth <= 850) return;
+
+            const allowedKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
+            if (!allowedKeys.includes(e.key)) return;
+
+            const current = document.activeElement;
+
+            if (current && current.id === 'nav-radio' && e.key === 'ArrowRight') {
+                e.preventDefault();
+                switchTab('radio');
+                const first = document.querySelector('#radioGrid .focusable');
+                if (first) setTimeout(() => first.focus(), 0);
+                return;
+            }
+
+            const radioViewActive = document.getElementById('view-radio').classList.contains('active');
+            if (radioViewActive && current && current.closest('#radioGrid')) {
+                const cards = [...document.querySelectorAll('#radioGrid .focusable')];
+                const idx = cards.indexOf(current);
+                if (idx >= 0 && e.key === 'Enter') {
+                    e.preventDefault();
+                    current.click();
+                    return;
+                }
+            }
+
+            if (current && current.id === 'volumeWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                let vol = audio.volume;
+                vol += (e.key === 'ArrowRight') ? 0.1 : -0.1;
+                applyVolumeRatio(vol);
+                return;
+            }
+
+            if (current && current.id === 'progressWrapper' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                const dur = audio.duration;
+                if (isFinite(dur) && dur > 0) {
+                    let percent = audio.currentTime / dur;
+                    percent += (e.key === 'ArrowRight') ? 0.05 : -0.05;
+                    percent = Math.max(0, Math.min(1, percent));
+                    audio.currentTime = percent * dur;
+                }
+                return;
+            }
+
+            if (current && current.classList.contains('action-btn') && e.key === 'ArrowUp') {
+                e.preventDefault();
+                return;
+            }
+
+            if (e.key === 'Enter') {
+                if (current && current.classList.contains('focusable')) {
+                    e.preventDefault();
+                    current.click();
+                    if (current.id === 'searchBar') current.querySelector('input').focus();
+                }
+                return;
+            }
+
+            e.preventDefault();
+
+            let explicitMatch = null;
+            if (current && current.classList.contains('mood-pill') && e.key === 'ArrowUp') explicitMatch = document.getElementById('searchBar');
+            else if (current && current.id === 'searchBar' && e.key === 'ArrowRight') explicitMatch = document.getElementById('profileIcon');
+            else if (current && current.id === 'profileIcon' && e.key === 'ArrowLeft') explicitMatch = document.getElementById('searchBar');
+            else if (current && current.id === 'profileIcon' && e.key === 'ArrowRight') explicitMatch = document.getElementById('playPauseBtn');
+
+            if (explicitMatch) {
+                explicitMatch.focus();
+                explicitMatch.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+                return;
+            }
+
+            const focusables = Array.from(document.querySelectorAll('.focusable')).filter((el) => {
+                const rect = el.getBoundingClientRect();
+                return rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== 'none';
+            });
+
+            if (!focusables.includes(current)) {
+                if (focusables.length > 0) focusables[0].focus();
+                return;
+            }
+
+            const currentRect = current.getBoundingClientRect();
+            const currentCenter = {
+                x: currentRect.left + currentRect.width / 2,
+                y: currentRect.top + currentRect.height / 2
+            };
+
+            let bestMatchSame = null;
+            let shortestDistSame = Infinity;
+            let bestMatchOther = null;
+            let shortestDistOther = Infinity;
+            const currentSection = current.dataset.section;
+
+            focusables.forEach((target) => {
+                if (target === current) return;
+                const targetRect = target.getBoundingClientRect();
+                const targetCenter = {
+                    x: targetRect.left + targetRect.width / 2,
+                    y: targetRect.top + targetRect.height / 2
+                };
+                const dx = targetCenter.x - currentCenter.x;
+                const dy = targetCenter.y - currentCenter.y;
+
+                let isDirectionMatch = false;
+                if (e.key === 'ArrowRight' && dx > Math.abs(dy)) isDirectionMatch = true;
+                if (e.key === 'ArrowLeft' && -dx > Math.abs(dy)) isDirectionMatch = true;
+                if (e.key === 'ArrowDown' && dy > Math.abs(dx)) isDirectionMatch = true;
+                if (e.key === 'ArrowUp' && -dy > Math.abs(dx)) isDirectionMatch = true;
+
+                if (!isDirectionMatch) return;
+
+                const distance = Math.hypot(dx, dy);
+                if (target.dataset.section === currentSection) {
+                    if (distance < shortestDistSame) {
+                        shortestDistSame = distance;
+                        bestMatchSame = target;
+                    }
+                } else if (distance < shortestDistOther) {
+                    shortestDistOther = distance;
+                    bestMatchOther = target;
+                }
+            });
+
+            let finalMatch = bestMatchSame;
+
+            if (!finalMatch && bestMatchOther) {
+                const targetSection = bestMatchOther.dataset.section;
+                if (targetSection === 'left') finalMatch = getActiveNavLink();
+                else if (targetSection === 'right') finalMatch = document.getElementById('playPauseBtn');
+                else if (targetSection === 'middle') {
+                    if (currentSection === 'left') finalMatch = getPrimaryMiddleFocusable() || bestMatchOther;
+                    else finalMatch = bestMatchOther;
+                }
+            }
+
+            if (finalMatch) {
+                finalMatch.focus();
+                finalMatch.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+            }
+        });
+
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Escape') return;
             const panel = document.getElementById('playerPanel');
