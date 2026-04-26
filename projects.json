@@ -39,21 +39,21 @@
       "popular": 0,
       "image": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&h=300&fit=crop",
       "tags": ["Wiki", "Places", "Archive"],
-      "status": "In Progress",
+      "status": "Not Commenced",
       "category": "Cultural",
       "description": "A vintage-style wiki documenting notable places, landmarks, and locations across Goa with historical context and memories.",
-      "link": "/goa-wiki/places.html"
+      "link": "#"
     },
     {
       "id": 5,
-      "title": "Web Components Library",
+      "title": "Online Music Player",
       "popular": 0,
       "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
-      "tags": ["Web", "Components", "Frontend"],
-      "status": "Planning",
-      "category": "Web",
-      "description": "Reusable, accessible web components for modern web development. Built with vanilla JavaScript and CSS.",
-      "link": "#"
+      "tags": ["Web", "Player", "App"],
+      "status": "In Progress",
+      "category": "Music",
+      "description": "My own remake of YouTube Music",
+      "link": "/music-player/player1.html"
     },
     {
       "id": 6,
@@ -61,7 +61,7 @@
       "popular": 0,
       "image": "https://images.unsplash.com/photo-1507842955343-583cf171d8fb?w=500&h=300&fit=crop",
       "tags": ["Research", "History", "Heritage"],
-      "status": "Active",
+      "status": "Not Commenced",
       "category": "Cultural",
       "description": "Deep dive into the Indo-Portuguese heritage and its influence on Goan culture, architecture, and traditions.",
       "link": "#"
@@ -72,7 +72,7 @@
       "popular": 0,
       "image": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&h=300&fit=crop",
       "tags": ["Electronics", "Arduino", "IoT"],
-      "status": "Active",
+      "status": "Not Commenced",
       "category": "Hardware",
       "description": "Hands-on electronics experiments and Arduino projects exploring sensors, automation, and embedded systems.",
       "link": "#"
