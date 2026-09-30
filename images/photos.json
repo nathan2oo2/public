@@ -1,0 +1,72 @@
+{
+  "photos": [
+    {
+      "id": "MG-P-000001",
+      "title": "Fontainhas Street",
+      "image": "images/photos/MG-P-000001.jpg",
+      "date": "1980s",
+      "location": {
+        "name": "Fontainhas, Panaji, Goa",
+        "latitude": 15.4937,
+        "longitude": 73.8278
+      },
+      "description": "A view of a traditional street in Fontainhas, showing the colourful houses and narrow lanes of the historic neighbourhood.",
+      "source": {
+        "name": "Mogachem Goem",
+        "url": ""
+      },
+      "tags": [
+        "Fontainhas",
+        "Panaji",
+        "architecture",
+        "streets"
+      ]
+    },
+
+    {
+      "id": "MG-P-000002",
+      "title": "Aguada Fort",
+      "image": "https://example.com/photos/aguada-fort.jpg",
+      "date": "c. 1950",
+      "location": {
+        "name": "Aguada, Candolim, Goa",
+        "latitude": 15.4922,
+        "longitude": 73.7739
+      },
+      "description": "A historical view of Aguada Fort overlooking the Arabian Sea.",
+      "source": {
+        "name": "Goa Heritage Archive",
+        "url": "https://example.com/aguada-fort"
+      },
+      "tags": [
+        "Aguada",
+        "fort",
+        "Candolim",
+        "heritage"
+      ]
+    },
+
+    {
+      "id": "MG-P-000003",
+      "title": "Traditional Goan House",
+      "image": "images/photos/MG-P-000003.jpg",
+      "date": "2024-06-15",
+      "location": {
+        "name": "Loutolim, Goa",
+        "latitude": 15.3407,
+        "longitude": 73.9565
+      },
+      "description": "A traditional Goan house photographed in Loutolim, showing its balcao, tiled roof and decorative facade.",
+      "source": {
+        "name": "Nathan Baptista",
+        "url": ""
+      },
+      "tags": [
+        "Loutolim",
+        "traditional house",
+        "architecture",
+        "Goan heritage"
+      ]
+    }
+  ]
+}
