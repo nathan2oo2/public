@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCHIVE | Your Archive Name</title>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#e6e3db;--ink:#2b2b2b;--ph:#cbc7bd;--archive-bg:#2f2d2a;--archive-ink:#e6e3db;--cond:"Oswald","Arial Narrow",sans-serif;--sans:"Mulish",system-ui,sans-serif}
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 .95rem/1.55 var(--sans);min-height:100vh;display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .wrap{max-width:1000px;width:100%;margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem)}
+  h2{font:500 clamp(1.75rem,4vw,2.5rem)/1.1 var(--cond);text-transform:uppercase;margin:0}
+
+  /* THE ARCHIVE */
+  .archive{background:var(--archive-bg);color:var(--archive-ink);padding:clamp(3rem,7vw,5rem) 0}
+  .archive h2{margin-bottom:1.25rem}
+  .archive p{max-width:30rem;margin:0 0 1.25rem}
+
+  /* EXPLORE ALL DECADES */
+  .decades{flex:1;padding-top:clamp(3.5rem,9vw,7rem);padding-bottom:clamp(3rem,7vw,5rem)}
+  .decades h2{font-size:clamp(1.4rem,3vw,1.9rem);margin-bottom:1.5rem}
+  .row{display:flex;align-items:flex-start;margin-bottom:clamp(1.5rem,4vw,3rem)}
+  .item{display:block;flex:none}
+  .ph{width:100%;background:var(--ph) var(--img,none) center/cover no-repeat;display:grid;place-items:center;color:#9d998f;font:400 .7rem var(--cond);letter-spacing:.25em}
+  .ph.has span{display:none}
+  .meta{display:flex;justify-content:space-between;margin-top:.4rem;font:500 .8rem/1 var(--cond);text-transform:uppercase}
+  .item:hover .ph{opacity:.85}
+
+  /* sizes and offsets copied from the reference (percent of row width) */
+  .w31{width:31%}.w44{width:44%}
+  .gap18{margin-left:18%}.in13{margin-left:13.5%}
+
+  /* image proportions */
+  .r1950{aspect-ratio:147/94}.r1960{aspect-ratio:213/157}.r1970{aspect-ratio:147/84}
+  .r1980{aspect-ratio:147/184}.r1990{aspect-ratio:147/187}.r2000{aspect-ratio:147/108}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-root=".">
+<!-- NAV BAR: loaded from components/header.html -->
+<div id="site-header"></div>
+
+
+<!-- ========== THE ARCHIVE ========== -->
+<section class="archive">
+ <div class="wrap">
+  <h2>The Archive</h2>
+  <p>Your archive name is an independent visual archive founded by Your Name, bringing together rare photographs and films from the 1950s to the 2000s. Rooted in memory and lived experience, it captures everyday moments, cultural shifts, and fragments of a past that continues to live on through shared recollection.</p>
+  <p>Add one closing line about why the archive exists.</p>
+ </div>
+</section>
+
+<!-- ========== EXPLORE ALL DECADES ========== -->
+<section class="decades wrap">
+  <h2>Explore<br>All Decades</h2>
+
+  <div class="row">
+    <a class="item w31" href="1950s.html"><div class="ph r1950" data-img="images/1950s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1950s</span><span>01</span></div></a>
+    <a class="item w44 gap18" href="1960s.html"><div class="ph r1960" data-img="images/1960s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1960s</span><span>02</span></div></a>
+  </div>
+
+  <div class="row">
+    <a class="item w31 in13" href="1970s.html"><div class="ph r1970" data-img="images/1970s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1970s</span><span>03</span></div></a>
+    <a class="item w31 gap18" href="1980s.html"><div class="ph r1980" data-img="images/1980s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1980s</span><span>04</span></div></a>
+  </div>
+
+  <div class="row">
+    <a class="item w31" href="1990s.html"><div class="ph r1990" data-img="images/1990s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1990s</span><span>05</span></div></a>
+    <a class="item w31 gap18" href="2000s.html"><div class="ph r2000" data-img="images/2000s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 2000s</span><span>06</span></div></a>
+  </div>
+</section>
+
+<!-- FOOTER: loaded from components/footer.html -->
+<div id="site-footer"></div>
+
+<script>
+  // Load header and footer components (same method as the main site)
+  async function loadComponent(targetId, filePath) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    try {
+      const response = await fetch(filePath);
+      if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+      target.innerHTML = await response.text();
+      target.querySelectorAll("script").forEach(script => {
+        const newScript = document.createElement("script");
+        newScript.textContent = script.textContent;
+        target.appendChild(newScript);
+      });
+    } catch (err) {
+      console.error("Component loading error:", err);
+    }
+  }
+  window.addEventListener("DOMContentLoaded", () => {
+    const root = document.body.dataset.root || ".";
+    loadComponent("site-header", `${root}/components/header.html`);
+    loadComponent("site-footer", `${root}/components/footer.html`);
+  });
+
+  // Load each photo only if the file exists; otherwise the grey placeholder stays
+  document.querySelectorAll(".ph[data-img]").forEach(el => {
+    const t = new Image();
+    t.onload = () => { el.style.setProperty("--img", `url('${el.dataset.img}')`); el.classList.add("has"); };
+    t.src = el.dataset.img;
+  });
+</script>
+</body>
+</html>
