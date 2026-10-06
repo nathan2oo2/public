@@ -44,10 +44,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    opacity: 0.85;
+    color: var(--text-dim);
     text-decoration: none;
-    transition: opacity 0.2s ease, filter 0.2s ease;
+    transition: color 0.2s ease, filter 0.2s ease;
   }
 
   .social-link svg {
@@ -57,8 +56,8 @@
   }
 
   .social-link:hover {
-    opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+    color: #fff;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
   }
 
   @media (max-width: 768px) {
@@ -129,7 +128,7 @@
         </svg>
       </a>
 
-      <a href="mailto:your-iamnathanbatista@gmail.com" class="social-link" aria-label="Email" title="Email">
+      <a href="mailto:iamnathanbatista@gmail.com" class="social-link" aria-label="Email" title="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="3"/>
           <path d="m3 7 9 6 9-6"/>
