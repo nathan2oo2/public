@@ -117,20 +117,40 @@
 
     <div class="footer-right">
       <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube" title="YouTube">
-        <img src="images/youtube.webp" alt="YouTube" loading="lazy">
+        <img data-icon="youtube.webp" alt="YouTube" loading="lazy">
       </a>
 
       <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram" title="Instagram">
-        <img src="../images/instagram.webp" alt="Instagram" loading="lazy">
+        <img data-icon="instagram.webp" alt="Instagram" loading="lazy">
       </a>
 
       <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook" title="Facebook">
-        <img src="../images/facebook.webp" alt="Facebook" loading="lazy">
+        <img data-icon="facebook.webp" alt="Facebook" loading="lazy">
       </a>
 
       <a href="mailto:your-email@example.com" class="social-link" aria-label="Email" title="Email">
-        <img src="../images/email.webp" alt="Email" loading="lazy">
+        <img data-icon="email.webp" alt="Email" loading="lazy">
       </a>
     </div>
   </div>
 </footer>
+
+<script>
+  (function() {
+    // Same root logic as the header: pages set <body data-root="..">
+    var root = document.body.dataset.root || ".";
+    var base = root === "." ? "images/" : root.replace(/\/+$/, "") + "/images/";
+
+    document.querySelectorAll(".social-link img[data-icon]").forEach(function(img) {
+      var name = img.getAttribute("data-icon");
+      var tried = 0;
+      var candidates = [base + name, "images/" + name, "../images/" + name, "../../images/" + name];
+
+      img.onerror = function() {
+        tried++;
+        if (tried < candidates.length) img.src = candidates[tried];
+      };
+      img.src = candidates[0];
+    });
+  })();
+</script>
