@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mogachem Goa</title>
+<title>ARCHIVE | Your Archive Name</title>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#e6e3db;--ink:#2b2b2b;--ph:#cbc7bd;--archive-bg:#2f2d2a;--archive-ink:#e6e3db;--cond:"Oswald","Arial Narrow",sans-serif;--sans:"Mulish",system-ui,sans-serif}
@@ -23,25 +23,86 @@
   /* EXPLORE ALL DECADES */
   .decades{flex:1;padding-top:clamp(3.5rem,9vw,7rem);padding-bottom:clamp(3rem,7vw,5rem)}
   .decades h2{font-size:clamp(1.4rem,3vw,1.9rem);margin-bottom:1.5rem}
-  .row{display:flex;align-items:flex-start;margin-bottom:clamp(1.5rem,4vw,3rem)}
-  .item{display:block;flex:none}
   .ph{width:100%;background:var(--ph) var(--img,none) center/cover no-repeat;display:grid;place-items:center;color:#9d998f;font:400 .7rem var(--cond);letter-spacing:.25em}
   .ph.has span{display:none}
-  .meta{display:flex;justify-content:space-between;margin-top:.4rem;font:500 .8rem/1 var(--cond);text-transform:uppercase}
-  .desc{margin:.5rem 0 0;font-size:.85rem;line-height:1.5;opacity:.75}
-  .item:hover .ph{opacity:.85}
 
-  /* sizes and offsets copied from the reference (percent of row width) */
-  .w31{width:31%}.w44{width:44%}
-  .gap18{margin-left:18%}.in13{margin-left:13.5%}
+  /* ---- Interactive objects inside the boxes (drawn in CSS, sized with cqw) ---- */
+  .ph{container-type:inline-size;cursor:pointer;overflow:hidden}
+  .ph:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes bar{from{transform:scaleY(.15)}to{transform:scaleY(1)}}
+  @keyframes pulse{to{filter:brightness(1.5)}}
+  .ph i,.ph b{display:block;font-style:normal}
 
-  /* image proportions */
-  .r1950{aspect-ratio:147/94}.r1960{aspect-ratio:213/157}.r1970{aspect-ratio:147/84}
-  .r1980{aspect-ratio:147/184}.r1990{aspect-ratio:147/187}.r2000{aspect-ratio:147/108}
-  /* MOBILE: stack the decades vertically */
+  /* 1950s radio */
+  .radio{width:60cqw;height:34cqw;border-radius:3cqw;background:linear-gradient(145deg,#6b4226,#3d2516);box-shadow:0 2cqw 3cqw rgba(0,0,0,.35);display:flex;align-items:center;gap:3cqw;padding:3cqw}
+  .radio .grille{flex:1;height:100%;border-radius:1.5cqw;background:repeating-linear-gradient(90deg,#1c0f07 0 .8cqw,#d8c28a .8cqw 1.6cqw)}
+  .radio .dial{flex:none;width:18cqw;height:18cqw;border-radius:50%;background:#f1dfb5;position:relative;box-shadow:inset 0 0 0 1cqw #2b1a0e}
+  .radio .dial b{position:absolute;left:50%;top:50%;width:.8cqw;height:7cqw;background:#b83d28;transform-origin:50% 0;transform:rotate(-60deg);transition:transform 1.2s}
+  .on .radio .dial b{transform:rotate(60deg)}
+  .on .radio .grille{animation:pulse .8s ease-in-out infinite alternate}
+
+  /* 1950s realistic record player: stacked photo layers (CSS shapes show until photos exist) */
+  .pp{position:relative;width:80cqw;height:60cqw;filter:drop-shadow(0 3cqw 3cqw rgba(0,0,0,.4))}
+  .pp .layer{position:absolute;background-position:center;background-repeat:no-repeat;background-size:contain}
+  .pp .layer.has{background-image:var(--img)}
+  .pp-base{inset:0}
+  .pp-base:not(.has){border-radius:2cqw;background:linear-gradient(145deg,#3d2516,#24140b)}
+  .pp-record{left:8cqw;top:10cqw;width:40cqw;height:40cqw;border-radius:50%;animation:spin 1.8s linear infinite paused}
+  .pp .pp-record.has{background-size:cover}
+  .pp-record:not(.has){background:repeating-radial-gradient(#0d0d0d 0 .6cqw,#222 .6cqw 1.2cqw)}
+  .pp-record:not(.has)::after{content:"";position:absolute;inset:13cqw;border-radius:50%;background:#b83d28;box-shadow:0 0 0 .5cqw #1a0a05}
+  .pp-shine{position:absolute;left:8cqw;top:10cqw;width:40cqw;height:40cqw;border-radius:50%;pointer-events:none;mix-blend-mode:overlay;opacity:.7;
+    background:conic-gradient(rgba(255,255,255,0) 0,rgba(255,255,255,.35) 28deg,rgba(255,255,255,0) 60deg,rgba(255,255,255,0) 180deg,rgba(255,255,255,.35) 208deg,rgba(255,255,255,0) 240deg)}
+  /* Tonearm: --arm-origin is the pivot point inside your arm photo; adjust it to match */
+  .pp-arm{right:7cqw;top:3cqw;width:16cqw;height:38cqw;transform-origin:var(--arm-origin,70% 12%);transform:rotate(-32deg);transition:transform .9s cubic-bezier(.34,1.25,.64,1)}
+  .pp .pp-arm:not(.has){right:12cqw;top:6cqw;width:1.4cqw;height:30cqw;border-radius:1cqw;background:linear-gradient(90deg,#d6d0c4,#fff 50%,#9e978b);transform-origin:50% 0}
+  .on .pp-record{animation-play-state:running}
+  .on .pp-arm{transform:rotate(6deg)}
+  .on .pp-shine{animation:shine 3.5s ease-in-out infinite alternate}
+  @keyframes shine{from{transform:rotate(-15deg)}to{transform:rotate(20deg)}}
+
+  /* 1970s cassette */
+  .cas{position:relative;width:56cqw;height:36cqw;border-radius:2cqw;background:#e9dcc0;border:.7cqw solid #3d2516;box-shadow:0 2cqw 3cqw rgba(0,0,0,.3)}
+  .cas .tag{position:absolute;left:5cqw;right:5cqw;top:3cqw;height:6cqw;background:#f7efd8;border-bottom:1cqw solid #b83d28}
+  .cas .win{position:absolute;left:10cqw;right:10cqw;top:13cqw;height:14cqw;border-radius:7cqw;background:#2b1a0e;display:flex;justify-content:space-around;align-items:center}
+  .reel{width:10cqw;height:10cqw;border-radius:50%;background:conic-gradient(#e9dcc0 0 15%,#2b1a0e 0 33%,#e9dcc0 0 48%,#2b1a0e 0 66%,#e9dcc0 0 82%,#2b1a0e 0);animation:spin 1.6s linear infinite paused}
+  .on .reel{animation-play-state:running}
+
+  /* 1980s equalizer */
+  .eq{display:flex;align-items:flex-end;gap:2.5cqw;width:62cqw;height:48cqw;padding:5cqw;border-radius:3cqw;background:#14110e;box-shadow:0 2cqw 3cqw rgba(0,0,0,.35)}
+  .eq i{flex:1;height:100%;border-radius:.8cqw;background:linear-gradient(#d4442a,#e6c545 40%,#4caf50);transform-origin:bottom;transform:scaleY(.15);animation:bar .7s ease-in-out infinite alternate paused}
+  .eq i:nth-child(2){animation-duration:.5s}.eq i:nth-child(3){animation-duration:.9s}.eq i:nth-child(4){animation-duration:.6s}
+  .eq i:nth-child(5){animation-duration:.8s}.eq i:nth-child(6){animation-duration:.45s}.eq i:nth-child(7){animation-duration:.75s}
+  .on .eq i{animation-play-state:running}
+
+  /* 1990s polaroid that "develops" */
+  .pol{width:54cqw;padding:3cqw 3cqw 11cqw;background:#f7efd8;box-shadow:0 2cqw 3cqw rgba(0,0,0,.35)}
+  .pol .shot{height:48cqw;background:linear-gradient(#f4a259,#c1553b 58%,#2b1a0e 59%);filter:brightness(.04) blur(1.2cqw);transition:filter 3s ease}
+  .on .pol .shot{filter:none}
+
+  /* 2000s phone */
+  .phone{width:26cqw;height:46cqw;border-radius:3cqw;background:linear-gradient(#8f949a,#4a4e54);padding:3cqw;box-shadow:0 2cqw 3cqw rgba(0,0,0,.35)}
+  .phone .scr{height:18cqw;border-radius:1cqw;background:#0e1410;color:#9bf59b;font:500 3cqw/18cqw monospace;text-align:center;transition:background .4s,box-shadow .4s}
+  .phone .scr::after{content:"GOA 2000s";opacity:0;transition:opacity .4s}
+  .on .phone .scr{background:#12301a;box-shadow:0 0 4cqw #4fe36a}
+  .on .phone .scr::after{opacity:1}
+  .phone .keys{margin-top:3cqw;display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+  .phone .keys i{height:3.4cqw;border-radius:1cqw;background:#2b2e32}
+
+  /* Decades: same-size boxes, alternating left/right, text beside each */
+  .decs{display:flex;flex-direction:column;gap:clamp(2.5rem,6vw,4.5rem)}
+  .dec{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
+  .dec .ph{aspect-ratio:4/3}
+  .dec:nth-child(even) .ph{order:2}
+  .txt .num{display:block;font:500 .8rem/1 var(--cond);letter-spacing:.2em;opacity:.6;margin-bottom:.6rem}
+  .txt .dec-label{font:500 .8rem/1 var(--cond);text-transform:uppercase;letter-spacing:.12em}
+  .txt .dec-label:hover{text-decoration:underline}
+  .txt h3{font:500 clamp(1.4rem,3vw,2rem)/1.15 var(--cond);text-transform:uppercase;margin:.6rem 0 .75rem}
+  .txt p{margin:0;max-width:28rem}
   @media(max-width:640px){
-    .row{flex-direction:column;margin-bottom:0}
-    .item{width:100%;margin:0 0 1.75rem}
+    .dec{grid-template-columns:1fr;gap:1rem}
+    .dec:nth-child(even) .ph{order:0}
   }
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -65,19 +126,61 @@
 <section class="decades wrap">
   <h2>Explore<br>All Decades</h2>
 
-  <div class="row">
-    <a class="item w31" href="1950s.html"><div class="ph r1950" data-img="images/1950s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1950s</span><span>01</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
-    <a class="item w44 gap18" href="1960s.html"><div class="ph r1960" data-img="images/1960s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1960s</span><span>02</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
-  </div>
-
-  <div class="row">
-    <a class="item w31 in13" href="1970s.html"><div class="ph r1970" data-img="images/1970s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1970s</span><span>03</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
-    <a class="item w31 gap18" href="1980s.html"><div class="ph r1980" data-img="images/1980s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1980s</span><span>04</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
-  </div>
-
-  <div class="row">
-    <a class="item w31" href="1990s.html"><div class="ph r1990" data-img="images/1990s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1990s</span><span>05</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
-    <a class="item w31 gap18" href="2000s.html"><div class="ph r2000" data-img="images/2000s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 2000s</span><span>06</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
+  <div class="decs">
+    <article class="dec">
+      <div class="ph" data-obj="pp" aria-label="Record player: tap to play"><div class="pp"><div class="layer pp-base" data-src="images/player/base.png"></div><div class="layer pp-record" data-src="images/player/record.png"></div><i class="pp-shine"></i><div class="layer pp-arm" data-src="images/player/tonearm.png"></div></div></div>
+      <div class="txt">
+        <span class="num">01</span>
+        <a class="dec-label" href="1950s.html">Goa 1950s</a>
+        <h3>Placeholder Box Title</h3>
+        <p>Write a few lines here about this decade: the places, people and moments this box represents.</p>
+      </div>
+    </article>
+    <article class="dec">
+      <div class="ph" data-obj="radio" aria-label="Radio: tap to switch on"><div class="radio"><i class="grille"></i><i class="dial"><b></b></i></div></div>
+      <div class="txt">
+        <span class="num">02</span>
+        <a class="dec-label" href="1960s.html">Goa 1960s</a>
+        <h3>Placeholder Box Title</h3>
+        <p>Write a few lines here about this decade: the places, people and moments this box represents.</p>
+      </div>
+    </article>
+    <article class="dec">
+      <div class="ph" data-obj="cas" aria-label="Cassette: tap to play"><div class="cas"><i class="tag"></i><i class="win"><i class="reel"></i><i class="reel"></i></i></div></div>
+      <div class="txt">
+        <span class="num">03</span>
+        <a class="dec-label" href="1970s.html">Goa 1970s</a>
+        <h3>Placeholder Box Title</h3>
+        <p>Write a few lines here about this decade: the places, people and moments this box represents.</p>
+      </div>
+    </article>
+    <article class="dec">
+      <div class="ph" data-obj="eq" aria-label="Equalizer: tap to start"><div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="txt">
+        <span class="num">04</span>
+        <a class="dec-label" href="1980s.html">Goa 1980s</a>
+        <h3>Placeholder Box Title</h3>
+        <p>Write a few lines here about this decade: the places, people and moments this box represents.</p>
+      </div>
+    </article>
+    <article class="dec">
+      <div class="ph" data-obj="pol" aria-label="Polaroid: tap to develop"><div class="pol"><i class="shot"></i></div></div>
+      <div class="txt">
+        <span class="num">05</span>
+        <a class="dec-label" href="1990s.html">Goa 1990s</a>
+        <h3>Placeholder Box Title</h3>
+        <p>Write a few lines here about this decade: the places, people and moments this box represents.</p>
+      </div>
+    </article>
+    <article class="dec">
+      <div class="ph" data-obj="phone" aria-label="Phone: tap to switch on"><div class="phone"><i class="scr"></i><div class="keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+      <div class="txt">
+        <span class="num">06</span>
+        <a class="dec-label" href="2000s.html">Goa 2000s</a>
+        <h3>Placeholder Box Title</h3>
+        <p>Write a few lines here about this decade: the places, people and moments this box represents.</p>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -114,6 +217,20 @@
     const t = new Image();
     t.onload = () => { el.style.setProperty("--img", `url('${el.dataset.img}')`); el.classList.add("has"); };
     t.src = el.dataset.img;
+  });
+  // Photo layers for the record player: use the file if it exists, otherwise keep the CSS fallback
+  document.querySelectorAll(".layer[data-src]").forEach(el => {
+    const t = new Image();
+    t.onload = () => { el.style.setProperty("--img", `url('${el.dataset.src}')`); el.classList.add("has"); };
+    t.src = el.dataset.src;
+  });
+
+  // Tap or press Enter/Space on a box to switch its object on or off
+  document.querySelectorAll(".ph[data-obj]").forEach(b => {
+    b.setAttribute("role","button"); b.tabIndex = 0; b.setAttribute("aria-pressed","false");
+    const toggle = () => b.setAttribute("aria-pressed", b.classList.toggle("on"));
+    b.addEventListener("click", toggle);
+    b.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
   });
 </script>
 </body>
