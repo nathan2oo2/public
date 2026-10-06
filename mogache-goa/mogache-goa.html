@@ -28,6 +28,7 @@
   .ph{width:100%;background:var(--ph) var(--img,none) center/cover no-repeat;display:grid;place-items:center;color:#9d998f;font:400 .7rem var(--cond);letter-spacing:.25em}
   .ph.has span{display:none}
   .meta{display:flex;justify-content:space-between;margin-top:.4rem;font:500 .8rem/1 var(--cond);text-transform:uppercase}
+  .desc{margin:.5rem 0 0;font-size:.85rem;line-height:1.5;opacity:.75}
   .item:hover .ph{opacity:.85}
 
   /* sizes and offsets copied from the reference (percent of row width) */
@@ -37,6 +38,11 @@
   /* image proportions */
   .r1950{aspect-ratio:147/94}.r1960{aspect-ratio:213/157}.r1970{aspect-ratio:147/84}
   .r1980{aspect-ratio:147/184}.r1990{aspect-ratio:147/187}.r2000{aspect-ratio:147/108}
+  /* MOBILE: stack the decades vertically */
+  @media(max-width:640px){
+    .row{flex-direction:column;margin-bottom:0}
+    .item{width:100%;margin:0 0 1.75rem}
+  }
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -60,18 +66,18 @@
   <h2>Explore<br>All Decades</h2>
 
   <div class="row">
-    <a class="item w31" href="1950s.html"><div class="ph r1950" data-img="images/1950s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1950s</span><span>01</span></div></a>
-    <a class="item w44 gap18" href="1960s.html"><div class="ph r1960" data-img="images/1960s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1960s</span><span>02</span></div></a>
+    <a class="item w31" href="1950s.html"><div class="ph r1950" data-img="images/1950s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1950s</span><span>01</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
+    <a class="item w44 gap18" href="1960s.html"><div class="ph r1960" data-img="images/1960s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1960s</span><span>02</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
   </div>
 
   <div class="row">
-    <a class="item w31 in13" href="1970s.html"><div class="ph r1970" data-img="images/1970s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1970s</span><span>03</span></div></a>
-    <a class="item w31 gap18" href="1980s.html"><div class="ph r1980" data-img="images/1980s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1980s</span><span>04</span></div></a>
+    <a class="item w31 in13" href="1970s.html"><div class="ph r1970" data-img="images/1970s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1970s</span><span>03</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
+    <a class="item w31 gap18" href="1980s.html"><div class="ph r1980" data-img="images/1980s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1980s</span><span>04</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
   </div>
 
   <div class="row">
-    <a class="item w31" href="1990s.html"><div class="ph r1990" data-img="images/1990s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1990s</span><span>05</span></div></a>
-    <a class="item w31 gap18" href="2000s.html"><div class="ph r2000" data-img="images/2000s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 2000s</span><span>06</span></div></a>
+    <a class="item w31" href="1990s.html"><div class="ph r1990" data-img="images/1990s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 1990s</span><span>05</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
+    <a class="item w31 gap18" href="2000s.html"><div class="ph r2000" data-img="images/2000s.jpg"><span>IMAGE</span></div><div class="meta"><span>Goa 2000s</span><span>06</span></div><p class="desc">Add a short caption here about this decade, such as where the photo was taken or who is in it.</p></a>
   </div>
 </section>
 
@@ -99,7 +105,7 @@
   }
   window.addEventListener("DOMContentLoaded", () => {
     const root = document.body.dataset.root || ".";
-    loadComponent("site-header", `${root}/components/mg-header.html`);
+    loadComponent("site-header", `${root}/components/header.html`);
     loadComponent("site-footer", `${root}/components/footer.html`);
   });
 
