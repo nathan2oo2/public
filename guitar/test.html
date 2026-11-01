@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>songs1.json test</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
+  .ok { color: #2e7d32; } .bad { color: #c62828; }
+  code, pre { background: #8881; padding: 2px 6px; border-radius: 4px; }
+  pre { padding: 10px; overflow-x: auto; }
+  li { margin: 2px 0; }
+</style>
+</head>
+<body>
+<h1>songs1.json test</h1>
+<p>Trying: <code id="url"></code></p>
+<p id="status">Loading…</p>
+<div id="out"></div>
+
+<script>
+(function () {
+  var url = new URL('songs1.json', location.href).href;
+  var status = document.getElementById('status'), out = document.getElementById('out');
+  document.getElementById('url').textContent = url;
+
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  function fail(msg, extra) {
+    status.innerHTML = '<b class="bad">FAILED:</b> ' + esc(msg);
+    if (extra) out.innerHTML = '<p>What the server sent back (first 300 characters):</p><pre>' + esc(extra.slice(0, 300)) + '</pre>';
+  }
+
+  if (location.protocol === 'file:') {
+    return fail('This page was opened as a local file. Browsers block that. Open it from your GitHub Pages address instead.');
+  }
+
+  fetch(url, { cache: 'no-store' }).then(function (r) {
+    return r.text().then(function (text) {
+      if (!r.ok) return fail('HTTP ' + r.status + ' ' + r.statusText + '. The file is not at that address (check the folder and the exact capital/lowercase letters in the name).', text);
+      var data;
+      try { data = JSON.parse(text); }
+      catch (e) { return fail('The file was found but it is not valid JSON: ' + e.message, text); }
+      if (!Array.isArray(data)) return fail('The JSON loaded but it is not a list of songs (expected [ ... ]).', text);
+
+      status.innerHTML = '<b class="ok">OK:</b> loaded ' + data.length + ' songs (HTTP ' + r.status + ').';
+      out.innerHTML = '<ol>' + data.map(function (s) {
+        return '<li><b>' + esc(s.title) + '</b> — ' + esc(s.artist) + ' <small>(' + esc(s.id) + ')</small></li>';
+      }).join('') + '</ol>';
+    });
+  }).catch(function (e) { fail('Network error: ' + e.message); });
+})();
+</script>
+</body>
+</html>
