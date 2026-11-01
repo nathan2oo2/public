@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Songbook</title>
+<style>
+  body { margin: 0; }
+  .sb { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--sx-text); }
+  .sb h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  .sb .sub { color: var(--sx-muted); margin: 0 0 16px; }
+  .sb .wrap { overflow-x: auto; border: 1px solid var(--sx-line); border-radius: 12px; }
+  .sb table { border-collapse: collapse; width: 100%; min-width: 780px; }
+  .sb th { text-align: left; padding: 10px 12px; background: var(--sx-surface); font-size: .8rem; color: var(--sx-muted); font-weight: 600; white-space: nowrap; }
+  .sb select { display: block; margin-top: 6px; width: 100%; max-width: 170px; padding: 6px 8px; border-radius: 8px;
+    border: 1px solid var(--sx-line); background: var(--sx-bg); color: var(--sx-text); font: inherit; font-size: .85rem; }
+  .sb td { padding: 12px; border-top: 1px solid var(--sx-line); vertical-align: top; }
+  .sb tbody tr { cursor: pointer; }
+  .sb tbody tr:hover { background: var(--sx-hover); }
+  .sb td a { color: var(--sx-text); font-weight: 600; text-decoration: none; }
+  .sb .tag { display: inline-block; margin: 0 4px 4px 0; padding: 2px 8px; border-radius: 999px; background: var(--sx-hover); color: var(--sx-muted); font-size: .78rem; }
+  .sb .empty { padding: 28px; color: var(--sx-muted); text-align: center; }
+</style>
+</head>
+<body data-nav="songbook">
+
+<main class="sx-main sb" id="sx-main">
+  <h1 id="ttl">Songbook</h1>
+  <p class="sub" id="cnt">Loading…</p>
+  <div class="wrap"><table><thead><tr id="hd"></tr></thead><tbody id="tb"></tbody></table></div>
+</main>
+
+<script src="shell.js"></script>
+<script>
+(function () {
+  var P = new URLSearchParams(location.search);
+  var savedView = P.get('view') === 'saved';
+  var q = (P.get('q') || '').toLowerCase();
+  var songs = [], f = {};
+  var cols = [
+    { k: 'title',      l: 'Song',       g: function (s) { return [s.title]; } },
+    { k: 'artist',     l: 'Artist',     g: function (s) { return [s.artist]; } },
+    { k: 'album',      l: 'Album',      g: function (s) { return [s.album]; } },
+    { k: 'tags',       l: 'Tags',       g: function (s) { return s.tags || []; } },
+    { k: 'difficulty', l: 'Difficulty', g: function (s) { return [s.difficulty]; } },
+    { k: 'year',       l: 'Year',       g: function (s) { return [s.releaseYear]; } }
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function savedIds() { try { return JSON.parse(localStorage.getItem('sb-saved') || '[]'); } catch (e) { return []; } }
+
+  function values(c) {
+    var seen = {}, out = [];
+    songs.forEach(function (s) { c.g(s).forEach(function (v) {
+      if (v === '' || v == null) return;
+      var key = String(v).toLowerCase(); if (!seen[key]) { seen[key] = 1; out.push(v); }
+    }); });
+    return out.sort(function (a, b) { return c.k === 'year' ? a - b : String(a).localeCompare(String(b), undefined, { sensitivity: 'base' }); });
+  }
+
+  function buildHead() {
+    $('hd').innerHTML = cols.map(function (c) {
+      return '<th>' + c.l + '<select data-k="' + c.k + '"><option value="">All</option>' +
+        values(c).map(function (v) { return '<option>' + esc(v) + '</option>'; }).join('') + '</select></th>';
+    }).join('');
+    $('hd').addEventListener('change', function (e) { f[e.target.dataset.k] = e.target.value; draw(); });
+  }
+
+  function draw() {
+    var ids = savedView ? savedIds() : null;
+    var rows = songs.filter(function (s) {
+      if (ids && ids.indexOf(s.id) < 0) return false;
+      if (q && (s.title + ' ' + s.artist + ' ' + (s.album || '') + ' ' + (s.tags || []).join(' ')).toLowerCase().indexOf(q) < 0) return false;
+      return cols.every(function (c) {
+        return !f[c.k] || c.g(s).some(function (v) { return String(v).toLowerCase() === f[c.k].toLowerCase(); });
+      });
+    });
+    $('cnt').textContent = rows.length + ' of ' + (ids ? ids.length : songs.length) + ' songs';
+    $('tb').innerHTML = rows.length ? rows.map(function (s) {
+      var u = 'song.html?id=' + encodeURIComponent(s.id);
+      return '<tr data-u="' + u + '"><td><a href="' + u + '">' + esc(s.title) + '</a></td><td>' + esc(s.artist) + '</td><td>' + esc(s.album) +
+        '</td><td>' + (s.tags || []).map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join('') +
+        '</td><td>' + esc(s.difficulty) + '</td><td>' + esc(s.releaseYear) + '</td></tr>';
+    }).join('') : '<tr><td colspan="6" class="empty">' + (savedView ? 'No saved songs yet.' : 'No songs match.') + '</td></tr>';
+  }
+
+  $('tb').addEventListener('click', function (e) {
+    var tr = e.target.closest('tr[data-u]'); if (tr && !e.target.closest('a')) location.href = tr.dataset.u;
+  });
+  if (savedView) $('ttl').textContent = 'Saved songs';
+
+  /* nav search filters the table live */
+  var box = document.querySelector('#sx-search input'); box.value = P.get('q') || '';
+  box.addEventListener('input', function () { q = box.value.trim().toLowerCase(); draw(); });
+  SiteShell.el.addEventListener('sx:search', function (e) { q = e.detail.query.toLowerCase(); draw(); });
+
+  fetch('songs1.json').then(function (r) { return r.json(); }).then(function (d) { songs = d; buildHead(); draw(); })
+    .catch(function () { $('cnt').textContent = 'Could not load songs1.json. Open the site through a web server (or GitHub Pages), not as a local file.'; });
+})();
+</script>
+</body>
+</html>
