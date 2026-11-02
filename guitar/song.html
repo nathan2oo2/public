@@ -21,23 +21,42 @@
   .bar .g { display: flex; align-items: center; gap: 4px; font-size: .85rem; color: var(--sx-muted); }
   .bar input[type=range] { width: 80px; accent-color: var(--sx-accent); }
 
-  .lay { display: flex; gap: 24px; align-items: flex-start; }
-  .lay.top { flex-direction: column; gap: 12px; }
-  #chords { display: flex; flex-direction: column; gap: 10px; position: sticky; top: calc(var(--sx-nav-h) + 64px); }
-  .lay.top #chords { flex-direction: row; flex-wrap: wrap; max-width: 100%; background: var(--sx-bg); }
-  .cc { width: 84px; text-align: center; font-size: .9rem; }
-  .cc .ph { position: relative; height: 96px; display: grid; place-items: center; border: 1px dashed var(--sx-line);
+  .sg { overflow-x: clip; }
+  .sg h1, .sg .by, .sg p, .meta { overflow-wrap: anywhere; }
+  .lay { display: flex; gap: 24px; align-items: flex-start; min-width: 0; }
+  #song { order: 1; }
+  #chords { order: 2; flex: none; display: grid; grid-template-columns: repeat(2, 84px); gap: 10px;
+    position: sticky; top: calc(var(--sx-nav-h) + var(--bar-h, 56px) + 8px);
+    max-height: calc(100vh - var(--sx-nav-h) - var(--bar-h, 56px) - 24px); overflow: auto; }
+  #chords.many { grid-template-columns: repeat(3, 84px); }
+  .cc { min-width: 0; text-align: center; font-size: .9rem; }
+  .cc .ph { position: relative; aspect-ratio: 7 / 8; display: grid; place-items: center; border: 1px dashed var(--sx-line);
     border-radius: 8px; color: var(--sx-muted); font-size: .72rem; }
   .cc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 8px; }
   .cc b { display: block; margin-top: 4px; }
+  .bar .m-only { display: none; }
 
   #song { flex: 1; min-width: 0; overflow-x: auto; margin: 0; white-space: pre; font-size: var(--fs, 15px); line-height: 1.5;
     font-family: ui-monospace, Menlo, Consolas, monospace; }
   .sec { margin: 18px 0 4px; color: var(--sx-muted); font-weight: 700; font-family: system-ui, sans-serif; }
   .ch { color: var(--sx-accent); font-weight: 700; }
-  .hl .ch { background: var(--sx-hover); outline: 1px solid var(--sx-accent); border-radius: 3px; }
+  .hl .ch { --hlc: var(--sx-hover); background: var(--hlc); box-shadow: 0 0 0 2px var(--hlc); border-radius: 3px; }
+  @supports (color: color-mix(in srgb, red, blue)) { .hl .ch { --hlc: color-mix(in srgb, var(--sx-accent) 30%, transparent); } }
   .nochords .cl { display: none; }
-  @media (max-width: 768px) { .lay:not(.top) { flex-direction: column; } .lay:not(.top) #chords { position: static; flex-direction: row; flex-wrap: wrap; } }
+  @media (max-width: 768px) {
+    .lay { flex-direction: column; align-items: stretch; gap: 12px; }
+    #chords, #song { order: 0; }
+    #song { flex: none; width: 100%; }
+    #chords { display: flex; flex-wrap: wrap; gap: 8px; position: static; max-height: none; overflow: visible; }
+    .cc { width: 84px; }
+    #chords.fit { flex-wrap: nowrap; gap: 4px; }
+    #chords.fit .cc { flex: 1 1 0; width: auto; max-width: 84px; font-size: .7rem; }
+    #chords.pin { position: sticky; top: calc(var(--sx-nav-h) + var(--bar-h, 56px)); z-index: 4; background: var(--sx-bg);
+      padding: 6px 0; max-height: 38vh; overflow-y: auto; border-bottom: 1px solid var(--sx-line); }
+    .bar { flex-wrap: nowrap; overflow-x: auto; }
+    .bar > * { flex: none; }
+    .bar .m-only { display: inline-block; }
+  }
 </style>
 </head>
 <body data-nav="songbook">
@@ -79,6 +98,7 @@
     $('chords').innerHTML = Object.keys(used).map(function (c) {
       return '<div class="cc"><div class="ph"><span>image</span><img src="chords/' + encodeURIComponent(c) + '.png" alt="" onerror="this.remove()"></div><b>' + esc(c) + '</b></div>';
     }).join('');
+    $('chords').classList.toggle('many', Object.keys(used).length > 8);
     $('kv').textContent = tc(S.key || '—');
   }
 
@@ -96,12 +116,11 @@
       '<h1>' + esc(S.title) + '</h1><div class="by">' + esc(S.artist) + (S.releaseYear ? ' · ' + S.releaseYear : '') + '</div>' +
       '<div class="meta">' + meta + '</div>' + (S.description ? '<p style="color:var(--sx-muted);margin:6px 0">' + esc(S.description) + '</p>' : '') +
       '<div class="links">' + links + '</div>' +
-      '<div class="bar">' +
+      '<div class="bar" id="bar">' +
         '<span class="g">Key <button id="td">−</button><button id="tu">+</button></span>' +
         '<span class="g">Size <button id="fd">A−</button><button id="fu">A+</button></span>' +
         '<span class="g"><button id="scr">▶ Scroll</button><input id="spd" type="range" min="1" max="10" value="3" aria-label="Scroll speed"></span>' +
-        '<button id="shc" class="on">Chords</button><button id="hlc">Highlight</button><button id="pin">Images: side</button>' +
-        '<button id="sv"></button><button id="th">Dark / light</button>' +
+        '<button id="sv"></button>' +
       '</div>' +
       '<div class="lay" id="lay"><div id="chords"></div><div id="song"></div></div>';
     render();
@@ -120,10 +139,12 @@
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) stop();
       }, 50);
     };
-    $('shc').onclick = function () { toggle(this, $('song'), 'nochords'); };
-    $('hlc').onclick = function () { toggle(this, $('song'), 'hl'); };
-    $('pin').onclick = function () { var top = $('lay').classList.toggle('top'); this.classList.toggle('on', top); this.textContent = 'Images: ' + (top ? 'top' : 'side'); };
-    $('th').onclick = function () { SiteShell.toggleTheme(); };
+    function bh() { $('lay').style.setProperty('--bar-h', $('bar').offsetHeight + 'px'); }
+    bh(); window.addEventListener('resize', bh);
+    SiteShell.addSetting({ id: 'chords', label: 'Show chords', def: true, on: function (v) { $('song').classList.toggle('nochords', !v); } });
+    SiteShell.addSetting({ id: 'hl', label: 'Highlight chords', def: false, on: function (v) { $('song').classList.toggle('hl', v); } });
+    SiteShell.addSetting({ id: 'pin', label: 'Pin chord images', def: false, mobile: true, on: function (v) { $('chords').classList.toggle('pin', v); } });
+    SiteShell.addSetting({ id: 'fit', label: 'Chord images on one line', def: false, mobile: true, on: function (v) { $('chords').classList.toggle('fit', v); } });
     function sv() { $('sv').textContent = savedIds().indexOf(S.id) < 0 ? '♡ Save' : '♥ Saved'; $('sv').classList.toggle('on', savedIds().indexOf(S.id) >= 0); }
     $('sv').onclick = function () {
       var a = savedIds(), i = a.indexOf(S.id); if (i < 0) a.push(S.id); else a.splice(i, 1);
@@ -133,13 +154,13 @@
     sv();
   }
 
-  SiteShell.el.addEventListener('sx:search', function (e) { location.href = 'index.html?q=' + encodeURIComponent(e.detail.query); });
+  if (window.SiteShell) SiteShell.el.addEventListener('sx:search', function (e) { location.href = 'index.html?q=' + encodeURIComponent(e.detail.query); });
 
-  fetch('songs1.json').then(function (r) { return r.json(); }).then(function (d) {
+  fetch(new URL('songs1.json', location.href).href, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + r.url); return r.text(); }).then(function (t) { var d; try { d = JSON.parse(t); } catch (e) { throw new Error('songs1.json is not valid JSON (' + e.message + ')'); } if (!Array.isArray(d)) throw new Error('songs1.json must be an array of songs'); return d; }).then(function (d) {
     S = d.filter(function (s) { return s.id === id; })[0];
     if (!S) { $('app').innerHTML = 'Song not found. <a href="index.html" style="color:var(--sx-accent)">Back to the songbook</a>'; return; }
     build();
-  }).catch(function () { $('app').textContent = 'Could not load songs1.json. Open the site through a web server (or GitHub Pages), not as a local file.'; });
+  }).catch(function (e) { $('app').textContent = 'Could not load songs: ' + e.message; });
 })();
 </script>
 </body>
