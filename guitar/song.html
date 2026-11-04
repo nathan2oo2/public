@@ -25,20 +25,20 @@
   .sg h1, .sg .by, .sg p, .meta { overflow-wrap: anywhere; }
   .lay { display: flex; gap: 24px; align-items: flex-start; min-width: 0; }
   #song { order: 1; }
-  #chords { order: 2; flex: none; display: grid; grid-template-columns: repeat(2, 84px); gap: 10px;
+  #chords { order: 2; flex: none; display: grid; grid-template-columns: repeat(2, 104px); gap: 10px;
     position: sticky; top: calc(var(--sx-nav-h) + var(--bar-h, 56px) + 8px);
     max-height: calc(100vh - var(--sx-nav-h) - var(--bar-h, 56px) - 24px); overflow: auto; }
-  #chords.many { grid-template-columns: repeat(3, 84px); }
+  #chords.many { grid-template-columns: repeat(3, 92px); }
   .cc { min-width: 0; text-align: center; font-size: .9rem; }
-  .cc .ph { position: relative; aspect-ratio: 7 / 8; display: grid; place-items: center; border: 1px solid var(--sx-line); background: var(--sx-surface);
+  .cc .ph { position: relative; aspect-ratio: 64 / 73; display: grid; place-items: center; border: 1px solid var(--sx-line); background: var(--sx-surface);
     border-radius: 8px; color: var(--sx-text); font-size: .72rem; overflow: hidden; }
   .cc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 8px; }
   .cc b { display: block; margin-top: 4px; }
   .cc { cursor: pointer; }
   .cc .ph span { color: var(--sx-muted); }
   .cc svg { width: 100%; height: 100%; display: block; }
-  .cc svg .ln { stroke: currentColor; stroke-width: .7; fill: none; opacity: .55; }
-  .cc svg .nut { stroke: currentColor; stroke-width: 2; fill: none; }
+  .cc svg .ln { stroke: currentColor; stroke-width: .8; fill: none; opacity: .75; }
+  .cc svg .nut { stroke: currentColor; stroke-width: 2.6; fill: none; }
   .cc svg .dot { fill: currentColor; }
   .cc svg .op { stroke: currentColor; stroke-width: .9; fill: none; }
   .cc svg .fn { fill: var(--sx-bg); font: 600 6px system-ui, sans-serif; text-anchor: middle; }
@@ -57,9 +57,9 @@
     #chords, #song { order: 0; }
     #song { flex: none; width: 100%; }
     #chords { display: flex; flex-wrap: wrap; gap: 8px; position: static; max-height: none; overflow: visible; }
-    .cc { width: 84px; }
+    .cc { width: 96px; }
     #chords.fit { flex-wrap: nowrap; gap: 4px; }
-    #chords.fit .cc { flex: 1 1 0; width: auto; max-width: 84px; font-size: .7rem; }
+    #chords.fit .cc { flex: 1 1 0; width: auto; max-width: 96px; font-size: .7rem; }
     #chords.pin { position: sticky; top: calc(var(--sx-nav-h) + var(--bar-h, 56px)); z-index: 4; background: var(--sx-bg);
       padding: 6px 0; max-height: 38vh; overflow-y: auto; border-bottom: 1px solid var(--sx-line); }
     .bar { flex-wrap: nowrap; overflow-x: auto; }
@@ -107,7 +107,7 @@
   function svg(pos, name) {
     var p = pos.split('|'), f = p[0].split(''), fg = p[1].split(''), base = +p[2], bar = p[3].split('').filter(Boolean).map(Number), i;
     var X = function (k) { return 14 + k * 9.2; }, Y = function (n) { return 18 + n * 12; };
-    var o = '<svg viewBox="0 0 70 80" role="img" aria-label="' + esc(name) + '">';
+    var o = '<svg viewBox="1 6 64 73" role="img" aria-label="' + esc(name) + '">';
     for (i = 0; i < 6; i++) o += '<line class="ln" x1="' + X(i) + '" y1="18" x2="' + X(i) + '" y2="78"/>';
     for (i = 0; i <= 5; i++) o += '<line class="' + (i === 0 && base === 1 ? 'nut' : 'ln') + '" x1="14" y1="' + Y(i) + '" x2="60" y2="' + Y(i) + '"/>';
     if (base > 1) o += '<text class="bf" x="1" y="' + (Y(0) + 9) + '">' + base + 'fr</text>';
