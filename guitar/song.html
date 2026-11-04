@@ -30,10 +30,19 @@
     max-height: calc(100vh - var(--sx-nav-h) - var(--bar-h, 56px) - 24px); overflow: auto; }
   #chords.many { grid-template-columns: repeat(3, 84px); }
   .cc { min-width: 0; text-align: center; font-size: .9rem; }
-  .cc .ph { position: relative; aspect-ratio: 7 / 8; display: grid; place-items: center; border: 1px dashed var(--sx-line);
-    border-radius: 8px; color: var(--sx-muted); font-size: .72rem; }
+  .cc .ph { position: relative; aspect-ratio: 7 / 8; display: grid; place-items: center; border: 1px solid var(--sx-line); background: var(--sx-surface);
+    border-radius: 8px; color: var(--sx-text); font-size: .72rem; overflow: hidden; }
   .cc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 8px; }
   .cc b { display: block; margin-top: 4px; }
+  .cc { cursor: pointer; }
+  .cc .ph span { color: var(--sx-muted); }
+  .cc svg { width: 100%; height: 100%; display: block; }
+  .cc svg .ln { stroke: currentColor; stroke-width: .7; fill: none; opacity: .55; }
+  .cc svg .nut { stroke: currentColor; stroke-width: 2; fill: none; }
+  .cc svg .dot { fill: currentColor; }
+  .cc svg .op { stroke: currentColor; stroke-width: .9; fill: none; }
+  .cc svg .fn { fill: var(--sx-bg); font: 600 6px system-ui, sans-serif; text-anchor: middle; }
+  .cc svg .bf { fill: currentColor; font: 6px system-ui, sans-serif; opacity: .8; }
   .bar .m-only { display: none; }
 
   #song { flex: 1; min-width: 0; overflow-x: auto; margin: 0; white-space: pre; font-size: var(--fs, 15px); line-height: 1.5;
@@ -78,6 +87,60 @@
   }
   function savedIds() { try { return JSON.parse(localStorage.getItem('sb-saved') || '[]'); } catch (e) { return []; } }
 
+  var CUR = [], IDX = {}, DB = null;
+  var DBKEY = { 'Db': 'C#', 'D#': 'Eb', 'Gb': 'F#', 'G#': 'Ab', 'A#': 'Bb', 'Cb': 'B', 'E#': 'F', 'Fb': 'E', 'B#': 'C' };
+  var SUF = { '': 'major', 'M': 'major', 'maj': 'major', 'm': 'minor', 'min': 'minor', '-': 'minor', 'M7': 'maj7', 'sus': 'sus4', 'dom7': '7' };
+  var ENH = { 'C#': 'Db', 'Db': 'C#', 'D#': 'Eb', 'Eb': 'D#', 'F#': 'Gb', 'Gb': 'F#', 'G#': 'Ab', 'Ab': 'G#', 'A#': 'Bb', 'Bb': 'A#' };
+
+  function find(c) {
+    var m = c.match(/^([A-G][#b]?)(.*?)(?:\/([A-G][#b]?))?$/);
+    if (!m || !DB) return null;
+    var t = DB[DBKEY[m[1]] || m[1]]; if (!t) return null;
+    var suf = SUF[m[2]] !== undefined ? SUF[m[2]] : m[2];
+    if (m[3]) {
+      var pre = suf === 'major' ? '' : suf === 'minor' ? 'm' : null, bs = [m[3], ENH[m[3]]];
+      if (pre !== null) for (var i = 0; i < 2; i++) if (bs[i] && t[pre + '/' + bs[i]]) return t[pre + '/' + bs[i]];
+    }
+    return t[suf] || null;
+  }
+
+  function svg(pos, name) {
+    var p = pos.split('|'), f = p[0].split(''), fg = p[1].split(''), base = +p[2], bar = p[3].split('').filter(Boolean).map(Number), i;
+    var X = function (k) { return 14 + k * 9.2; }, Y = function (n) { return 18 + n * 12; };
+    var o = '<svg viewBox="0 0 70 80" role="img" aria-label="' + esc(name) + '">';
+    for (i = 0; i < 6; i++) o += '<line class="ln" x1="' + X(i) + '" y1="18" x2="' + X(i) + '" y2="78"/>';
+    for (i = 0; i <= 5; i++) o += '<line class="' + (i === 0 && base === 1 ? 'nut' : 'ln') + '" x1="14" y1="' + Y(i) + '" x2="60" y2="' + Y(i) + '"/>';
+    if (base > 1) o += '<text class="bf" x="1" y="' + (Y(0) + 9) + '">' + base + 'fr</text>';
+    bar.forEach(function (b) {
+      var ix = []; f.forEach(function (v, k) { if (+v === b) ix.push(k); });
+      if (ix.length > 1) o += '<rect class="dot" x="' + (X(ix[0]) - 4) + '" y="' + (Y(b - 1) + 2) + '" width="' + (X(ix[ix.length - 1]) - X(ix[0]) + 8) + '" height="8" rx="4"/>';
+    });
+    f.forEach(function (v, k) {
+      var x = X(k);
+      if (v === 'x') o += '<path class="op" d="M' + (x - 2.4) + ' 8.6L' + (x + 2.4) + ' 13.4M' + (x + 2.4) + ' 8.6L' + (x - 2.4) + ' 13.4"/>';
+      else if (v === '0') o += '<circle class="op" cx="' + x + '" cy="11" r="2.6"/>';
+      else {
+        var cy = Y(+v - 1) + 6;
+        o += '<circle class="dot" cx="' + x + '" cy="' + cy + '" r="4.2"/>';
+        if (fg[k] && fg[k] !== '0') o += '<text class="fn" x="' + x + '" y="' + (cy + 2.2) + '">' + fg[k] + '</text>';
+      }
+    });
+    return o + '</svg>';
+  }
+
+  function diag(n) {
+    var a = find(n); if (!a) return '<span>no diagram</span>';
+    return svg(a[(IDX[n] || 0) % a.length], n);
+  }
+
+  function drawChords() {
+    var box = $('chords'); if (!box) return;
+    box.innerHTML = CUR.map(function (c) {
+      return '<div class="cc" data-c="' + esc(c) + '" title="Tap for another fingering"><div class="ph">' + diag(c) + '</div><b>' + esc(c) + '</b></div>';
+    }).join('');
+    box.classList.toggle('many', CUR.length > 8);
+  }
+
   function render() {
     var out = [], used = {};
     S.content.split('\n').forEach(function (L) {
@@ -95,10 +158,7 @@
       if (!has || txt.trim()) out.push('<div>' + (esc(txt) || ' ') + '</div>');
     });
     $('song').innerHTML = out.join('');
-    $('chords').innerHTML = Object.keys(used).map(function (c) {
-      return '<div class="cc"><div class="ph"><span>image</span><img src="chords/' + encodeURIComponent(c) + '.png" alt="" onerror="this.remove()"></div><b>' + esc(c) + '</b></div>';
-    }).join('');
-    $('chords').classList.toggle('many', Object.keys(used).length > 8);
+    CUR = Object.keys(used); drawChords();
     $('kv').textContent = tc(S.key || '—');
   }
 
@@ -124,6 +184,11 @@
       '</div>' +
       '<div class="lay" id="lay"><div id="chords"></div><div id="song"></div></div>';
     render();
+    $('chords').onclick = function (e) {
+      var cc = e.target.closest('.cc'); if (!cc) return;
+      IDX[cc.dataset.c] = (IDX[cc.dataset.c] || 0) + 1;
+      cc.querySelector('.ph').innerHTML = diag(cc.dataset.c);
+    };
 
     $('td').onclick = function () { tr = (tr + 11) % 12; render(); };
     $('tu').onclick = function () { tr = (tr + 1) % 12; render(); };
@@ -155,6 +220,13 @@
   }
 
   if (window.SiteShell) SiteShell.el.addEventListener('sx:search', function (e) { location.href = 'index.html?q=' + encodeURIComponent(e.detail.query); });
+
+  /* finds chords.json in this folder, then each parent folder up to the site root (or set window.SB_CHORDS_URL) */
+  (function loadChords(paths) {
+    var p = paths.shift(); if (!p) return;
+    fetch(new URL(p, location.href).href).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (d) { DB = d; drawChords(); }).catch(function () { loadChords(paths); });
+  })(window.SB_CHORDS_URL ? [window.SB_CHORDS_URL] : ['chords.json', '../chords.json', '../../chords.json', '/chords.json']);
 
   fetch(new URL('songs1.json', location.href).href, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + r.url); return r.text(); }).then(function (t) { var d; try { d = JSON.parse(t); } catch (e) { throw new Error('songs1.json is not valid JSON (' + e.message + ')'); } if (!Array.isArray(d)) throw new Error('songs1.json must be an array of songs'); return d; }).then(function (d) {
     S = d.filter(function (s) { return s.id === id; })[0];
